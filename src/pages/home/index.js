@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView, Swiper, SwiperItem } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import { AtIcon, AtButton } from 'taro-ui';
 import CdTabbar from '../../components/cd-tabbar';
 
 import CdTitle from '../../components/cd-header'
@@ -53,19 +53,26 @@ export default class Home extends Taro.Component {
        icon: 'none',
        title: '已喜欢'
      })
-     this.setState({
-       like: true
-     })
+     this.setLike(true)
     }
     this.touchStartTime = e.timeStamp;
+  }
+  onShareAppMessage (res) {
+    console.log(res)
+  }
+  setLike (state) {
+    this.setState({
+      like: state
+    })
+
   }
   render() {
     const arr = this.state.arr
     const content = 'Vue的文档和教程看的太多，小的demo做的多，也不如自己实际的进行一个完整项目的开发。只有做了才知道原来问题这么多，这里列举了一些你做demo教程可能不会遇见的坑'
     const likeComp = this.state.like ? (
-      <AtIcon prefixClass={ICON_PREFIX_CLASS} value='xihuan' color='#007fff'></AtIcon>
+      <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, false)} value='xihuan' color='#007fff'></AtIcon>
     ) : (
-        <AtIcon prefixClass={ICON_PREFIX_CLASS} value='xihuan'></AtIcon>
+        <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, true)} value='xihuan'></AtIcon>
     )
     return (
       <View className='home'>
@@ -94,7 +101,7 @@ export default class Home extends Taro.Component {
                   </View>
                   <View className='answer-content-wrapper'>
                     <Text className='answer-content'>
-                      {content.repeat(20)}
+                      {content}
                     </Text>
                   </View>
                 </View>
@@ -106,7 +113,7 @@ export default class Home extends Taro.Component {
                     <AtIcon prefixClass={ICON_PREFIX_CLASS} size='26' value='xiaoxi2'></AtIcon>
                   </View>
                   <View className='action-item'>
-                    <AtIcon value='share-2'></AtIcon>
+                    <AtButton openType='share'><AtIcon value='share-2' openType='share'></AtIcon></AtButton>
                   </View>
                 </View>
               </View>

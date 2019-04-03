@@ -2,14 +2,14 @@
 @import '../../assets/styles/var.scss';
 @import '../../assets/styles/mixins.scss';
 .category, category {
-  // display: flex;
   text-align: center;
-  // flex-direction: column;
-  // align-items: center;
-  flex: 1;
   box-sizing: border-box;
-  // background: red;
+  height: 100%;
   background: #fff;
+  .at-search-bar::after {
+    border-bottom: 0;
+  }
+
   .title {
     margin-top: 70px;
     font-weight: 700;
@@ -49,6 +49,9 @@
 }
 .swiper-container {
   height: auto;
+}
+.at-button--secondary {
+  border-color: transparent;
 }
 // swiper {
 //   height: 750px;

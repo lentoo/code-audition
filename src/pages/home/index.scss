@@ -85,6 +85,9 @@
       z-index: 10;
       .action-item {
         margin-bottom: 30px;
+        .at-button {
+          border-width: 0;
+        }
       }
     }
   }

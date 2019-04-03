@@ -38,7 +38,7 @@ class Index extends Component {
   componentDidMount () {
   }
   componentDidShow () {
-    const first = Storage.getItemSync('first') || true
+    const first = Storage.getItemSync('first') === false ? false : true
     console.log('first', first);
     if (first) {
       Taro.redirectTo({
