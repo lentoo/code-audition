@@ -1,0 +1,117 @@
+@import '../../assets/styles/var.scss';
+.home {
+  // min-height: 100vh;
+  // background: $bg-color;
+  .main {
+    position: relative;
+    padding-top: 120px;
+    padding-bottom: 20px;
+    // height: ;
+    // height: 100vh;
+    // flex: 1;
+    .item {
+      min-height: calc(100vh - 240px);
+      // box-sizing: border-box;
+    }
+  }
+  .tabbar {
+    height: 100px;
+    width: 100%;
+  }
+  .tap {
+    text-align: center;
+    &-text {
+      color: $tip-color;
+      font-size: 24px;
+    }
+  }
+  .card {
+    margin: 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(201, 201, 201, 0.3);
+    padding: 20px 40px;
+  }
+  .title {
+    &-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+    }
+    .answer {
+
+      font-size: 24px;
+      text-align: right;
+      padding: 10px 0;
+      &-text {
+        color: $primary-color;
+      }
+    }
+  }
+  .content {
+    flex: 1;
+    margin-top: 0;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 2;
+    .avatar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      &-name {
+        font-size: 28px;
+        color: #333;
+        padding-left: 20px;
+      }
+    }
+    .answer-content-wrapper {
+      text-indent: 2em;
+      .answer-content {
+        text-indent: 48px;
+        font-size: 24px;
+        color: #333;
+      }
+    }
+    .actions {
+      position: fixed;
+      right: 30px;
+      bottom: 20%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+      .action-item {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+.tap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+  box-sizing: border-box;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  // z-index: 0;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.h100 {
+  height: 100%;
+}
+.scroll-view {
+  height: 100vh;
+}

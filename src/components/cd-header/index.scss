@@ -1,0 +1,16 @@
+.cd-header {
+  background: #007fff;
+  color: #fff;
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  &-content {
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+
+  }
+  &-title {
+    font-size: 34px;
+  }
+}

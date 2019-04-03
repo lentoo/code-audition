@@ -1,0 +1,21 @@
+@import './assets/styles/var.scss';
+page {
+  font-family: PingFang-SC-Medium, Arial, Helvetica,"Microsoft YaHei", sans-serif;
+  background: $bg-color;
+}
+.tc {
+  text-align: center;
+}
+.link {
+  color: $primary-color;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex1 {
+  flex: 1;
+}
+.h100 {
+  height: 100%;
+}

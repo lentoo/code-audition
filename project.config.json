@@ -1,0 +1,17 @@
+{
+	"miniprogramRoot": "dist/",
+	"projectname": "code-audition",
+	"description": "码上面试，主要是解决人们刷面试题的刚需，使所有的人能“随时随地”刷题",
+	"appid": "wx385af28e35b01138",
+	"cloud": true,
+	"cloudfunctionRoot": "cloud/functions/",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"condition": {}
+}

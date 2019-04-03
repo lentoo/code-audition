@@ -1,0 +1,55 @@
+
+@import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+.category, category {
+  // display: flex;
+  text-align: center;
+  // flex-direction: column;
+  // align-items: center;
+  flex: 1;
+  box-sizing: border-box;
+  // background: red;
+  background: #fff;
+  .title {
+    margin-top: 70px;
+    font-weight: 700;
+  }
+  .search-bar {
+    margin-top: 10px;
+    width: 100%;
+  }
+  .tips {
+    font-size: 24px;
+    color: $tip-color;
+  }
+  .next {
+    margin-top: 50px;
+    padding: 0 20px;
+    font-size: 32px;
+    color: $primary-color;
+  }
+  .not-category-tip {
+    font-size: 24px;
+    color: $tip-color;
+    // margin-bottom: 30px;
+  }
+  .link {
+    color: $primary-color;
+  }
+  > View, > div {
+    width: 100%;
+  }
+  > View:nth-child(2),> div:nth-child(2) {
+    // flex: 1;
+    width: 100%;
+  }
+  > View:last-child, > div:last-child{
+    padding-bottom: 80px;
+  }
+}
+.swiper-container {
+  height: auto;
+}
+// swiper {
+//   height: 750px;
+// }
