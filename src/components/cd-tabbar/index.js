@@ -16,7 +16,6 @@ export default class CdTabbar extends Taro.Component {
     const iconPrefixClass = ICON_PREFIX_CLASS
     return (
       <AtTabBar
-        fixed
         iconSize={20}
         fontSize={12}
         selectedColor='#007fff'

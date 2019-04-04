@@ -1,22 +1,30 @@
 @import '../../assets/styles/var.scss';
 .home {
-  // min-height: 100vh;
+  min-height: 100vh;
   // background: $bg-color;
+  display: flex;
+  flex-direction: column;
   .main {
     position: relative;
-    padding-top: 120px;
-    padding-bottom: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    // padding-top: 120px;
+    // padding-bottom: 20px;
+    box-sizing: border-box;
     // height: ;
     // height: 100vh;
     // flex: 1;
     .item {
-      min-height: calc(100vh - 240px);
+      // min-height: calc(100vh - 240px);
+      flex: 1;
       // box-sizing: border-box;
     }
   }
   .tabbar {
-    height: 100px;
+    padding-bottom: env(safe-area-inset-bottom);
     width: 100%;
+    background: #fff;
   }
   .tap {
     text-align: center;
