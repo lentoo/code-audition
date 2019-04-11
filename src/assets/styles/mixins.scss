@@ -1,3 +1,4 @@
+@import './var.scss';
 /*
  * flex 布局
  * $direction 主轴方向
@@ -36,4 +37,9 @@
 @mixin sc($size, $color) {
     font-size: $size;
     color: $color;
+}
+
+@mixin card($bs: $box-shadow-base, $br: $border-radius-base) {
+  box-shadow: $bs;
+  border-radius: $br;
 }

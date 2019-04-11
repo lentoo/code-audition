@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { View, Text, Swiper, SwiperItem } from '@tarojs/components';
+import { View, Text, ScrollView, Swiper, SwiperItem } from '@tarojs/components';
 import { AtIcon, AtButton, AtFloatLayout } from 'taro-ui';
 import CdTabbar from '../../components/cd-tabbar';
 
@@ -8,16 +8,20 @@ import CdComment from '../../components/cd-comment'
 import { ICON_PREFIX_CLASS } from '../../constants/common'
 
 import './index.scss'
+import { Utils } from '../../utils';
 
 export default class Home extends Taro.Component {
   constructor() {
     super(...arguments)
-    this.state = {
-      title: '',
-      like: false,
-      $switch: false,
-      isOpenComment: false
-    }
+  }
+  state = {
+    title: '',
+    like: false,
+    $switch: false,
+    isOpenComment: false,
+    currentTitle: '你會vue不？能説説几个最重要的功能吗？',
+    clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight,
+    current: 0
   }
   config = {
     navigationBarTitleText: '推荐',
@@ -31,16 +35,27 @@ export default class Home extends Taro.Component {
       Taro.hideLoading()
     }, 1000)
   }
+  componentWillMount() {
+    console.log({
+      clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight
+    })
+    // this.setState({
+    //   clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight
+    // })
+  }
   onPageScroll({ scrollTop }) {
-    console.log(scrollTop);
     if (scrollTop > 100) {
-      this.setState({
-        title: '你會vue不？能説説几个最重要的功能吗？'
-      })
+      if (this.state.title !== this.state.currentTitle) {
+        this.setState({
+          title: this.state.currentTitle
+        })
+      }
     } else {
-      this.setState({
-        title: ''
-      })
+      if (this.state.title !== '') {
+        this.setState({
+          title: ''
+        })
+      }
     }
   }
   doubleTap(e) {
@@ -62,7 +77,7 @@ export default class Home extends Taro.Component {
     } else {
       // 点击分享
       shartObj = {
-        title: '你會vue不？能説説几个最重要的功能吗？'
+        title: this.state.currentTitle
       }
     }
     return shartObj
@@ -78,20 +93,33 @@ export default class Home extends Taro.Component {
     this.setState({
       $switch: state
     })
+
   }
   openComment(id) {
     console.log(id)
     this.setState({
       isOpenComment: true
     })
+
+  }
+  swiperChange (value) {
+    console.log(value);
+    this.setState({
+      current: value.detail.current
+    }, () => {
+      this.toTop()
+    })
+
+  }
+  toTop () {
+    Taro.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
   }
   render() {
     const content = 'Vue的文档和教程看的太多，小的demo做的多，也不如自己实际的进行一个完整项目的开发。只有做了才知道原来问题这么多，这里列举了一些你做demo教程可能不会遇见的坑'
-    const likeComp = this.state.like ? (
-      <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, false)} value='xihuan' color='#007fff'></AtIcon>
-    ) : (
-        <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, true)} value='xihuan'></AtIcon>
-      )
+
     let showAnswer = this.state.$switch ? (
       <View className='card content' onClick={this.doubleTap.bind(this)}>
         <View className='answer-wrapper'>
@@ -107,7 +135,13 @@ export default class Home extends Taro.Component {
         </View>
         <View className='actions'>
           <View className='action-item'>
-            {likeComp}
+            {
+              this.state.like ? (
+                <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, false)} value='xihuan' color='#007fff'></AtIcon>
+              ) : (
+                  <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, true)} value='xihuan'></AtIcon>
+                )
+            }
           </View>
           <View className='action-item'>
             <AtIcon onClick={this.openComment.bind(this, '1')} prefixClass={ICON_PREFIX_CLASS} size='26' value='xiaoxi2'></AtIcon>
@@ -141,19 +175,60 @@ export default class Home extends Taro.Component {
         <View className='main' style={
           {
             paddingTop: Taro.pxTransform(Taro.getSystemInfoSync().statusBarHeight * 2 + 80)
+
           }
         }
         >
-          <View className='flex-col item'>
-            <View className='card title'>
-              <Text className='title-text'>你會vue不？能説説几个最重要的功能吗？</Text>
-              <View className='answer'>
-                <AtIcon prefixClass={ICON_PREFIX_CLASS} value='xiezuo' size='16' color='#007fff'></AtIcon>
-                <Text class='answer-text'>写答案</Text>
-              </View>
-            </View>
-            {showAnswer}
-          </View>
+          <Swiper className='swiper' onChange={this.swiperChange.bind(this)} style={
+            {
+              height: `${this.state.clientHeight - 50}px`
+            }
+          }
+          >
+            <SwiperItem>
+              <ScrollView
+                scrollY
+                style={
+                  {
+                    height: `${this.state.clientHeight - 50}px`
+                  }
+                }
+              >
+                <View className='flex-col item' id='item1'>
+                  <View className='card title'>
+                    <Text className='title-text'>你會vue不？能説説几个最重要的功能吗？</Text>
+                    <View className='answer'>
+                      <AtIcon prefixClass={ICON_PREFIX_CLASS} value='xiezuo' size='16' color='#007fff'></AtIcon>
+                      <Text class='answer-text'>写答案</Text>
+                    </View>
+                  </View>
+                  {showAnswer}
+                </View>
+              </ScrollView>
+            </SwiperItem>
+
+            <SwiperItem>
+              <ScrollView
+                scrollY
+                style={
+                  {
+                    height: `${this.state.clientHeight - 50}px`
+                  }
+                }
+              >
+                <View className='flex-col item' id='item1'>
+                  <View className='card title'>
+                    <Text className='title-text'>你會vue不？能説説几个最重要的功能吗？</Text>
+                    <View className='answer'>
+                      <AtIcon prefixClass={ICON_PREFIX_CLASS} value='xiezuo' size='16' color='#007fff'></AtIcon>
+                      <Text class='answer-text'>写答案</Text>
+                    </View>
+                  </View>
+                  {showAnswer}
+                </View>
+              </ScrollView>
+            </SwiperItem>
+          </Swiper>
           {/* </ScrollView> */}
         </View>
         <View className='comment-box'>
@@ -162,9 +237,8 @@ export default class Home extends Taro.Component {
             onClose={() => this.setState({
               isOpenComment: false
             })}
-            scrollY
           >
-            {"随你怎么写这是内容区 随你怎么写这是内容区 随你怎么写".repeat(30)}
+
             <CdComment></CdComment>
           </AtFloatLayout>
         </View>

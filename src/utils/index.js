@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { get as getGlobalData, set as setGlobalData } from './global-data';
 
 export function getUserInfo () {
   return Taro.getUserInfo()
@@ -65,5 +66,17 @@ export class UserInfo {
    */
   static getUserInfo () {
     return Taro.getUserInfo()
+  }
+}
+
+export class Utils {
+  static systemInfoKey = 'system-info'
+  static getSystemInfoSync () {
+    let systemInfo = getGlobalData(this.systemInfoKey)
+    if (!systemInfo) {
+      systemInfo = Taro.getSystemInfoSync()
+      setGlobalData(this.systemInfoKey, systemInfo)
+    }
+    return systemInfo
   }
 }

@@ -1,0 +1,53 @@
+@import '../../assets/styles/common.scss';
+.cd-comment {
+  @include flex;
+  .comment-scroll-view {
+    height: 880px;
+    padding-bottom: 120px;
+    flex: 1;
+  }
+  .comment-input-box {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-left: 0;
+    background: #fff;
+    border: 1px solid #f5f5f5;
+    padding-bottom: env(safe-area-inset-bottom);
+    transition: all .3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .comment-input {
+      padding: 16px 0;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, .05);
+      padding-left: 40px;
+    }
+  }
+}
+.comment-item {
+  padding: 16px;
+  &__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  &__info {
+    flex: 1;
+    padding: 0 16px;
+  }
+  &__title {
+    font-weight: 700;
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+  &__content {
+    font-size: 24px;
+    line-height: 26px;
+  }
+  .stat-num {
+    font-size: 22px;
+  }
+}

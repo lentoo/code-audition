@@ -1,0 +1,56 @@
+@import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+.user {
+  .user-info {
+    text-align: center;
+    padding-top: 200px;
+    background: #fff;
+    box-shadow: $box-shadow-base;
+  }
+  .avatar {
+    width: 110px;
+    height: 110px;
+  }
+  .avatar-name {
+    font-size: 28px;
+    color: $fontColor;
+  }
+  .attention-wrapper {
+    padding: 30px 0 ;
+    padding-bottom: 20px;
+    .attention {
+      flex: 1;
+      text-align: center;
+      &-title {
+        font-size: 26px;
+      }
+      &-num {
+        padding-bottom: 10px;
+        font-weight: 700;
+        font-size: 32px;
+        color: #333;
+      }
+    }
+  }
+  .user-menus-wrapper {
+    margin-top: 20px;
+    padding: 0 20px;
+    .user-menus {
+      background: #fff;
+      display: grid;
+      box-sizing: border-box;
+      grid-template-columns: 33.33% 33.33% 33.33%;
+      @include card;
+    }
+    .user-menu {
+      grid: 1;
+      text-align: center;
+      padding-top: 20px;
+      &_text {
+        padding: 10px 0;
+        color: $fontColor;
+        font-size: 24px;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+@import './mixins.scss';
+.flex-r {
+  @include flex(row);
+
+}
+.flex-c {
+  @include flex
+}
