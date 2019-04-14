@@ -6,11 +6,12 @@
 	"cloud": true,
 	"cloudfunctionRoot": "cloud/functions/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"condition": {
@@ -30,12 +31,27 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
 				{
 					"id": -1,
 					"name": "用户",
 					"pathName": "pages/user/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "扫码登录",
+					"pathName": "pages/scan-code-login/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "反馈中心",
+					"pathName": "pages/feedback/index",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -1,7 +1,10 @@
 import Taro from '@tarojs/taro'
 import { Storage } from '../utils';
+import { get as getGlobalData } from '../utils/global-data';
+import { OPEN_ID } from '../constants/common';
 
-const BASE_URL = 'https://ccode.live/api'
+const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://bbisxm.natappfree.cc' : 'https://ccode.live/api'
+
 class Service {
   baseOptions(params, method = 'GET') {
     let {url, data} = params
@@ -12,7 +15,7 @@ class Service {
       url: BASE_URL + url,
       data: data,
       method: method.toUpperCase(),
-      header: { 'content-type': contentType, 'header-key': Storage.getItemSync('oid') }, // 默认contentType ,预留token
+      header: { 'content-type': contentType, 'header-key': getGlobalData(OPEN_ID) }, // 默认contentType ,预留token
     }
     return Taro.request(option)
       .then(res => {

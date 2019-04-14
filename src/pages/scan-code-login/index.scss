@@ -1,0 +1,39 @@
+@import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+.scan-login {
+  display: flex;
+  .scan-login-wrapper {
+    flex: 1;
+    @include flex(column);
+    text-align: center;
+  }
+  &-icon {
+    width: 90%;
+    @include flex(row);
+    justify-content: center;
+    align-items: center;
+    &-item {
+      flex: 1;
+      &:nth-child(2) {
+        flex: 0.5;
+      }
+      &:last-child {
+        flex: 2.5;
+      }
+    }
+  }
+  &-item {
+    flex: 1;
+    @include center(column);
+  }
+  &-text {
+    font-size: 32px;
+    color: #666;
+    margin-top: 80px;
+  }
+  &-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}

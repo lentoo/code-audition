@@ -1,11 +1,29 @@
 @import '../../assets/styles/var.scss';
 @import '../../assets/styles/mixins.scss';
 .user {
+  position: relative;
+  .icons {
+    position: absolute;
+    left: 5%;
+  }
+  .icon-wrapper {
+    @include center(column);
+    @include wh(40PX, 40PX);
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .3);
+    vertical-align: middle;
+  }
+  .icon-text {
+    font-size: 16px;
+    color: #fff;
+  }
+  .user-info-wrapper {
+    background: url('https://img.ccode.live/background.jpg') no-repeat;
+    background-size: cover;
+    padding-top: 200px;
+  }
   .user-info {
     text-align: center;
-    padding-top: 200px;
-    background: #fff;
-    box-shadow: $box-shadow-base;
   }
   .avatar {
     width: 110px;
@@ -16,8 +34,12 @@
     color: $fontColor;
   }
   .attention-wrapper {
+    margin: 0 20px;
+    background: #fff;
+    margin-top: 20px;
     padding: 30px 0 ;
     padding-bottom: 20px;
+     @include card;
     .attention {
       flex: 1;
       text-align: center;
@@ -36,6 +58,7 @@
     margin-top: 20px;
     padding: 0 20px;
     .user-menus {
+      padding: 20px 0;
       background: #fff;
       display: grid;
       box-sizing: border-box;
@@ -53,4 +76,7 @@
       }
     }
   }
+}
+.icon-index--icon {
+  vertical-align: middle;
 }

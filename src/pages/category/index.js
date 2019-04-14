@@ -8,8 +8,19 @@ import CdTitle from '../../components/cd-header'
 import CdContainer from '../../components/cd-container'
 import './index.scss'
 import { UserInfo, Storage } from '../../utils';
+import { connect } from '@tarojs/redux';
+import { doSaveUserInfo } from '../../actions/login';
+import { set as setGlobalData, get as getGlobalData } from '../../utils/global-data';
+import { USER_INFO, OPEN_ID } from '../../constants/common';
 
-export default class Category extends Component {
+@connect(({ login }) => {
+  login
+}, dispatch => ({
+    doSaveUserInfo(conn, params) {
+      dispatch(doSaveUserInfo(params))
+    }
+}))
+class Category extends Component {
   constructor() {
     super(...arguments)
     this.state = {
@@ -57,16 +68,28 @@ export default class Category extends Component {
       last: current === 2
     })
   }
-  handleGetUserInfo (event) {
+  handleGetUserInfo(event) {
     const userInfo = event.detail.userInfo
     console.log(userInfo)
-    // UserInfo.getUserInfo().then(res => {
-    //   console.log(res);
-    // })
+    setGlobalData(USER_INFO, userInfo)
     Storage.setItemSync('first', false)
-    Taro.navigateTo({
-      url: '/pages/home/index'
+    Taro.showLoading({
+      title: '正在加载中...'
     })
+    this.props.doSaveUserInfo.call(this, ({
+      openId: getGlobalData(OPEN_ID),
+      ...userInfo
+    }))
+    Taro.hideLoading()
+    if (this.props.login.doSaveUserInfo.code === 1) {
+      Taro.navigateTo({
+        url: '/pages/home/index'
+      })
+    } else {
+      Taro.showToast({
+        title: this.props.login.doSaveUserInfo.msg
+      })
+    }
   }
 
   render() {
@@ -85,7 +108,7 @@ export default class Category extends Component {
       </View>
     ) : (
         <Text>左右滑动查看更多</Text>
-    )
+      )
     return (
       <View className='category'>
         <CdTitle></CdTitle>
@@ -110,8 +133,8 @@ export default class Category extends Component {
               onChange={this.handleChange.bind(this)}
               current={this.state.current}
               style={{
-              height: Taro.pxTransform(itemHeight * 2 * (maxLength / 3))
-            }}
+                height: Taro.pxTransform(itemHeight * 2 * (maxLength / 3))
+              }}
             >
               <SwiperItem>
                 <View><Grid data={data}></Grid></View>
@@ -142,3 +165,4 @@ export default class Category extends Component {
     )
   }
 }
+export default Category

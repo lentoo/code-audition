@@ -1,0 +1,3 @@
+export const SCAN_CODE_LOGIN = 'SCAN_CODE_LOGIN'
+export const CONFIRM_LOGIN = 'CONFIRM_LOGIN'
+export const SAVE_USER_INFO = 'SAVE_USER_INFO'

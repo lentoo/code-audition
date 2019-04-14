@@ -5,6 +5,7 @@ import { AtIcon } from 'taro-ui'
 import CdTabbar from '../../components/cd-tabbar';
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common';
+import { Utils } from '../../utils';
 
 export default class User extends Taro.Component {
   config = {
@@ -12,7 +13,8 @@ export default class User extends Taro.Component {
     backgroundTextStyle: 'light',
   }
   state = {
-    menus: []
+    menus: [],
+    statusBarHeight: Utils.getSystemInfoSync().statusBarHeight
   }
   componentDidMount() {
     this.setState({
@@ -39,18 +41,59 @@ export default class User extends Taro.Component {
         },
         {
           icon: 'fankuitianxie',
-          title: '反馈'
+          title: '反馈',
+          url: '/pages/feedback/index'
         }
       ]
+    })
+  }
+  menuClick(url) {
+    Taro.navigateTo({
+      url
+    })
+  }
+  scan () {
+    // this.navigationToScanCodeLogin()
+    // return
+    Taro.scanCode().then(result => {
+      console.log(result);
+      const codeResult = JSON.parse(result.result)
+      if (codeResult.type === 'login') {
+        const unicode = codeResult.payload
+        this.navigationToScanCodeLogin(unicode)
+      }
+      Taro.showToast({
+        title: result.result,
+        icon: 'none'
+      })
+    })
+  }
+  navigationToScanCodeLogin (unicode) {
+    Taro.navigateTo({
+      url: `/pages/scan-code-login/index?unicode=${unicode}`
     })
   }
   render() {
     return (
       <View className='user'>
+        <View className='icons' style={
+          {
+            paddingTop: `${this.state.statusBarHeight + 5}px`
+          }
+        }
+        >
+          <View onClick={this.scan.bind(this)} className='icon-wrapper'>
+            <AtIcon prefixClass={ICON_PREFIX_CLASS} value='saoyisao' size='16' color='#fff'></AtIcon>
+            <Text className='icon-text'>扫啊扫</Text>
+          </View>
+        </View>
+        {/* <Image className='bg-img'></Image> */}
         <View className='user-info'>
-          <Image className='avatar' src='https://axhub.im/pro/914cebb9882c916b/images/%E6%88%91%E7%9A%84/u529.svg'></Image>
-          <View>
-            <Text className='avatar-name'>小茹</Text>
+          <View className='user-info-wrapper'>
+            <Image className='avatar' src='https://axhub.im/pro/914cebb9882c916b/images/%E6%88%91%E7%9A%84/u529.svg'></Image>
+            <View>
+              <Text className='avatar-name'>小茹</Text>
+            </View>
           </View>
           <View className='flex-row attention-wrapper'>
             <View className='attention'>
@@ -78,14 +121,13 @@ export default class User extends Taro.Component {
               </View>
             </View>
           </View>
-
         </View>
         <View className='user-menus-wrapper'>
           <View className='user-menus'>
             {
               this.state.menus.map(menu => {
                 return (
-                  <View className='user-menu' key={menu.title}>
+                  <View className='user-menu' key={menu.title} onClick={this.menuClick.bind(this, menu.url)}>
                     <View>
                       <AtIcon prefixClass={ICON_PREFIX_CLASS} value={menu.icon} color={ICON_PRIMARY_COLOR} size='24'></AtIcon>
                     </View>
@@ -100,6 +142,9 @@ export default class User extends Taro.Component {
             }
           </View>
         </View>
+        {/* <View>
+            <Button onClick={this.scan.bind(this)}>扫一扫1</Button>
+        </View> */}
         <CdTabbar value={2}></CdTabbar>
       </View>
     );

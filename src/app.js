@@ -15,6 +15,7 @@ import './assets/fonts/iconfont.css'
 import { UpdateManager, Storage} from './utils';
 
 import { set as setGlobalData } from './utils/global-data'
+import { OPEN_ID } from './constants/common';
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -30,7 +31,9 @@ class App extends Component {
       'pages/index/index',
       'pages/home/index',
       'pages/category/index',
-      'pages/user/index'
+      'pages/user/index',
+      'pages/scan-code-login/index',
+      'pages/feedback/index'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -59,8 +62,8 @@ class App extends Component {
       name: 'GetAppId'
     }).then(res => {
       const openid = res.result.openid
-      setGlobalData('oid', openid)
-      Storage.setItemSync('oid', openid)
+      setGlobalData(OPEN_ID, openid)
+      Storage.setItemSync(OPEN_ID, openid)
     })
   }
 
