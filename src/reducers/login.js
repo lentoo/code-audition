@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 export default function counter(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SCAN_CODE_LOGIN:
+      console.log('action', action)
       return {
         ...state,
         scanLoginResult: action.payload

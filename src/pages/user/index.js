@@ -1,13 +1,23 @@
 import Taro from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
+import { connect } from '@tarojs/redux';
 
 import CdTabbar from '../../components/cd-tabbar';
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common';
 import { Utils } from '../../utils';
+import { scanLogin } from '../../actions/login';
+import api from '../../api/api'
 
-export default class User extends Taro.Component {
+@connect(({ login }) => ({
+  login
+}), dispatch => {
+  return {
+    onScanLogin: params => dispatch(scanLogin(params))
+  }
+})
+class User extends Taro.Component {
   config = {
     navigationStyle: 'custom',
     backgroundTextStyle: 'light',
@@ -46,31 +56,40 @@ export default class User extends Taro.Component {
         }
       ]
     })
+
   }
   menuClick(url) {
     Taro.navigateTo({
       url
     })
   }
-  scan () {
-    // this.navigationToScanCodeLogin()
-    // return
-    Taro.scanCode().then(result => {
-      console.log(result);
+  async scanLogin({unicode, loginToken}) {
+    const res = await api.get(`/audition/login/unicode/${unicode}?loginToken=${loginToken}`)
+    return res
+  }
+  scan() {
+    Taro.scanCode().then(async result => {
       const codeResult = JSON.parse(result.result)
       if (codeResult.type === 'login') {
-        const unicode = codeResult.payload
-        this.navigationToScanCodeLogin(unicode)
+        const { unicode, loginToken } = codeResult.payload
+        const scanLoginResult = await this.scanLogin({
+          unicode,
+          loginToken
+        })
+        console.log('scanLoginResult', scanLoginResult)
+        if (scanLoginResult.code !== 1) {
+          Taro.showToast({
+            title: scanLoginResult.msg
+          })
+        } else {
+          this.navigationToScanCodeLogin(codeResult.payload)
+        }
       }
-      Taro.showToast({
-        title: result.result,
-        icon: 'none'
-      })
     })
   }
-  navigationToScanCodeLogin (unicode) {
+  navigationToScanCodeLogin({ unicode, loginToken }) {
     Taro.navigateTo({
-      url: `/pages/scan-code-login/index?unicode=${unicode}`
+      url: `/pages/scan-code-login/index?unicode=${unicode}&token=${loginToken}`
     })
   }
   render() {
@@ -150,3 +169,4 @@ export default class User extends Taro.Component {
     );
   }
 }
+export default User

@@ -8,8 +8,8 @@ import service from '../api'
  * @param {*} unicode
  * @returns
  */
-export function scanCodeLogin (unicode) {
-  return service.get(`/audition/login/unicode/${unicode}`)
+export function scanCodeLogin ({unicode, loginToken}) {
+  return service.get(`/audition/login/unicode/${unicode}?loginToken=${loginToken}`)
 }
 /**
  * @description 确认登录

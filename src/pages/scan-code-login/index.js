@@ -1,36 +1,27 @@
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 
-import { AtIcon, AtButton, AtToast } from 'taro-ui'
-import { connect } from '@tarojs/redux'
-
+import { AtIcon, AtButton } from 'taro-ui'
 import { ICON_PREFIX_CLASS } from '../../constants/common';
-import { scanLogin, doConfirmLogin } from '../../actions/login';
-
+import api from '../../api/api'
 import './index.scss'
+import { confirmLogin } from '../../api/login';
 
-@connect(({ login }) => ({
-  login
-}), (dispatch) => ({
-  scanLogin(conn, unicode) {
-    dispatch(scanLogin(unicode))
-  },
-  doConfirmLogin() {
-    dispatch(doConfirmLogin())
-  }
-}))
 class ScanCodeLogin extends Taro.Component {
   config = {
     navigationBarTitleText: '登录确认',
   }
-  componentWillMount () {
-    const unicode = this.$router.params.unicode || 123
-    this.props.scanLogin.call(this, unicode)
+  state = {
+    unicode: ''
   }
-  confirmLogin () {
-    this.props.doConfirmLogin.call(this)
-    console.log('zheline ? ', this.props.login.doConfirmLogin);
-    const doConfirmLoginResult = this.props.login.doConfirmLogin
+  componentWillMount () {
+    this.setState({
+      unicode: this.$router.params.unicode
+    })
+  }
+  async confirmLogin () {
+    const doConfirmLoginResult = await confirmLogin()
+    console.log('doConfirmLoginResult', doConfirmLoginResult);
     if (doConfirmLoginResult.code === 1) {
       Taro.showToast({
         title: '登录成功'
@@ -38,12 +29,14 @@ class ScanCodeLogin extends Taro.Component {
       Taro.navigateBack()
     } else {
       Taro.showToast({
-        title: doConfirmLoginResult.msg
+        title: doConfirmLoginResult.msg,
+        icon: 'none'
       })
     }
   }
-  cancelLogin () {
-    Taro.navigateBack()
+  async cancelLogin () {
+    const res = await api.get(`/audition/login/cancelLogin/${this.state.unicode}`)
+    res.code === 1 && Taro.navigateBack()
   }
   render() {
     return (
