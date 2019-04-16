@@ -33,7 +33,7 @@ class App extends Component {
       'pages/category/index',
       'pages/user/index',
       'pages/scan-code-login/index',
-      'pages/feedback/index'
+      'pages/user/feedback/index'
     ],
     window: {
       backgroundTextStyle: 'light',

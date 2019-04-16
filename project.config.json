@@ -31,7 +31,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -51,6 +51,20 @@
 					"id": -1,
 					"name": "反馈中心",
 					"pathName": "pages/feedback/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "反馈中心",
+					"pathName": "page/user/feedback/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "反馈中心",
+					"pathName": "pages/user/feedback/index",
 					"query": "",
 					"scene": null
 				}

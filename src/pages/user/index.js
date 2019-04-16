@@ -52,7 +52,7 @@ class User extends Taro.Component {
         {
           icon: 'fankuitianxie',
           title: '反馈',
-          url: '/pages/feedback/index'
+          url: '/pages/user/feedback/index'
         }
       ]
     })

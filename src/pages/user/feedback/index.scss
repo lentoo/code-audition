@@ -1,4 +1,4 @@
-@import '../../assets/styles/index.scss';
+@import '../../../assets/styles/index.scss';
 .feedback {
   .feedback-types {
     @include flex(row);
@@ -25,7 +25,10 @@
       }
     }
   }
-
+  .feedback-images {
+    margin-top: 100px;
+    padding: 0 20px;
+  }
   .feedback-input-wrapper {
     margin-top: 100px;
     .feedback-input {
