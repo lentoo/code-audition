@@ -1,0 +1,44 @@
+@import "../../../assets/styles/mixins.scss";
+@import "../../../assets/styles/var.scss";
+.message-item {
+  @include flex(row);
+  padding: 20px;
+  border-bottom: 1px solid $border-color-base;
+  .message {
+    &-avatar {
+      &-img {
+        width: 60px;
+        height: 60px;
+      }
+      padding-right: 40px;
+    }
+    &-content {
+      flex: 1;
+      // overflow: hidden;
+      &-title {
+        font-size: 26px;
+        margin-bottom: 10px;
+        white-space: pre-wrap;
+        @include ell(2);
+        .title-user-name {
+          color: $tip-color;
+          margin-right: 5px;
+        }
+        .title-message {
+          color: $primary-color;
+        }
+      }
+      &-desc {
+        color: #333;
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 10px;
+        white-space: pre-wrap;
+      }
+    }
+  }
+  .date {
+    color: $tip-color;
+    font-size: 24px;
+  }
+}

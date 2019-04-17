@@ -9,6 +9,7 @@ export default class CdTabbar extends Taro.Component {
     tabList: [
       { title: '首页',url: '/pages/home/index', iconPrefixClass: ICON_PREFIX_CLASS, iconType: 'shouye1' },
       { title: '投稿', url: '/pages/category/index', iconPrefixClass: ICON_PREFIX_CLASS, iconType: 'mianshiti' },
+      { title: '消息', url: '/pages/user/message/index', iconPrefixClass: ICON_PREFIX_CLASS, iconType: 'xiaoxi3' },
       { title: '我',url: '/pages/user/index', iconPrefixClass: ICON_PREFIX_CLASS, iconType: 'wode' }
     ]
   }
@@ -18,7 +19,6 @@ export default class CdTabbar extends Taro.Component {
     })
   }
   handleClick (value) {
-    console.log('value', value);
     Taro.redirectTo({
       url: this.state.tabList[value].url
     })

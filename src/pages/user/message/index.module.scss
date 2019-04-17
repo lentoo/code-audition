@@ -1,0 +1,39 @@
+@import "../../../assets/styles/mixins.scss";
+@import "../../../assets/styles/var.scss";
+.message {
+  position: relative;
+  .badges {
+    position: relative;
+    .badge {
+      position: absolute;
+      z-index: 33;
+      top: 10px;
+      left: 220px;
+      font-size: 22px;
+      background: red;
+      color: #fff;
+      padding: 6px 12px;
+      text-align: center;
+      border-radius: 20px;
+    }
+    .badgeRight {
+      right: 90px;
+      left: inherit;
+    }
+  }
+  .pane {
+    @include flex(column);
+    height: calc(100vh - 200px);
+    .scrollview {
+      flex: 1;
+      overflow: hidden;
+    }
+    .tabbar {
+      height: $tabbar-height;
+    }
+    .not {
+      height: 100%;
+      @include center(column);
+    }
+  }
+}
