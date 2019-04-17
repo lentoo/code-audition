@@ -164,7 +164,7 @@ class User extends Taro.Component {
         {/* <View>
             <Button onClick={this.scan.bind(this)}>扫一扫1</Button>
         </View> */}
-        <CdTabbar value={2}></CdTabbar>
+        <CdTabbar value={3}></CdTabbar>
       </View>
     );
   }

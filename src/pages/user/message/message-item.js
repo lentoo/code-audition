@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 
-import './message-item.module.scss'
+import './message-item.scss'
 
 export default class MessageItem extends Taro.Component {
   render() {
