@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-commonjs
+const path = require('path')
+
 const config = {
   projectName: 'code-audition',
   date: '2019-3-25',
@@ -25,6 +28,13 @@ const config = {
     }
   },
   defineConstants: {
+
+  },
+  alias: {
+    '@/components': path.resolve(__dirname, '../src/components'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+    '@/actions': path.resolve(__dirname, '..', 'src/actions'),
+    '@/assets': path.resolve(__dirname, '..', 'src/assets'),
   },
   copy: {
     patterns: [

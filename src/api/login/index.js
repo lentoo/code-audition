@@ -26,9 +26,20 @@ export function confirmLogin () {
  * @author lentoo
  * @date 2019-04-13
  * @export
- * @param {*} params
- * @returns
  */
-export function saveUserInfo (params) {
-  return service.post('/audition/userInfo/save', params)
-}
+export const API_SAVE_USER_INFO = '/audition/userInfo/save'
+/**
+ * @description 校验是否第一接口
+ * @author lentoo
+ * @date 2019-04-17
+ */
+export const API_VALID_ONE = '/audition/userInfo/vaildOne'
+
+/**
+ * @description 用户关注分类
+ */
+export const API_USER_SORT = '/audition/sort/put'
+/**
+ * @deprecated 分类列表
+ */
+export const API_SORT = '/audition/sort'

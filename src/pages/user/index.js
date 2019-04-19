@@ -47,7 +47,8 @@ class User extends Taro.Component {
         },
         {
           icon: 'classify_icon',
-          title: '分类'
+          title: '分类',
+          url: '/pages/category/index'
         },
         {
           icon: 'fankuitianxie',

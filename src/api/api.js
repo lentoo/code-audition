@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import { get as getGlobalData } from '../utils/global-data';
 import { OPEN_ID } from '../constants/common';
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://qenfy4.natappfree.cc' : 'https://ccode.live/api'
+const BASE_URL = process.env.BASE_URL
 
 class Service {
   baseOptions(params, method = 'GET') {

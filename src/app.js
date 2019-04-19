@@ -49,7 +49,6 @@ class App extends Component {
 
   componentDidMount () {
     UpdateManager.CheckAppUpdate()
-    console.log('env_type', Taro.ENV_TYPE)
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       wx.cloud.init({
         env: 'code-interview-13481f',

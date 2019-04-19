@@ -1,8 +1,7 @@
-import { bindActionCreators } from 'redux'
-import store from '../store'
-import { scanCodeLogin, confirmLogin, saveUserInfo } from '../api/login'
-import { SCAN_CODE_LOGIN, CONFIRM_LOGIN, SAVE_USER_INFO } from '../constants/login';
+import { scanCodeLogin, confirmLogin, saveUserInfo, API_SAVE_USER_INFO, API_VALID_ONE, API_USER_SORT, API_SORT } from '../api/login'
+import { SCAN_CODE_LOGIN, CONFIRM_LOGIN, SAVE_USER_INFO, VALID_ONE, USER_SORT, SORT_LIST } from '../constants/login';
 import { createApiAction } from './index'
+import { createAction } from '../utils/redux';
 
 // export function scanLogin (params) {
 //   return async dispatch => {
@@ -17,7 +16,7 @@ import { createApiAction } from './index'
 //   }
 // }
 export const scanLogin = createApiAction(SCAN_CODE_LOGIN, params => scanCodeLogin(params))
-export function doConfirmLogin () {
+export function doConfirmLogin() {
   return async dispatch => {
     const res = await confirmLogin()
     dispatch({
@@ -27,17 +26,52 @@ export function doConfirmLogin () {
   }
 }
 
-export function doSaveUserInfo (params) {
+// export const doSaveUserInfo = params => {
+//   console.log('params', params);
+//   return dispatch => {
 
-  return async dispatch => {
-    const res = await saveUserInfo(params)
-    dispatch({
-      types: SAVE_USER_INFO,
-      payload: res
-    })
+//     return saveUserInfo(params).then(res => {
+//       console.log('res', res);
+//       dispatch({
+//         types: SAVE_USER_INFO,
+//         payload: res
+//       })
+//     })
+//   }
+// }
+
+/**
+ * 保存用户信息
+ * @param {*} payload
+ */
+export const doSaveUserInfo = payload => createAction({
+  url: API_SAVE_USER_INFO,
+  method: 'POST',
+  type: SAVE_USER_INFO,
+  payload
+})
+
+export const doValidOne = payload => createAction({
+  url: API_VALID_ONE,
+  type: VALID_ONE,
+  payload
+})
+
+export const dispatchUserSort = payload => createAction({
+  url: API_USER_SORT,
+  type: USER_SORT,
+  payload,
+  method: 'PUT',
+  fetchOptions: {
+    contentType: 'application/json'
   }
-}
+})
 
-export default bindActionCreators({
-  scanLogin
-}, store.dispatch)
+export const dispatchSortList = payload => createAction({
+  url: API_SORT,
+  type: SORT_LIST,
+  payload
+})
+// export default bindActionCreators({
+//   scanLogin
+// }, store.dispatch)

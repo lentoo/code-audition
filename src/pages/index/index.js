@@ -2,10 +2,10 @@ import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
+import { FIRST } from '../../constants/common';
 import { add, minus, asyncAdd } from '../../actions/counter'
 import './index.scss'
 import { Storage } from '../../utils';
-
 
 @connect(({ counter }) => ({
   counter
@@ -38,7 +38,7 @@ class Index extends Component {
   componentDidMount () {
   }
   componentDidShow () {
-    const first = Storage.getItemSync('first') === false ? false : true
+    const first = Storage.getItemSync(FIRST) === false ? false : true
     console.log('first', first);
     if (first) {
       Taro.redirectTo({

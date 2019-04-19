@@ -7,7 +7,10 @@ export function getUserInfo () {
 
 export class Storage {
   static setItem (key, val) {
-    return Taro.setStorage(key, val)
+    return Taro.setStorage({
+      key,
+      data: val
+    })
   }
   static setItemSync(key, val) {
     console.log({
@@ -17,7 +20,9 @@ export class Storage {
     return Taro.setStorageSync(key, val)
   }
   static getItem (key) {
-    return Taro.getStorage(key)
+    return Taro.getStorage({
+      key
+    })
   }
   static getItemSync (key) {
     return Taro.getStorageSync(key)
@@ -78,5 +83,27 @@ export class Utils {
       setGlobalData(this.systemInfoKey, systemInfo)
     }
     return systemInfo
+  }
+
+  /**
+   * @description 将一位数组格式化为每行 line 个的二维数组
+   * @author lentoo
+   * @date 2019-04-18
+   * @param {*} array
+   * @param {number} [line=3]
+   * @returns
+   * @memberof Grid
+   */
+  static changeArray(array, line = 3) {
+    let len = array.length;
+    let n = line;
+    let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+    let res = [];
+    for (let i = 0; i < lineNum; i++) {
+      // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+      let temp = array.slice(i * n, i * n + n);
+      res.push(temp);
+    }
+    return res
   }
 }

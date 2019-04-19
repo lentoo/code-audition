@@ -1,6 +1,7 @@
 module.exports = {
   env: {
-    NODE_ENV: '"development"'
+    NODE_ENV: '"development"',
+    BASE_URL: 'http://ttjw6j.natappfree.cc'
   },
   defineConstants: {
   },
