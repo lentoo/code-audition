@@ -44,7 +44,7 @@ class User extends Taro.Component {
         {
           icon: 'tougaodashang-copy',
           title: '投稿',
-          url: '/pages/user/publish/index'
+          url: '/pages/user/publish/open-question/index'
         },
         {
           icon: 'classify_icon',
@@ -110,17 +110,17 @@ class User extends Taro.Component {
         </View>
         {/* <Image className='bg-img'></Image> */}
         <View className='user-info'>
-          <View className='user-info-wrapper'
-            style={
-              {
-                background: 'url(../../assets/images/user-bg.png) no-repeat',
-                backgroundSize: 'cover'
-              }
-            }
-          >
-            <Image className='avatar' src='https://avatars0.githubusercontent.com/u/24666230?s=460&v=4'></Image>
-            <View>
-              <Text className='avatar-name'>小茹</Text>
+          <View className='user-info-wrapper'>
+            <View style={{
+              display: 'inline-block',
+              position: 'relative',
+              left: Taro.pxTransform(5)
+            }}
+            >
+              <Image className='avatar' src='https://avatars0.githubusercontent.com/u/24666230?s=460&v=4'></Image>
+              <View>
+                <Text className='avatar-name'>小茹</Text>
+              </View>
             </View>
           </View>
           <View className='flex-row attention-wrapper'>

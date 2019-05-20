@@ -39,7 +39,7 @@
     color: $color;
 }
 
-@mixin card($bs: $box-shadow-base, $br: $border-radius-base) {
+@mixin card($bs: $--border-color-base, $br: $border-radius-base) {
   box-shadow: $bs;
   border-radius: $br;
 }
