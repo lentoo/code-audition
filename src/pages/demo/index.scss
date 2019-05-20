@@ -1,0 +1,8 @@
+@import '../../assets/styles/mixins.scss';
+.box {
+  width: 50PX;
+  height: 50PX;
+  background: red;
+  margin: 0 auto;
+  @include box-shadow();
+}
