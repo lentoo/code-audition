@@ -1,3 +1,4 @@
+@import '../../assets/styles/mixins.scss';
 .cd-header {
   background: #007fff;
   color: #fff;
@@ -6,9 +7,11 @@
   width: 100%;
   &-content {
     height: 80px;
-    line-height: 80px;
-    text-align: center;
-
+    @include center(row);
+  }
+  &-left {
+    position: absolute;
+    left: 20px;
   }
   &-title {
     font-size: 34px;

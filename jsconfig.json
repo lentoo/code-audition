@@ -3,6 +3,9 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
+      "@/constants/*": [
+        "./constants/*"
+      ],
       "@/components/*": [
         "./src/components/*"
       ],

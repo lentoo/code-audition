@@ -14,7 +14,7 @@ class Service {
       url: BASE_URL + url,
       data: data,
       method: method.toUpperCase(),
-      header: { 'content-type': contentType, 'header-key': getGlobalData(OPEN_ID) }, // 默认contentType ,预留token
+      header: { 'content-type': contentType, 'header-key': getGlobalData(OPEN_ID) || 123456 }, // 默认contentType ,预留token
     }
     return Taro.request(option)
       .then(res => {

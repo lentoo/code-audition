@@ -31,10 +31,11 @@ const config = {
 
   },
   alias: {
-    '@/components': path.resolve(__dirname, '../src/components'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils'),
     '@/actions': path.resolve(__dirname, '..', 'src/actions'),
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
+    '@/constants': path.resolve(__dirname, '..', 'src/constants'),
   },
   copy: {
     patterns: [

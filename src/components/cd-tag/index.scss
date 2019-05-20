@@ -1,0 +1,26 @@
+.cd-tag {
+  height: 58px;
+  font-size: 28px;
+  padding: 0 32px;
+  color: #666;
+  border: 1PX solid #F7F7F7;
+  background: #F7F7F7;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  vertical-align: middle;
+  width: max-content;
+  position: relative;
+  &__active {
+    color: #fff;
+    background: #78A4F4;
+    border-color: #78A4F4;
+  }
+  .tag-icon {
+    margin-left: 14px;
+    vertical-align: middle;
+
+  }
+}

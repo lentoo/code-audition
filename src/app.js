@@ -28,29 +28,33 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
       'pages/home/index',
+      'pages/index/index',
+      'pages/demo/index',
       'pages/category/index',
-      'pages/user/index',
       'pages/scan-code-login/index',
+      'pages/user/index',
+      'pages/user/publish/index',
+      'pages/user/publish/open-question/index',
+      'pages/user/publish/open-question/choose-category',
+      'pages/user/publish/open-question/submit-success',
       'pages/user/feedback/index',
       'pages/user/message/index'
     ],
     window: {
-      backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#007fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'white',
       backgroundTextStyle: 'dark',
       // navigationStyle: 'custom',
-      backgroundColor: '#fff',
+      backgroundColor: '#f5f5f5',
     }
   }
 
   componentDidMount () {
-    UpdateManager.CheckAppUpdate()
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
-      wx.cloud.init({
+      UpdateManager.CheckAppUpdate()
+      Taro.cloud.init({
         env: 'code-interview-13481f',
         traceUser: true
       })
@@ -58,7 +62,7 @@ class App extends Component {
     }
   }
   loadOpenId() {
-    wx.cloud.callFunction({
+    Taro.cloud.callFunction({
       name: 'GetAppId'
     }).then(res => {
       const openid = res.result.openid

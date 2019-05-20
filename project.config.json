@@ -16,6 +16,7 @@
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"libVersion": "2.6.6",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -33,7 +34,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 11,
 			"list": [
 				{
 					"id": -1,
@@ -67,6 +68,56 @@
 					"id": -1,
 					"name": "分类页",
 					"pathName": "pages/category/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "投稿",
+					"pathName": "pages/publish/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "开放题",
+					"pathName": "pages/publish/open-question/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "投稿选择分类",
+					"pathName": "pages/user/publish/open-question/choose-category",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "投稿提交成功",
+					"pathName": "pages/user/publish/open-question/submit-success",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "首页",
+					"pathName": "pages/home/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "Demo",
+					"pathName": "pages/demo/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "用户",
+					"pathName": "pages/user/index",
+					"query": "",
 					"scene": null
 				}
 			]

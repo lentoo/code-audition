@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 
 import { get as getGlobalData } from './global-data';
 import { OPEN_ID } from '../constants/common';
+import { Storage } from '.';
 
 const SUCCESS = 1
 const EXPIRED = 0
@@ -12,13 +13,17 @@ console.log('BASE_URL', BASE_URL);
 
 export default async function fetch(options) {
   const { url, payload, method = 'GET', showToast = true, autoLogin = true, contentType = 'application/x-www-form-urlencoded' } = options
-  const token = getGlobalData(OPEN_ID)
+  let token = getGlobalData(OPEN_ID)
   console.log('token', token);
+  if (!token) {
+    token = Storage.getItemSync(OPEN_ID)
+    console.log(token);
+  }
   const option = {
     url: (BASE_URL + url).trim(),
     method: method.toUpperCase(),
     data: payload,
-    header: { 'content-type': contentType, 'header-key': getGlobalData(OPEN_ID) }, // 默认
+    header: { 'content-type': contentType, 'header-key': token }, // 默认
   }
   return Taro.request(option).then(res => {
     if (!res.data) {

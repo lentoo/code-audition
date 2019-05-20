@@ -43,3 +43,30 @@
   box-shadow: $bs;
   border-radius: $br;
 }
+
+@mixin box-shadow-base(
+    $left: 0 0 0 $--border-color-base,
+    $top: 0 0 0 $--border-color-base,
+    $right: 0 0 0 $--border-color-base,
+    $bottom: 0 0 0 $--border-color-base
+  ) {
+  box-shadow: $left, $top, $right, $bottom;
+}
+@mixin box-shadow-top() {
+  @include box-shadow-base($top: $box-shadow-top)
+}
+@mixin box-shadow-right() {
+  @include box-shadow-base($right: $box-shadow-right)
+}
+@mixin box-shadow-left() {
+  @include box-shadow-base($left: $box-shadow-left)
+}
+@mixin box-shadow-bottom() {
+  @include box-shadow-base($bottom: $box-shadow-bottom)
+}
+@mixin box-shadow() {
+  @include box-shadow-base($top: $box-shadow-top, $right: $box-shadow-right, $left: $box-shadow-left, $bottom: $box-shadow-bottom)
+}
+@mixin border-radius($radius: $border-radius-base) {
+  border-radius: $radius;
+}

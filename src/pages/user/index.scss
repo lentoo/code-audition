@@ -18,9 +18,11 @@
     color: #fff;
   }
   .user-info-wrapper {
-    background: url('https://img.ccode.live/background.jpg') no-repeat;
+    // background: url('https://img.ccode.live/background.jpg') no-repeat;
+    background: url(../../assets/images/user-bg.png) no-repeat;
     background-size: cover;
-    padding-top: 200px;
+    padding-top: 150px;
+    padding-bottom: 60px;
   }
   .user-info {
     text-align: center;
@@ -28,10 +30,13 @@
   .avatar {
     width: 110px;
     height: 110px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 50%;
   }
   .avatar-name {
     font-size: 28px;
-    color: $fontColor;
+    color: #fff;
   }
   .attention-wrapper {
     margin: 0 20px;

@@ -3,10 +3,10 @@ import { View, Text, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux';
 
-import CdTabbar from '../../components/cd-tabbar';
+import { Utils } from '@/utils';
+import CdTabbar from '@/components/cd-tabbar';
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common';
-import { Utils } from '../../utils';
 import { scanLogin } from '../../actions/login';
 import api from '../../api/api'
 
@@ -42,8 +42,9 @@ class User extends Taro.Component {
           title: '喜欢'
         },
         {
-          icon: 'xiaoxi',
-          title: '消息'
+          icon: 'tougaodashang-copy',
+          title: '投稿',
+          url: '/pages/user/publish/index'
         },
         {
           icon: 'classify_icon',
@@ -109,8 +110,15 @@ class User extends Taro.Component {
         </View>
         {/* <Image className='bg-img'></Image> */}
         <View className='user-info'>
-          <View className='user-info-wrapper'>
-            <Image className='avatar' src='https://axhub.im/pro/914cebb9882c916b/images/%E6%88%91%E7%9A%84/u529.svg'></Image>
+          <View className='user-info-wrapper'
+            style={
+              {
+                background: 'url(../../assets/images/user-bg.png) no-repeat',
+                backgroundSize: 'cover'
+              }
+            }
+          >
+            <Image className='avatar' src='https://avatars0.githubusercontent.com/u/24666230?s=460&v=4'></Image>
             <View>
               <Text className='avatar-name'>小茹</Text>
             </View>
@@ -165,7 +173,7 @@ class User extends Taro.Component {
         {/* <View>
             <Button onClick={this.scan.bind(this)}>扫一扫1</Button>
         </View> */}
-        <CdTabbar value={3}></CdTabbar>
+        <CdTabbar title='我'></CdTabbar>
       </View>
     );
   }

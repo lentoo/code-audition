@@ -1,0 +1,33 @@
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/common.scss';
+@import '../../../assets/styles/mixins.scss';
+.publish {
+  .publish-list {
+    @include card();
+    @include flex(row);
+
+    background: #fff;
+    margin: 20px;
+    justify-content: center;
+    .publish-item {
+      @include center(column);
+      flex: 1;
+
+      &-text {
+        margin-top: 8px;
+        font-size: 26px;
+        font-weight: 700;
+        color: $fontColor;
+      }
+    }
+  }
+  .item {
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+    padding: 20px 40px;
+    &:active {
+      background: $press-color;
+    }
+  }
+}

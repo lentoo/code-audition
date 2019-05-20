@@ -1,12 +1,12 @@
 import Taro from '@tarojs/taro'
 import { get as getGlobalData, set as setGlobalData } from './global-data';
 
-export function getUserInfo () {
+export function getUserInfo() {
   return Taro.getUserInfo()
 }
 
 export class Storage {
-  static setItem (key, val) {
+  static setItem(key, val) {
     return Taro.setStorage({
       key,
       data: val
@@ -19,12 +19,12 @@ export class Storage {
     })
     return Taro.setStorageSync(key, val)
   }
-  static getItem (key) {
+  static getItem(key) {
     return Taro.getStorage({
       key
     })
   }
-  static getItemSync (key) {
+  static getItemSync(key) {
     return Taro.getStorageSync(key)
   }
 }
@@ -37,7 +37,7 @@ export class UpdateManager {
    * @static
    * @memberof UpdateManager
    */
-  static CheckAppUpdate () {
+  static CheckAppUpdate() {
     const updateManager = Taro.getUpdateManager()
 
     updateManager.onCheckForUpdate(res => {
@@ -69,14 +69,14 @@ export class UserInfo {
    * @returns
    * @memberof UserInfo
    */
-  static getUserInfo () {
+  static getUserInfo() {
     return Taro.getUserInfo()
   }
 }
 
 export class Utils {
   static systemInfoKey = 'system-info'
-  static getSystemInfoSync () {
+  static getSystemInfoSync() {
     let systemInfo = getGlobalData(this.systemInfoKey)
     if (!systemInfo) {
       systemInfo = Taro.getSystemInfoSync()
@@ -105,5 +105,37 @@ export class Utils {
       res.push(temp);
     }
     return res
+  }
+
+  // 防抖
+  // 暴力版： 定时器期间，有新操作时，清空旧定时器，重设新定时器
+  static debounce (fn, wait) {
+    let timer, timeStamp = 0;
+    let context, args;
+
+    let run = () => {
+      timer = setTimeout(() => {
+        fn.apply(context, args);
+      }, wait);
+    }
+    let clean = () => {
+      clearTimeout(timer);
+    }
+
+    return function () {
+      context = this;
+      args = arguments;
+      let now = (new Date()).getTime();
+
+      if (now - timeStamp < wait) {
+        console.log('reset', now);
+        clean();  // clear running timer
+        run();    // reset new timer from current time
+      } else {
+        console.log('set', now);
+        run();    // last timer alreay executed, set a new timer
+      }
+      timeStamp = now;
+    }
   }
 }
