@@ -1,4 +1,6 @@
 @import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+@import '../../assets/styles/common.scss';
 .home {
   min-height: 100vh;
   display: flex;
@@ -15,47 +17,76 @@
     }
   }
   .tabbar {
+    border-top: 1PX solid $--border-color-base;
     padding-bottom: env(safe-area-inset-bottom);
     width: 100%;
-    background: #fff;
-  }
-  .tap {
-    text-align: center;
-    &-text {
-      color: $tip-color;
-      font-size: 24px;
-    }
   }
   .card {
-    margin: 20px;
     box-sizing: border-box;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0px 0px 5px rgba(201, 201, 201, 0.3);
-    padding: 20px 40px;
+    padding: 10PX;
     transition: .5s all ease;
     opacity: 1;
   }
-  .title {
-    &-text {
-      font-size: 28px;
-      font-weight: 700;
-      color: #333;
-    }
-    .answer {
 
-      font-size: 24px;
-      text-align: right;
-      padding: 10px 0;
-      &-text {
-        color: $primary-color;
+  .answer {
+    &-wrapper {
+      margin-top: 5PX;
+      flex: 1;
+      padding-bottom: 120px;
+      // padding-bottom: 120px;
+      @include flex(column);
+    }
+    &-list {
+      flex: 1;
+      overflow: hidden;
+
+      box-sizing: border-box;
+    }
+    &-item {
+      opacity: 0;
+      display: block;
+      position: relative;
+      @include box-shadow-base();
+      animation: fadeIn .5s ease-in-out;
+      animation-fill-mode: forwards;
+      padding: 10PX 20PX;
+      // margin: 10PX 0 5PX 0;
+      margin-bottom: 5PX;
+      background: #fff;
+      .user-box {
+        @include flex(row);
+        justify-content: space-between;
+        // align-items: center;
+        .user-info {
+          @include flex(row);
+          align-items: center;
+          margin-bottom: 5PX;
+        }
+        .user-avatar {
+          width: 24PX;
+          height: 24PX;
+          vertical-align: middle;
+        }
+        .user-name {
+          margin-left: 10PX;
+          font-size: 12PX;
+          color: $tip-color;
+          font-weight: 700;
+        }
+      }
+      .answer-desc {
+        font-size: 12PX;
+        color: #333;
       }
     }
   }
   .content {
     flex: 1;
-    margin-top: 0;
-    padding-bottom: 20px;
+    margin-top: 5PX;
+    padding-bottom: 120px;
     overflow-y: auto;
     position: relative;
     z-index: 2;
@@ -101,10 +132,15 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 120px);
   position: absolute;
   z-index: 0;
   box-sizing: border-box;
+  text-align: center;
+  &-text {
+    color: $tip-color;
+    font-size: 24px;
+  }
 }
 
 .flex-col {
@@ -128,4 +164,15 @@
 }
 .at-float-layout .layout-body__content, .at-float-layout .layout-body {
   max-height: 1000px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    // top: 20px;
+  }
+  to {
+    opacity: 1;
+    // top: 0;
+  }
 }
