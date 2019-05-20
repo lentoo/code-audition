@@ -65,7 +65,7 @@ export default class Message extends Taro.Component {
             </View>
           </AtTabsPane>
         </AtTabs>
-        <CdTabbar value={2}></CdTabbar>
+        <CdTabbar title='消息'></CdTabbar>
       </View>
     );
   }
