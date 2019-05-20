@@ -34,7 +34,6 @@ class App extends Component {
       'pages/category/index',
       'pages/scan-code-login/index',
       'pages/user/index',
-      'pages/user/publish/index',
       'pages/user/publish/open-question/index',
       'pages/user/publish/open-question/choose-category',
       'pages/user/publish/open-question/submit-success',
