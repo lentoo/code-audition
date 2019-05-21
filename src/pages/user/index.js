@@ -2,7 +2,6 @@ import Taro from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import { connect } from '@tarojs/redux';
-
 import { Utils } from '@/utils';
 import CdTabbar from '@/components/cd-tabbar';
 import './index.scss'
@@ -24,9 +23,15 @@ class User extends Taro.Component {
   }
   state = {
     menus: [],
-    statusBarHeight: Utils.getSystemInfoSync().statusBarHeight
+    statusBarHeight: Utils.getSystemInfoSync().statusBarHeight,
+    userInfo: {}
   }
   componentDidMount() {
+    Taro.getUserInfo().then(res => {
+      this.setState({
+        userInfo: res.userInfo
+      })
+    })
     this.setState({
       menus: [
         {
@@ -95,6 +100,7 @@ class User extends Taro.Component {
     })
   }
   render() {
+    const { userInfo } = this.state
     return (
       <View className='user'>
         <View className='icons' style={
@@ -117,9 +123,9 @@ class User extends Taro.Component {
               left: Taro.pxTransform(5)
             }}
             >
-              <Image className='avatar' src='https://avatars0.githubusercontent.com/u/24666230?s=460&v=4'></Image>
+              <Image className='avatar' src={userInfo.avatarUrl}></Image>
               <View>
-                <Text className='avatar-name'>小茹</Text>
+                <Text className='avatar-name'>{userInfo.nickName}</Text>
               </View>
             </View>
           </View>

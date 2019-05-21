@@ -47,9 +47,6 @@ export default class Home extends Taro.Component {
     enablePullDownRefresh: true,
     // navigationStyle: 'custom',
   }
-  componentWillMount() {
-    // this.loadData()
-  }
   /**
    * @description 页面滚动回调
    * @author lentoo
@@ -152,6 +149,7 @@ export default class Home extends Taro.Component {
     event.stopPropagation();
 
   }
+
   openComment(id) {
     console.log(id)
     this.setState({

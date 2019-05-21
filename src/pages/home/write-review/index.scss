@@ -1,0 +1,42 @@
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/mixins.scss';
+.write-review {
+  // background: #fff;
+  opacity: 0;
+  animation: fadeIn .8s ease-out;
+  animation-fill-mode: forwards;
+  .at-textarea {
+    // border: 0;
+    height: 100%;
+
+    .at-textarea__textarea {
+      font-size: 28px;
+    }
+  }
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    // @include box-shadow-top();
+    box-shadow: 0px 0 10px #DCDFE6;
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: env(safe-area-inset-bottom);
+    font-size: 14PX;
+    color: $primary-color;
+    @include flex(row);
+    justify-content: flex-end;
+    &-item {
+      padding: 12PX 20PX;
+    }
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

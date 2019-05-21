@@ -19,8 +19,13 @@ export default class CdTabbar extends Taro.Component {
     this.state.tabList = tabList
   }
   handleClick (value) {
+    Taro.showNavigationBarLoading()
+    Taro.showLoading()
     Taro.redirectTo({
       url: this.state.tabList[value].url
+    }).then(() => {
+      Taro.hideLoading()
+      Taro.hideNavigationBarLoading()
     })
     this.setState({
       current: value

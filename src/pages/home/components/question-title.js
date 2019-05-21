@@ -13,6 +13,24 @@ export default class QuestionTitle extends Taro.Component {
   static defaultProps = {
     question: {}
   }
+  constructor (prop) {
+    super(prop)
+    this.toWriteReview = this.toWriteReview.bind(this)
+  }
+  /**
+   * @description 跳转写评论页面
+   * @author lentoo
+   * @date 2019-05-21
+   * @memberof Home
+   */
+  toWriteReview() {
+    Taro.showLoading()
+    Taro.navigateTo({
+      url: 'write-review/index?title=' + this.props.question.title
+    }).then(() => {
+      Taro.hideLoading()
+    })
+  }
   render() {
     const { question } = this.props
     return (
@@ -70,10 +88,10 @@ export default class QuestionTitle extends Taro.Component {
               关注
                     </Text>
           </View>
-          <View className='title-actions-item'>
+          <View className='title-actions-item' onClick={this.toWriteReview}>
             <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='xie' size='16' color='#007fff'></AtIcon>
             <Text>
-              写答案
+              写评论
                     </Text>
           </View>
         </View>
