@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import { SAFE_AREA_INSET_BOTTOM } from '@/constants/common';
-import { AtTextarea, AtToast } from 'taro-ui';
+import { AtTextarea, AtToast, AtIcon } from 'taro-ui';
 import './index.scss'
 /**
  * @description 写评论页面
@@ -34,7 +34,7 @@ export default class WriteReview extends Taro.Component {
    * @date 2019-05-21
    * @memberof WriteReview
    */
-  setPageTitle () {
+  setPageTitle() {
     Taro.setNavigationBarTitle({
       title: this.$router.params.title
     })
@@ -45,7 +45,7 @@ export default class WriteReview extends Taro.Component {
    * @date 2019-05-21
    * @memberof WriteReview
    */
-  onConfirm () {
+  onConfirm() {
     console.log('onConfirm')
     this.onSubmit()
   }
@@ -55,15 +55,30 @@ export default class WriteReview extends Taro.Component {
    * @date 2019-05-21
    * @memberof WriteReview
    */
-  onSubmit () {
+  onSubmit() {
     Taro.showToast({
       title: 'onSubmit',
       icon: 'none'
     })
   }
   render() {
+    const { nickName } = this.props
     return (
       <View className='write-review'>
+        <View className='tips'>
+          {/* <View> */}
+            <AtIcon className='icon-tags' size='18' color='#606266' value='bookmark'></AtIcon>
+            <Text>有理有据的答案，更容易让人信服~</Text>
+          {/* </View> */}
+        </View>
+
+        {
+          nickName && (
+            <View className='reply'>
+              <Text>@ {nickName}</Text>
+            </View>
+          )
+        }
         <AtTextarea
           value={this.state.value}
           onChange={e => {
@@ -77,7 +92,7 @@ export default class WriteReview extends Taro.Component {
           count={false}
           onConfirm={this.onConfirm}
           height={500}
-          placeholder='有爱评论，说点儿好听的~'
+          placeholder={nickName ? '填写回复内容' : '填写题目答案'}
         />
         <View className='footer' style={{
           bottom: `${this.state.keyboardHeight}px`

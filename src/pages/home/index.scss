@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   .main {
+    // will-change: transform;
+    transition: .5s all cubic-bezier(0.075, 0.82, 0.165, 1);
     position: relative;
     flex: 1;
     display: flex;
@@ -36,6 +38,8 @@
       margin-top: 5PX;
       flex: 1;
       padding-bottom: 120px;
+      margin-bottom: costant(safe-area-inset-bottom);
+      margin-bottom: env(safe-area-inset-bottom);
       // padding-bottom: 120px;
       @include flex(column);
     }
@@ -150,6 +154,12 @@
 .h100 {
   height: 100%;
 }
+.fixed {
+  will-change: right;
+  position: fixed;
+  right: 16PX;
+  bottom: 100PX;
+}
 .comment-input {
   width: 100%;
   position: fixed;
@@ -175,4 +185,14 @@
     opacity: 1;
     // top: 0;
   }
+}
+.slide-left {
+  transform: translate3d(-100%, 0, 0)
+}
+.slide-right {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  transform: translate3d(100%, 0, 0)
 }

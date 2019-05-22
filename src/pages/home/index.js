@@ -1,21 +1,19 @@
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView, Swiper, SwiperItem, Image } from '@tarojs/components';
-import { AtIcon, AtButton, AtFloatLayout, AtLoadMore, AtActionSheet, AtActionSheetItem } from 'taro-ui';
+import { AtIcon, AtButton, AtFloatLayout, AtLoadMore, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
 
 //#region Components
 
-import CdTabbar from '../../components/cd-tabbar';
-import CdTitle from '../../components/cd-header'
+import CdTabbar from '../../components/cd-tabbar'
 import CdComment from '../../components/cd-comment'
 import CdParseWxml from '../../components/cd-parse-wxml'
-import QuestionTitle from './components/question-title';
+import QuestionTitle from './components/question-title'
 
 //#endregion Components
 import { ICON_PREFIX_CLASS } from '../../constants/common'
 
 import './index.scss'
-import { Utils } from '../../utils';
-import { getQuestion } from '../../api/home';
+import { getQuestion } from '../../api/home'
 
 export default class Home extends Taro.Component {
   constructor (params) {
@@ -38,8 +36,9 @@ export default class Home extends Taro.Component {
         ]
       },
       showActionSheet: false,
+      current: null,
+      next: false
     }
-    this.handleTapItem = this.handleTapItem.bind(this)
   }
   config = {
     navigationBarTitleText: '码上面试',
@@ -135,19 +134,35 @@ export default class Home extends Taro.Component {
 
   }
   /**
-   * @description 当我们点击答案的头部是会触发，弹出 ActionSheet
+   * @description 当我们点击答案的头部时会触发，弹出 ActionSheet
    * @author lentoo
    * @date 2019-05-20
    * @param {*} event
    * @memberof Home
    */
-  handleTapItem (event) {
-    console.log('event', event);
+  handleTapItem (item) {
     this.setState({
-      showActionSheet: true
+      showActionSheet: true,
+      current: item
     })
-    event.stopPropagation();
-
+    console.log('item', item)
+  }
+  /**
+   * @description 点击回复
+   *
+   * @memberof Home
+   */
+  handleReplyClick () {
+    const { current, question } = this.state
+    Taro.showLoading()
+    Taro.navigateTo({
+      url: `write-review/index?nickName=${current.nickName}&id=${current.id}&title=${question.title}`,
+    }).then(() => {
+      Taro.hideLoading()
+      this.setState({
+        showActionSheet: false
+      })
+    })
   }
 
   openComment(id) {
@@ -157,9 +172,21 @@ export default class Home extends Taro.Component {
     })
 
   }
+  onFabNextClick () {
+    this.setState({
+      next: true
+    })
+    Taro.showLoading()
+    Taro.vibrateShort()
+    setTimeout(Taro.hideLoading, 1000)
+  }
+  
   render() {
     const { question } = this.state
-    const arr = new Array(10).fill(1)
+    const arr = new Array(10).fill({
+      id: 1,
+      nickName: '陈大鱼头'
+    })
     let showAnswer = this.state.$switch ? (
       // <View className='card content' onClick={this.doubleTap.bind(this)}>
       //   <View className='answer-wrapper'>
@@ -214,9 +241,9 @@ export default class Home extends Taro.Component {
             arr.map((item, index) => {
               return (
                 <View className='answer-item'
-                  key={index}
+                  key={item.id}
                 >
-                  <View className='user-box' onClick={this.handleTapItem}>
+                  <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
                     <View className='user-info'>
                       <View className='user-avatar-box'>
                         <Image className='user-avatar' src={question.avatarUrl}></Image>
@@ -235,9 +262,7 @@ export default class Home extends Taro.Component {
                   </View>
                   <View className='answer-desc'>
                     <CdParseWxml template={question.answerOfhtml}></CdParseWxml>
-                    {/* <Text>
-                      {question.answerOfhtml}
-                    </Text> */}
+                    
                   </View>
                 </View>
               )
@@ -274,26 +299,18 @@ export default class Home extends Taro.Component {
           </View>
         </View>
       )
-
+    
     return (
       <View className='home'>
-        {/* <CdTitle title={this.state.title}></CdTitle> */}
-        <View className='main'>
-          {/* <ScrollView
-            scrollY
-            style={
-              {
-                height: `${this.state.clientHeight - 50}px`
-              }
-            }
-          > */}
-          {/* <View className='flex-col item' id='item1'> */}
+        <View className={['main', this.state.next ? '' : ''].join(' ')}>
           <QuestionTitle question={question}></QuestionTitle>
           {showAnswer}
-          {/* </View>
-          </ScrollView> */}
+          <View className='fixed'>
+            <AtFab onClick={this.onFabNextClick.bind(this)} size='small'><Text className='at-icon at-icon-chevron-down'></Text></AtFab>
+          </View>
         </View>
-        <View className='comment-box'>
+        
+        {/* <View className='comment-box'>
           <AtFloatLayout
             isOpened={this.state.isOpenComment}
             onClose={() => this.setState({
@@ -303,12 +320,13 @@ export default class Home extends Taro.Component {
 
             <CdComment></CdComment>
           </AtFloatLayout>
-        </View>
+        </View> */}
+
         <AtActionSheet
           isOpened={this.state.showActionSheet}
           cancelText='取消'
         >
-          <AtActionSheetItem>
+          <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
             回复
           </AtActionSheetItem>
         </AtActionSheet>

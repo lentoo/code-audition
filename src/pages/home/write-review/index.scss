@@ -1,16 +1,35 @@
 @import '../../../assets/styles/var.scss';
 @import '../../../assets/styles/mixins.scss';
 .write-review {
-  // background: #fff;
-  opacity: 0;
-  animation: fadeIn .8s ease-out;
-  animation-fill-mode: forwards;
+  background: #fff;
   .at-textarea {
-    // border: 0;
+    border: 0;
     height: 100%;
 
     .at-textarea__textarea {
-      font-size: 28px;
+      font-size: 14PX;
+    }
+  }
+  .reply {
+    padding: 10PX;
+    padding-bottom: 0;
+    font-size: 14PX;
+    color: $--color-text-secondary;
+  }
+  .tips {
+    margin: 10PX;
+    box-sizing: border-box;
+    padding: 10PX;
+    // padding-left: 30PX;
+    border-radius: 6PX;
+    background: #f5f5f4;
+    font-size: 12PX;
+    color: $--color-text-regular;
+    position: relative;
+    .icon-tags {
+      margin-right: 5PX;
+      position: relative;
+      top: -2PX;
     }
   }
   .footer {
@@ -30,13 +49,5 @@
     &-item {
       padding: 12PX 20PX;
     }
-  }
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

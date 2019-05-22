@@ -51,6 +51,9 @@ export default class QuestionTitle extends Taro.Component {
             </View>
             <View className='title-avatar'>
               <Image className='title-avatar-img' src={question.avatarUrl}></Image>
+              <View className='title-avatar-name'>
+                <Text>{question.nickName}</Text>
+              </View>
             </View>
           </View>
           <View>
@@ -91,7 +94,7 @@ export default class QuestionTitle extends Taro.Component {
           <View className='title-actions-item' onClick={this.toWriteReview}>
             <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='xie' size='16' color='#007fff'></AtIcon>
             <Text>
-              写评论
+              写答案
                     </Text>
           </View>
         </View>

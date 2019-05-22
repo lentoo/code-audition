@@ -41,10 +41,19 @@
       }
     }
     &-avatar{
+      position: relative;
       &-img {
         width: 30PX;
         height: 30PX;
         @include border-radius;
+      }
+      &-name {
+        position: absolute;
+        bottom: -14px;        
+        text-align: center;
+        font-size: 12PX;
+        font-weight: 700;
+        color: $tip-color;
       }
     }
     &-text {
