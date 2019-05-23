@@ -36,8 +36,7 @@ export default class Home extends Taro.Component {
         ]
       },
       showActionSheet: false,
-      current: null,
-      next: false
+      current: null
     }
   }
   config = {
@@ -172,13 +171,17 @@ export default class Home extends Taro.Component {
     })
 
   }
-  onFabNextClick () {
-    this.setState({
-      next: true
+  onFabNextClick (event) {
+    event.stopPropagation()
+    Taro.startPullDownRefresh()
+    Taro.showLoading({
+      mask: true
     })
-    Taro.showLoading()
     Taro.vibrateShort()
-    setTimeout(Taro.hideLoading, 1000)
+    setTimeout(() => {
+      Taro.hideLoading()
+      Taro.stopPullDownRefresh()
+    }, 1000)
   }
   
   render() {
@@ -188,45 +191,6 @@ export default class Home extends Taro.Component {
       nickName: '陈大鱼头'
     })
     let showAnswer = this.state.$switch ? (
-      // <View className='card content' onClick={this.doubleTap.bind(this)}>
-      //   <View className='answer-wrapper'>
-      //     <View className='avatar'>
-      //       <Image
-      //         style={
-      //           {
-      //             width: '30px',
-      //             height: '30px'
-      //           }
-      //         }
-      //         src={question.avatarUrl}
-      //       ></Image>
-      //       {/* <AtIcon prefixClass={ICON_PREFIX_CLASS} value='biaoqing' size='30'></AtIcon> */}
-      //       <Text className='avatar-name'>{question.nickName}</Text>
-      //     </View>
-      //     <View className='answer-content-wrapper'>
-      //       <Text className='answer-content'>
-      //         {question.answerOfhtml}
-      //       </Text>
-      //     </View>
-      //   </View>
-      //   <View className='actions'>
-      //     <View className='action-item'>
-      //       {
-      //         this.state.like ? (
-      //           <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, false)} value='xihuan' color='#007fff'></AtIcon>
-      //         ) : (
-      //             <AtIcon prefixClass={ICON_PREFIX_CLASS} onClick={this.setLike.bind(this, true)} value='xihuan'></AtIcon>
-      //           )
-      //       }
-      //     </View>
-      //     <View className='action-item'>
-      //       <AtIcon onClick={this.openComment.bind(this, '1')} prefixClass={ICON_PREFIX_CLASS} size='26' value='xiaoxi2'></AtIcon>
-      //     </View>
-      //     <View className='action-item'>
-      //       <AtButton openType='share'><AtIcon value='share-2'></AtIcon></AtButton>
-      //     </View>
-      //   </View>
-      // </View>
       <View className='answer-wrapper'>
         <ScrollView
           className='answer-list'
@@ -302,26 +266,14 @@ export default class Home extends Taro.Component {
     
     return (
       <View className='home'>
-        <View className={['main', this.state.next ? '' : ''].join(' ')}>
+        <View className='main'>
           <QuestionTitle question={question}></QuestionTitle>
           {showAnswer}
           <View className='fixed'>
             <AtFab onClick={this.onFabNextClick.bind(this)} size='small'><Text className='at-icon at-icon-chevron-down'></Text></AtFab>
           </View>
         </View>
-        
-        {/* <View className='comment-box'>
-          <AtFloatLayout
-            isOpened={this.state.isOpenComment}
-            onClose={() => this.setState({
-              isOpenComment: false
-            })}
-          >
-
-            <CdComment></CdComment>
-          </AtFloatLayout>
-        </View> */}
-
+      
         <AtActionSheet
           isOpened={this.state.showActionSheet}
           cancelText='取消'

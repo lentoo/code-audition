@@ -61,10 +61,10 @@ export const dispatchUserSort = payload => createAction({
   url: API_USER_SORT,
   type: USER_SORT,
   payload,
-  method: 'PUT',
-  fetchOptions: {
-    contentType: 'application/json'
-  }
+  method: 'PUT'
+  // fetchOptions: {
+  //   contentType: 'application/json'
+  // }
 })
 
 export const dispatchSortList = payload => createAction({

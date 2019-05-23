@@ -98,6 +98,9 @@ export default class WriteReview extends Taro.Component {
           bottom: `${this.state.keyboardHeight}px`
         }}
         >
+          {/* <View className='footer-item' onClick={this.onSubmit}>
+            <AtIcon value='image' size={20}></AtIcon>
+          </View> */}
           <View className='footer-item' onClick={this.onSubmit}>
             <Text>提交</Text>
           </View>

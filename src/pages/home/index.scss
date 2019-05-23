@@ -20,17 +20,9 @@
   }
   .tabbar {
     border-top: 1PX solid $--border-color-base;
+    padding-bottom: costant(safe-area-inset-bottom);
     padding-bottom: env(safe-area-inset-bottom);
     width: 100%;
-  }
-  .card {
-    box-sizing: border-box;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(201, 201, 201, 0.3);
-    padding: 10PX;
-    transition: .5s all ease;
-    opacity: 1;
   }
 
   .answer {
@@ -87,48 +79,6 @@
       }
     }
   }
-  .content {
-    flex: 1;
-    margin-top: 5PX;
-    padding-bottom: 120px;
-    overflow-y: auto;
-    position: relative;
-    z-index: 2;
-    .avatar {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      &-name {
-        font-size: 28px;
-        color: #333;
-        padding-left: 20px;
-      }
-    }
-    .answer-content-wrapper {
-      text-indent: 2em;
-      .answer-content {
-        text-indent: 48px;
-        font-size: 24px;
-        color: #333;
-      }
-    }
-    .actions {
-      position: fixed;
-      right: 30px;
-      bottom: 20%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 10;
-      .action-item {
-        margin-bottom: 30px;
-        .at-button {
-          border-width: 0;
-        }
-      }
-    }
-  }
 }
 .tap {
   display: flex;
@@ -146,37 +96,12 @@
     font-size: 24px;
   }
 }
-
-.flex-col {
-  display: flex;
-  flex-direction: column;
-}
-.h100 {
-  height: 100%;
-}
 .fixed {
   will-change: right;
   position: fixed;
   right: 16PX;
   bottom: 100PX;
-}
-.comment-input {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  margin-left: 0;
-  padding-left: 20px;
-  padding-bottom: env(safe-area-inset-bottom)
-}
-.at-float-layout__container {
-  max-height: 1000px;
-}
-.at-float-layout .layout-body__content, .at-float-layout .layout-body {
-  max-height: 1000px;
-}
-
-@keyframes fadeIn {
+}@keyframes fadeIn {
   0% {
     opacity: 0;
     // top: 20px;

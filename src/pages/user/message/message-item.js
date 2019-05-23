@@ -8,7 +8,7 @@ export default class MessageItem extends Taro.Component {
     return (
       <View className='message-item'>
         <View className='message-avatar'>
-          <Image className='message-avatar-img' src='https://axhub.im/pro/914cebb9882c916b/images/消息（用户）/u33.svg'></Image>
+          <Image className='message-avatar-img' src='https://avatars0.githubusercontent.com/u/24666230?s=460&v=4'></Image>
         </View>
         <View className='message-content'>
           <View className='message-content-title'>

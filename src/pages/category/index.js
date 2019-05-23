@@ -202,8 +202,10 @@ class Category extends Component {
   async saveUserSort () {
     // 找到选中的分类
     await this.props.dispatchUserSort(
-      this.state.sortListData.filter(sort => Boolean(sort.select))
-      .map(sort => sort.id)
+      {
+        sortIds: this.state.sortListData.filter(sort => Boolean(sort.select))
+        .map(sort => sort.id)
+      }
     )
   }
 
