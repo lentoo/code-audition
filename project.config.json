@@ -82,7 +82,7 @@
 				{
 					"id": -1,
 					"name": "开放题",
-					"pathName": "pages/publish/open-question/index",
+					"pathName": "pages/user/publish/open-question/index",
 					"query": "",
 					"scene": null
 				},

@@ -5,10 +5,9 @@ import { AtIcon, AtButton, AtFloatLayout, AtLoadMore, AtActionSheet, AtActionShe
 //#region Components
 
 import CdTabbar from '../../components/cd-tabbar'
-import CdComment from '../../components/cd-comment'
-import CdParseWxml from '../../components/cd-parse-wxml'
 import QuestionTitle from './components/question-title'
-
+import AnswerList from './components/answer-list'
+import NotQuestion from './components/not-question'
 //#endregion Components
 import { ICON_PREFIX_CLASS } from '../../constants/common'
 
@@ -16,12 +15,11 @@ import './index.scss'
 import { getQuestion } from '../../api/home'
 
 export default class Home extends Taro.Component {
-  constructor (params) {
+  constructor(params) {
     super(params)
     this.state = {
       like: false,
       $switch: true,
-      isOpenComment: false,
       // clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight,
       question: {
         title: '面试官：自己搭建过 Vue 开发环境吗？',
@@ -35,6 +33,7 @@ export default class Home extends Taro.Component {
           'Vue2'
         ]
       },
+      showNotQuestion: false,
       showActionSheet: false,
       current: null
     }
@@ -125,13 +124,6 @@ export default class Home extends Taro.Component {
     })
     console.log(this.state);
   }
-  setSwitch(state) {
-    console.log('setSwitch', state);
-    this.setState({
-      $switch: state
-    })
-
-  }
   /**
    * @description 当我们点击答案的头部时会触发，弹出 ActionSheet
    * @author lentoo
@@ -139,7 +131,7 @@ export default class Home extends Taro.Component {
    * @param {*} event
    * @memberof Home
    */
-  handleTapItem (item) {
+  handleTapItem(item) {
     this.setState({
       showActionSheet: true,
       current: item
@@ -151,7 +143,7 @@ export default class Home extends Taro.Component {
    *
    * @memberof Home
    */
-  handleReplyClick () {
+  handleReplyClick() {
     const { current, question } = this.state
     Taro.showLoading()
     Taro.navigateTo({
@@ -164,14 +156,14 @@ export default class Home extends Taro.Component {
     })
   }
 
-  openComment(id) {
-    console.log(id)
-    this.setState({
-      isOpenComment: true
-    })
-
-  }
-  onFabNextClick (event) {
+  /**
+   * @description 点击下一题
+   * @author lentoo
+   * @date 2019-05-24
+   * @param {*} event
+   * @memberof Home
+   */
+  onFabNextClick(event) {
     event.stopPropagation()
     Taro.startPullDownRefresh()
     Taro.showLoading({
@@ -183,97 +175,32 @@ export default class Home extends Taro.Component {
       Taro.stopPullDownRefresh()
     }, 1000)
   }
-  
   render() {
-    const { question } = this.state
-    const arr = new Array(10).fill({
+    const { question, showNotQuestion } = this.state
+    const answerList = new Array(10).fill({
       id: 1,
       nickName: '陈大鱼头'
     })
-    let showAnswer = this.state.$switch ? (
-      <View className='answer-wrapper'>
-        <ScrollView
-          className='answer-list'
-          scrollY
-          style={
-            {
-              maxHeight: '100%'
-            }
-          }
-        >
-          {
-            arr.map((item, index) => {
-              return (
-                <View className='answer-item'
-                  key={item.id}
-                >
-                  <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
-                    <View className='user-info'>
-                      <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={question.avatarUrl}></Image>
-                      </View>
-                      <View className='user-name'>
-                        <Text className='user-name-text'>
-                          {
-                            question.nickName
-                          }
-                        </Text>
-                      </View>
-                    </View>
-                    <View className='icon-more'>
-                      <AtIcon prefixClass={ICON_PREFIX_CLASS} value='more-fill' size={16} color='#999'></AtIcon>
-                    </View>
-                  </View>
-                  <View className='answer-desc'>
-                    <CdParseWxml template={question.answerOfhtml}></CdParseWxml>
-                    
-                  </View>
-                </View>
-              )
-            })
-          }
-
-
-          <AtLoadMore
-            status='noMore'
-            noMoreText='-- No More Data --'
-            noMoreTextStyle={
-              {
-                color: '#ccc',
-                fontSize: '14px'
-              }
-            }
-          ></AtLoadMore>
-        </ScrollView>
-      </View>
-    ) :
-      (
-        <View className='tap'>
-          <View style={
-            {
-              padding: Taro.pxTransform(20)
-            }
-          }
-            onClick={this.setSwitch.bind(this, true)}
-          >
-            <AtIcon prefixClass={ICON_PREFIX_CLASS} value='tap' size='60' color='#cdcdcd'></AtIcon>
-            <View>
-              <Text className='tap-text'>触摸显示答案</Text>
-            </View>
-          </View>
-        </View>
-      )
-    
     return (
       <View className='home'>
-        <View className='main'>
-          <QuestionTitle question={question}></QuestionTitle>
-          {showAnswer}
-          <View className='fixed'>
-            <AtFab onClick={this.onFabNextClick.bind(this)} size='small'><Text className='at-icon at-icon-chevron-down'></Text></AtFab>
-          </View>
-        </View>
-      
+        {
+          showNotQuestion ? (
+            <NotQuestion></NotQuestion>
+          ) : (
+              <View className='main'>
+                <QuestionTitle question={question}></QuestionTitle>
+
+                <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} question={question}></AnswerList>
+
+                <View className='fixed'>
+                  <AtFab onClick={this.onFabNextClick.bind(this)} size='small'><Text className='at-icon at-icon-chevron-down'></Text></AtFab>
+                </View>
+              </View>
+            )
+        }
+
+
+
         <AtActionSheet
           isOpened={this.state.showActionSheet}
           cancelText='取消'
@@ -283,7 +210,7 @@ export default class Home extends Taro.Component {
           </AtActionSheetItem>
         </AtActionSheet>
         {/* <View className='tabbar'> */}
-          <CdTabbar title='首页'></CdTabbar>
+        <CdTabbar title='首页'></CdTabbar>
         {/* </View> */}
       </View>
     );

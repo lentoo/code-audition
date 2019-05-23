@@ -20,80 +20,8 @@
   }
   .tabbar {
     border-top: 1PX solid $--border-color-base;
-    padding-bottom: costant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+    @include pbSafe;
     width: 100%;
-  }
-
-  .answer {
-    &-wrapper {
-      margin-top: 5PX;
-      flex: 1;
-      padding-bottom: 120px;
-      margin-bottom: costant(safe-area-inset-bottom);
-      margin-bottom: env(safe-area-inset-bottom);
-      // padding-bottom: 120px;
-      @include flex(column);
-    }
-    &-list {
-      flex: 1;
-      overflow: hidden;
-
-      box-sizing: border-box;
-    }
-    &-item {
-      opacity: 0;
-      display: block;
-      position: relative;
-      @include box-shadow-base();
-      animation: fadeIn .5s ease-in-out;
-      animation-fill-mode: forwards;
-      padding: 10PX 20PX;
-      // margin: 10PX 0 5PX 0;
-      margin-bottom: 5PX;
-      background: #fff;
-      .user-box {
-        @include flex(row);
-        justify-content: space-between;
-        // align-items: center;
-        .user-info {
-          @include flex(row);
-          align-items: center;
-          margin-bottom: 5PX;
-        }
-        .user-avatar {
-          width: 24PX;
-          height: 24PX;
-          vertical-align: middle;
-        }
-        .user-name {
-          margin-left: 10PX;
-          font-size: 12PX;
-          color: $tip-color;
-          font-weight: 700;
-        }
-      }
-      .answer-desc {
-        font-size: 12PX;
-        color: #333;
-      }
-    }
-  }
-}
-.tap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: calc(100% - 120px);
-  position: absolute;
-  z-index: 0;
-  box-sizing: border-box;
-  text-align: center;
-  &-text {
-    color: $tip-color;
-    font-size: 24px;
   }
 }
 .fixed {
@@ -101,15 +29,6 @@
   position: fixed;
   right: 16PX;
   bottom: 100PX;
-}@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    // top: 20px;
-  }
-  to {
-    opacity: 1;
-    // top: 0;
-  }
 }
 .slide-left {
   transform: translate3d(-100%, 0, 0)

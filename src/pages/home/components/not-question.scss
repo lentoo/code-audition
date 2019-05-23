@@ -1,0 +1,28 @@
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/animation.scss';
+@import '../../../assets/styles/mixins.scss';
+.not-question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100% - 120px);
+  @include pbSafe;
+  @include fadeIn;
+  position: absolute;
+  z-index: 0;
+  box-sizing: border-box;
+  text-align: center;
+  &-text {
+    margin-top: 2PX;
+    color: $tip-color;
+    font-size: 12PX;
+  }
+  .select-question-text {
+    margin-top: 10PX;
+    color: $primary-color;
+    font-size: 12PX;
+    font-weight: 700;
+  }
+}
