@@ -39,15 +39,13 @@ export default class QuestionTitle extends Taro.Component {
         <View className='title-info'>
           <View className='title-label'>
             <View className='title-tags'>
-              <Text className='title-tag'>
-                Vue1
-                        </Text>
-              <Text className='title-tag'>
-                Vue2
-                        </Text>
-              <Text className='title-tag'>
-                Vue3
-                        </Text>
+              {
+                question.sorts.map(tag => {
+                  return (
+                    <Text key={tag} className='title-tag'>{tag}</Text>
+                  )
+                })
+              }              
             </View>
             <View className='title-avatar'>
               <Image className='title-avatar-img' src={question.avatarUrl}></Image>
@@ -60,7 +58,9 @@ export default class QuestionTitle extends Taro.Component {
             <Text className='title-text'>{question.title}</Text>
           </View>
           <View className='title-desc'>
-            <CdParseWxml template={question.descriptionOfhtml}></CdParseWxml>
+            { 
+              question.descriptionOfhtml && <CdParseWxml template={question.descriptionOfhtml}></CdParseWxml>
+            }            
             {/* <Text>{question.descriptionOfhtml}</Text> */}
           </View>
           <View className='title-data'>

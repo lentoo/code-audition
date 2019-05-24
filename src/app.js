@@ -28,9 +28,9 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/index/index',
       'pages/home/index',
       'pages/home/write-review/index',
-      'pages/index/index',
       'pages/demo/index',
       'pages/category/index',
       'pages/scan-code-login/index',

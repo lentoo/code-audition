@@ -44,6 +44,9 @@ export default class Home extends Taro.Component {
     enablePullDownRefresh: true,
     // navigationStyle: 'custom',
   }
+  componentDidMount () {
+    this.loadData()
+  }
   /**
    * @description 页面滚动回调
    * @author lentoo
@@ -78,7 +81,7 @@ export default class Home extends Taro.Component {
    */
   loadData = () => {
     Taro.showLoading()
-    getQuestion()
+    return getQuestion()
       .then(res => {
         Taro.hideLoading()
         this.setState({
@@ -163,24 +166,26 @@ export default class Home extends Taro.Component {
    * @param {*} event
    * @memberof Home
    */
-  onFabNextClick(event) {
+  async onFabNextClick(event) {
     event.stopPropagation()
     Taro.startPullDownRefresh()
     Taro.showLoading({
       mask: true
     })
     Taro.vibrateShort()
-    setTimeout(() => {
-      Taro.hideLoading()
-      Taro.stopPullDownRefresh()
-    }, 1000)
+    await this.loadData()
+    // setTimeout(() => {
+    Taro.hideLoading()
+    Taro.stopPullDownRefresh()
+    // }, 1000)
   }
   render() {
     const { question, showNotQuestion } = this.state
-    const answerList = new Array(10).fill({
-      id: 1,
-      nickName: '陈大鱼头'
-    })
+    const answerList = []
+    // new Array(10).fill({
+    //   id: 1,
+    //   nickName: '陈大鱼头'
+    // })
     return (
       <View className='home'>
         {
