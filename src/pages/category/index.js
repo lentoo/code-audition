@@ -1,31 +1,22 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Swiper, SwiperItem } from '@tarojs/components'
 import { AtSearchBar, AtButton } from 'taro-ui'
-import { connect } from '@tarojs/redux';
-
-import * as loginActions from '@/actions/login';
 import Grid from './components/grid'
 import './index.scss'
 import { Storage, Utils } from '../../utils';
 import { set as setGlobalData, get as getGlobalData } from '../../utils/global-data';
-import { USER_INFO, OPEN_ID, FIRST, SORT_LIST } from '../../constants/common';
+import { USER_INFO, OPEN_ID, FIRST } from '../../constants/common';
+import { getCategories, saveUserInfo, vaildOne, putUserCategories } from '../../api/home';
 
 const itemHeight = 113
-@connect(
-  state => ({ login: state.login}),
-  {
-    ...loginActions
-  })
 class Category extends Component {
-  current = 0
-  constructor() {
+  constructor(props) {
+    super(props)
     const windowHeight = Utils.getSystemInfoSync().windowHeight
     const maxLength = windowHeight > 800 ? 12 : 9
-    super(...arguments)
     this.state = {
       first: true,
       value: '',
-      current: 0,
       last: false,
       sortList: null,
       limit: maxLength,
@@ -47,23 +38,33 @@ class Category extends Component {
     }
     this.getSortList()
   }
-  onPullDownRefresh() {
+  async onPullDownRefresh() {
     Taro.vibrateShort()
-    this.getSortList().then(() => {
-      Taro.stopPullDownRefresh()
-    })
+    await this.getSortList()
+    Taro.stopPullDownRefresh()
   }
   onChange(value) {
     this.setState({
       value: value
     })
   }
+  /**
+   * @description 点击搜一搜
+   * @author lentoo
+   * @date 2019-05-25
+   * @memberof Category
+   */
   async onActionClick() {
     Taro.showLoading()
     await this.getSortList()
     Taro.hideLoading()
-    console.log('开始搜索');
   }
+  /**
+   * @description 跳转反馈中心页面
+   * @author lentoo
+   * @date 2019-05-25
+   * @memberof Category
+   */
   toFeedbackPage() {
     Taro.navigateTo({
       url: '/pages/user/feedback/index'
@@ -103,28 +104,20 @@ class Category extends Component {
    * @memberof Category
    */
   async getSortList () {
-    Taro.showLoading({
-      title: '正在加载中'
-    })
-    console.log('limit', this.state.limit)
+    Taro.showLoading()
     // TODO: 以后在优化
-    await this.props.dispatchSortList({
+    const res = await getCategories({
       page: 1,
-      sortName: this.state.value,
-      limit: 10000//this.state.limit // 每次请求两页
+      limit: 1000,
+      sorsortName: this.state.value,
     })
-    const { sortList } = this.props.login
-
-    setGlobalData(SORT_LIST, sortList)
 
     this.setState({
-      sortList,
-      sortListData: sortList.data,
-      sortCount: Math.floor(sortList.page.total / this.state.limit),
-    })
+      sortListData: res.data,
+      sortCount: Math.floor(res.page.total / this.state.limit),
+    }, Taro.hideLoading)
 
-    Taro.hideLoading()
-    console.log('sortList', sortList)
+    
   }
   /**
    * @description 更新用户信息
@@ -134,15 +127,19 @@ class Category extends Component {
    * @memberof Category
    */
   async updateUserInfo(userInfo) {
-    const { doSaveUserInfo } = this.props
-    doSaveUserInfo({
+    console.log('doSaveUserInfo', res)
+    const res = await saveUserInfo({
       openId: getGlobalData(OPEN_ID),
-      ...userInfo
-    }).then(res => {
-      console.log('doSaveUserInfo', res)
+      userInfo
     })
-
-
+    console.log('doSaveUserInfo', res)
+    // const { doSaveUserInfo } = this.props
+    // doSaveUserInfo({
+    //   openId: getGlobalData(OPEN_ID),
+    //   ...userInfo
+    // }).then(res => {
+    //   console.log('doSaveUserInfo', res)
+    // })
   }
   async handleGetUserInfo(event) {
     if (this.state.sortListData.filter(sort => Boolean(sort.select)).length === 0) {
@@ -159,9 +156,8 @@ class Category extends Component {
       title: '正在加载中...'
     })
     if (firstValue) {
-      const { doValidOne } = this.props
       // 是否是第一次进入平台
-      const validOne = await doValidOne()
+      const validOne = await vaildOne()
       console.log('validOne', validOne)
       // 是
       if (validOne) {
@@ -205,22 +201,20 @@ class Category extends Component {
    */
   async saveUserSort () {
     // 找到选中的分类
-    await this.props.dispatchUserSort(
-      {
-        sortIds: this.state.sortListData.filter(sort => Boolean(sort.select))
-        .map(sort => sort.id)
-      }
-    )
+    return putUserCategories({
+      sortIds: this.state.sortListData.filter(sort => Boolean(sort.select))
+      .map(sort => sort.id)
+    })    
   }
 
   handleGridChange (item) {
     const sortListData = Object.assign(this.state.sortListData).map(sort => {
       if (sort.id === item.id) {
+        item.select = !item.select
         return item
       }
       return sort
     })
-    console.log(sortListData)
     this.setState({
       sortListData
     })

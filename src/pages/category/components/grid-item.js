@@ -5,21 +5,24 @@ import { ICON_PREFIX_CLASS } from '../../../constants/common'
 import './grid-item.scss'
 
 export default class GridItem extends Taro.Component {
-  componentWillMount () {
-    this.setState({
-      item: Object.assign({}, this.props.item, { select: Boolean(this.props.item.select)})
-    })
-  }
+  // componentWillMount () {
+  //   this.setState({
+  //     item: Object.assign({}, this.props.item, { select: Boolean(this.props.item.select)})
+  //   })
+  // }
   handleClick () {
-    const item = Object.assign({}, this.state.item, { select: !this.state.item.select})
-    this.setState({
-      item: item
-    }, () => {
+    // const item = Object.assign({}, this.state.item, { select: !this.state.item.select})
+    // this.setState({
+    //   item: {
+    //     ...this.state.item,
+    //     select: !this.state.item.select
+    //   }
+    // }, () => {
       this.props.onChange(this.props.item)
-    })
+    // })
   }
   render() {
-    const item = this.state.item
+    const { item } = this.props
     return (
       <View className='cd-grid__item' onClick={this.handleClick.bind(this)}>
         <View className='cd-grid__item__icon'>

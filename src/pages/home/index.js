@@ -13,7 +13,10 @@ import { ICON_PREFIX_CLASS, APP_NAME, UN_SELECTED_CATEGORY, NO_TOPIC } from '../
 
 import './index.scss'
 import { getQuestion } from '../../api/home'
-
+const ERR_CODE = {
+  1: UN_SELECTED_CATEGORY,
+  2: NO_TOPIC
+}
 export default class Home extends Taro.Component {
   constructor(params) {
     super(params)
@@ -21,18 +24,7 @@ export default class Home extends Taro.Component {
       like: false,
       $switch: true,
       // clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight,
-      question: {
-        title: '面试官：自己搭建过 Vue 开发环境吗？',
-        avatarUrl: 'https://avatars0.githubusercontent.com/u/24666230?s=460&v=4',
-        nickName: 'lentoo',
-        answerOfhtml: '<div><p>这是一个p标签的内容</p><img src="https://avatars0.githubusercontent.com/u/24666230?s=460&v=4"/></div>',
-        descriptionOfhtml: '这是web前端开发的高频面试题',
-        sorts: [
-          'Vue',
-          'Vue1',
-          'Vue2'
-        ]
-      },
+      question: {},
       showNoTopic: false,
       noTopicType: UN_SELECTED_CATEGORY,
       showActionSheet: false,
@@ -86,11 +78,11 @@ export default class Home extends Taro.Component {
     return getQuestion()
       .then(res => {
         Taro.hideLoading()
-        const showNoTopic = Object.keys(res).length === 0
+        const showNoTopic = res.errCode !== 0
         this.setState({
           question: res,
           showNoTopic,
-          noTopicType: NO_TOPIC
+          noTopicType: ERR_CODE[res.errCode]
         })
         console.log('res', res);
       })
