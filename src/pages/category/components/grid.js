@@ -22,7 +22,7 @@ export default class Grid extends Taro.Component {
               {
                 item.map((obj, i) => {
                   return (
-                    <View key={i} className='cd-grid__flex-item'>
+                    <View key={obj.id} className='cd-grid__flex-item'>
                       <GridItem onChange={this.handleChange.bind(this)} item={obj}></GridItem>
                     </View>
                   )

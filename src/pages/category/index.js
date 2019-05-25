@@ -58,7 +58,10 @@ class Category extends Component {
       value: value
     })
   }
-  onActionClick() {
+  async onActionClick() {
+    Taro.showLoading()
+    await this.getSortList()
+    Taro.hideLoading()
     console.log('开始搜索');
   }
   toFeedbackPage() {
@@ -107,6 +110,7 @@ class Category extends Component {
     // TODO: 以后在优化
     await this.props.dispatchSortList({
       page: 1,
+      sortName: this.state.value,
       limit: 10000//this.state.limit // 每次请求两页
     })
     const { sortList } = this.props.login
@@ -244,6 +248,11 @@ class Category extends Component {
               value={this.state.value}
               onActionClick={this.onActionClick.bind(this)}
               onChange={this.onChange.bind(this)}
+              onClear={() => {
+                this.setState({
+                  value: ''
+                }, this.onActionClick.bind(this))                
+              }}
             ></AtSearchBar>
           </View>
         </View>
