@@ -109,7 +109,7 @@ class Category extends Component {
     const res = await getCategories({
       page: 1,
       limit: 1000,
-      sorsortName: this.state.value,
+      sortName: this.state.value,
     })
 
     this.setState({
@@ -253,17 +253,15 @@ class Category extends Component {
         <View id='grid' className='grid'>
           <Swiper
             onChange={this.handleChange.bind(this)}
-            // current={this.state.current}
-            // onAnimationFinish={this.changeCategoriesSwiper.bind(this)}
             skipHiddenItemLayout
             style={{
               height: Taro.pxTransform(itemHeight * 2 * (this.state.limit / 3))
             }}
           >
             {
-              changeArrray.map(item => {
+              changeArrray.map((item, index) => {
                 return (
-                  <SwiperItem key={item}>
+                  <SwiperItem key={index}>
                     <View><Grid onChange={this.handleGridChange.bind(this)} data={item}></Grid></View>
                   </SwiperItem>
                 )
