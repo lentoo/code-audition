@@ -1,3 +1,16 @@
+/** 引入主题样式 **/
+// @import '../towxml/style/main.wxss';
+// @import '../towxml/style/theme/light.wxss';
+// @import '../towxml/style/theme/dark.wxss';
 .cd-parse-wxml {
-
+  // line-height: 18PX;
+  .h2w__main {
+    padding: 0;
+    margin: 0;
+  }
+  .h2w__code {
+    // background-color: #fff5f5;
+    // color: #ff502c;
+    // padding: 2PX 4PX;
+  }
 }
