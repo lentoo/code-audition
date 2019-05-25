@@ -7,9 +7,9 @@ import { AtIcon, AtButton, AtFloatLayout, AtLoadMore, AtActionSheet, AtActionShe
 import CdTabbar from '../../components/cd-tabbar'
 import QuestionTitle from './components/question-title'
 import AnswerList from './components/answer-list'
-import NotQuestion from './components/not-question'
+import NoTopic from './components/no-topic'
 //#endregion Components
-import { ICON_PREFIX_CLASS, APP_NAME } from '../../constants/common'
+import { ICON_PREFIX_CLASS, APP_NAME, UN_SELECTED_CATEGORY, NO_TOPIC } from '../../constants/common'
 
 import './index.scss'
 import { getQuestion } from '../../api/home'
@@ -33,7 +33,8 @@ export default class Home extends Taro.Component {
           'Vue2'
         ]
       },
-      showNotQuestion: false,
+      showNoTopic: false,
+      noTopicType: UN_SELECTED_CATEGORY,
       showActionSheet: false,
       current: null
     }
@@ -85,9 +86,11 @@ export default class Home extends Taro.Component {
     return getQuestion()
       .then(res => {
         Taro.hideLoading()
+        const showNoTopic = Object.keys(res).length === 0
         this.setState({
-          question: res
-          // showNotQuestion: Object.keys(res).length === 0
+          question: res,
+          showNoTopic,
+          noTopicType: NO_TOPIC
         })
         console.log('res', res);
       })
@@ -188,7 +191,7 @@ export default class Home extends Taro.Component {
     // }, 1000)
   }
   render() {
-    const { question, showNotQuestion } = this.state
+    const { question, showNoTopic, noTopicType } = this.state
     const answerList = []
     // new Array(10).fill({
     //   id: 1,
@@ -197,8 +200,8 @@ export default class Home extends Taro.Component {
     return (
       <View className='home'>
         {
-          showNotQuestion ? (
-            <NotQuestion></NotQuestion>
+          showNoTopic ? (
+            <NoTopic type={noTopicType}></NoTopic>
           ) : (
               <View className='main'>
                 <QuestionTitle question={question}></QuestionTitle>

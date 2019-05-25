@@ -1,7 +1,7 @@
 @import '../../../assets/styles/var.scss';
 @import '../../../assets/styles/animation.scss';
 @import '../../../assets/styles/mixins.scss';
-.not-question {
+.no-topic {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,7 +19,7 @@
     color: $tip-color;
     font-size: 12PX;
   }
-  .select-question-text {
+  .primary-text {
     margin-top: 10PX;
     color: $primary-color;
     font-size: 12PX;

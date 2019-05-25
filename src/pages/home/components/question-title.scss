@@ -45,7 +45,8 @@
       &-img {
         width: 30PX;
         height: 30PX;
-        @include border-radius;
+        border-radius: 50%;
+        // @include border-radius;
       }
       &-name {
         position: absolute;

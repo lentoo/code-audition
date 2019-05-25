@@ -49,9 +49,9 @@ export default class QuestionTitle extends Taro.Component {
             </View>
             <View className='title-avatar'>
               <Image className='title-avatar-img' src={question.avatarUrl}></Image>
-              <View className='title-avatar-name'>
+              {/* <View className='title-avatar-name'>
                 <Text>{question.nickName}</Text>
-              </View>
+              </View> */}
             </View>
           </View>
           <View>

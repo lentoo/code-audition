@@ -3,6 +3,15 @@
  */
 export const APP_NAME = '码上面试'
 /**
+ * 未选分类
+ */
+export const UN_SELECTED_CATEGORY = 'UN_SELECTED_CATEGORY'
+/**
+ * 没有题目
+ */
+export const NO_TOPIC = 'NO_TOPIC'
+
+/**
  * 图标前缀
  */
 export const ICON_PREFIX_CLASS = 'icon'
