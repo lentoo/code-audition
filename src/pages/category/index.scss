@@ -9,7 +9,9 @@
   .at-search-bar::after {
     border-bottom: 0;
   }
-
+  .at-search-bar__input {
+    padding: 2PX 37PX;
+  }
   .title {
     margin-top: 70px;
     font-weight: 700;
