@@ -1,4 +1,8 @@
 /**
+ * 小程序名称
+ */
+export const APP_NAME = '码上面试'
+/**
  * 图标前缀
  */
 export const ICON_PREFIX_CLASS = 'icon'

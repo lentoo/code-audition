@@ -73,7 +73,7 @@ class ChooseCategory extends Taro.Component {
       console.log('res', res);
       Taro.hideToast()
       Taro.navigateTo({
-        url: '/pages/publish/open-question/submit-success'
+        url: '/pages/user/publish/open-question/submit-success'
       })
     })
   }

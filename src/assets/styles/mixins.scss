@@ -72,9 +72,13 @@
   border-radius: $radius;
 }
 
-@mixin pbSafe () {
+@mixin pb-safe () {
   padding-bottom: costant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
+}
+@mixin mb-safe () {
+  margin-bottom: costant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
 }
 
 @mixin fadeIn () {

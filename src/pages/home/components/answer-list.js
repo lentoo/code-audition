@@ -94,17 +94,39 @@ export default class AnswerList extends Taro.Component {
               )
             })
           }
-
-          <AtLoadMore
-            status='noMore'
-            noMoreText='-- No More Data --'
-            noMoreTextStyle={
-              {
-                color: '#ccc',
-                fontSize: '14px'
-              }
-            }
-          ></AtLoadMore>
+          {
+            (data.length === 0 && question.answerOfhtml) ? (
+              <AtLoadMore
+                status='noMore'
+                noMoreText='-- No More Data --'
+                noMoreTextStyle={
+                  {
+                    color: '#ccc',
+                    fontSize: '14px'
+                  }
+                }
+              ></AtLoadMore>
+            ) : (
+              <View style={
+                {
+                  marginTop: '10PX',
+                  fontSize: '12px',
+                  color: '#999',
+                  textAlign: 'center',
+                  paddingTop: '10PX'
+                }
+              }>
+                <View>
+                  <AtIcon prefixClass={ICON_PREFIX_CLASS} value='tubiao-' color='#aaa' size='54'></AtIcon>
+                </View>
+                <View style={{
+                  marginTop: '5PX'
+                }}>
+                  <Text>期待你的第一个答案哦~</Text>
+                </View>
+              </View>
+            )
+          }
         </ScrollView>
 
       </View>

@@ -67,7 +67,7 @@ export default class QuestionTitle extends Taro.Component {
             <View className='title-pv'>
               <View>
                 <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='page-view' size='12' color='#999'></AtIcon>
-                <Text>2200</Text>
+                <Text>{question.browse || 0}</Text>
               </View>
             </View>
             {/* <View className='title-tags'>

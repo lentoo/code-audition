@@ -20,15 +20,33 @@
   }
   .tabbar {
     border-top: 1PX solid $--border-color-base;
-    @include pbSafe;
+    @include pb-safe;
     width: 100%;
   }
 }
-.fixed {
+.fixed-btns {
   will-change: right;
   position: fixed;
   right: 16PX;
   bottom: 100PX;
+  @include mb-safe();
+  .fab-btn {
+    margin-bottom: 15PX;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .btn-share {
+      border: 0;
+    }
+  }
+  .at-fab {
+    background-color: #fff;
+    @include box-shadow();
+    // background-color: $primary-color;
+  }
+  .at-icon {
+    color: #666;
+  }
 }
 .slide-left {
   transform: translate3d(-100%, 0, 0)

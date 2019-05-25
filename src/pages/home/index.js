@@ -9,7 +9,7 @@ import QuestionTitle from './components/question-title'
 import AnswerList from './components/answer-list'
 import NotQuestion from './components/not-question'
 //#endregion Components
-import { ICON_PREFIX_CLASS } from '../../constants/common'
+import { ICON_PREFIX_CLASS, APP_NAME } from '../../constants/common'
 
 import './index.scss'
 import { getQuestion } from '../../api/home'
@@ -44,7 +44,7 @@ export default class Home extends Taro.Component {
     enablePullDownRefresh: true,
     // navigationStyle: 'custom',
   }
-  componentDidMount () {
+  componentDidMount() {
     this.loadData()
   }
   /**
@@ -71,7 +71,8 @@ export default class Home extends Taro.Component {
    * @date 2019-05-16
    * @memberof Home
    */
-  onPullDownRefresh() {
+  async onPullDownRefresh() {
+    await this.loadData()
     Taro.stopPullDownRefresh()
     Taro.vibrateShort()
   }
@@ -86,6 +87,7 @@ export default class Home extends Taro.Component {
         Taro.hideLoading()
         this.setState({
           question: res
+          // showNotQuestion: Object.keys(res).length === 0
         })
         console.log('res', res);
       })
@@ -113,9 +115,15 @@ export default class Home extends Taro.Component {
     let shartObj = {}
     if (options.from === 'menu') {
       // 通过右上角的按钮分享
+      // 点击分享
+      shartObj = {
+        path: '/pages/index/index',
+        title: APP_NAME
+      }
     } else {
       // 点击分享
       shartObj = {
+        path: '/pages/index/index',
         title: this.state.question.title
       }
     }
@@ -197,23 +205,37 @@ export default class Home extends Taro.Component {
 
                 <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} question={question}></AnswerList>
 
-                <View className='fixed'>
-                  <AtFab onClick={this.onFabNextClick.bind(this)} size='small'><Text className='at-icon at-icon-chevron-down'></Text></AtFab>
+                <View className='fixed-btns'>
+                  <View className='fab-btn'>
+                    <AtFab size='small'>
+                      <AtButton className='btn-share' openType='share'>
+                        <AtIcon prefixClass={ICON_PREFIX_CLASS} value='share' color='#666' size='18'></AtIcon>
+                      </AtButton>
+                    </AtFab>
+
+                  </View>
+                  <View className='fab-btn'>
+                    <AtFab onClick={this.onFabNextClick.bind(this)} size='small'>
+                      <Text className='at-icon at-icon-chevron-down'></Text>
+                    </AtFab>
+                  </View>
                 </View>
+
+                <AtActionSheet
+                  isOpened={this.state.showActionSheet}
+                  cancelText='取消'
+                >
+                  <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
+                    回复
+                  </AtActionSheetItem>
+                </AtActionSheet>
+
               </View>
             )
         }
 
 
 
-        <AtActionSheet
-          isOpened={this.state.showActionSheet}
-          cancelText='取消'
-        >
-          <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
-            回复
-          </AtActionSheetItem>
-        </AtActionSheet>
         {/* <View className='tabbar'> */}
         <CdTabbar title='首页'></CdTabbar>
         {/* </View> */}
