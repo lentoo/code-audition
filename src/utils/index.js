@@ -138,4 +138,36 @@ export class Utils {
       timeStamp = now;
     }
   }
+  /**
+   * @description 时间显示
+   * @example 假设当前时间为 2019-05-20 00:00:00
+   * 使用示例代码：
+   * timeView(new Date()) // 刚刚发布
+   * timeView('2019-05-19 23:01:00') // 59分钟前
+   * timeView('2019-05-19 12:00:00') // 12小时前
+   * timeView('2019-05-15 12:00:00') // 5天前
+   * timeView('2019-04-15 12:00:00') // 04-15
+   * timeView('2018-04-15 12:00:00') // 2018-04-15
+   */
+  static timeView(value) {
+    const now = +new Date() // 当时时间
+    const timeStamp = +new Date(value) // 需要处理的时间
+    const result = now - timeStamp // 相差的时间戳
+    const min = 60 * 1000 // 分钟的毫秒数
+    const hour = 60 * 60 * 1000 // 小时的毫秒数
+    const day = 60 * 60 * 1000 * 24 // 日的毫秒数
+    if (result / min < 1) {
+      return '刚刚发布'
+    } else if (result / min < 60) {
+      return Math.floor(result / min) + '分钟前'
+    } else if (result / hour > 1 && result / hour < 24) {
+      return Math.floor(result / hour) + '小时前'
+    } else if (result / day > 1 && result / day < 7) {
+      return Math.floor(result / day) + '天前'
+    } else if (this.switchTime(now, 'YYYY') === this.switchTime(timeStamp, 'YYYY')) {
+      return this.switchTime(timeStamp, 'MM月DD日')
+    } else {
+      return this.switchTime(timeStamp, 'YYYY年MM月DD日')
+    }
+  }
 }
