@@ -9,17 +9,17 @@ import './answer-list.scss'
 export default class AnswerList extends Taro.Component {
   static propTypes = {
     data: PropTypes.array,
-    question: PropTypes.object
+    topic: PropTypes.object
   }
   static defaultProps = {
     data: [],
-    question: {}
+    topic: {}
   }
   handleTapItem (item) {
     this.props.onItemClick(item)
   }
   render() {
-    const { data, question } = this.props
+    const { data, topic } = this.props
     return (
       <View className='answer-wrapper'>
         <ScrollView
@@ -33,18 +33,17 @@ export default class AnswerList extends Taro.Component {
         >
           
           {
-            question.answerOfhtml && (
-              <View className='answer-item'
-                >
-                  <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
+            topic.answerOfhtml && (
+              <View className='answer-item'>
+                  <View className='user-box' onClick={this.handleTapItem.bind(this)}>
                     <View className='user-info'>
                       <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={question.avatarUrl}></Image>
+                        <Image className='user-avatar' src={topic.avatarUrl}></Image>
                       </View>
                       <View className='user-name'>
                         <Text className='user-name-text'>
                           {
-                            question.nickName
+                            topic.nickName
                           }
                         </Text>
                       </View>
@@ -55,7 +54,7 @@ export default class AnswerList extends Taro.Component {
                   </View>
                   <View className='answer-desc'>
                     {
-                      question.answerOfhtml && <CdParseWxml template={question.answerOfhtml}></CdParseWxml>
+                      topic.answerOfhtml && <CdParseWxml template={topic.answerOfhtml}></CdParseWxml>
                     }
                   </View>
                 </View>
@@ -71,12 +70,12 @@ export default class AnswerList extends Taro.Component {
                   <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
                     <View className='user-info'>
                       <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={question.avatarUrl}></Image>
+                        <Image className='user-avatar' src={topic.avatarUrl}></Image>
                       </View>
                       <View className='user-name'>
                         <Text className='user-name-text'>
                           {
-                            question.nickName
+                            topic.nickName
                           }
                         </Text>
                       </View>
@@ -87,7 +86,7 @@ export default class AnswerList extends Taro.Component {
                   </View>
                   <View className='answer-desc'>
                     {
-                      question.answerOfhtml && <CdParseWxml template={question.answerOfhtml}></CdParseWxml>
+                      topic.answerOfhtml && <CdParseWxml template={topic.answerOfhtml}></CdParseWxml>
                     }
                   </View>
                 </View>
@@ -95,7 +94,7 @@ export default class AnswerList extends Taro.Component {
             })
           }
           {
-            (data.length === 0 && question.answerOfhtml) ? (
+            (data.length === 0 && topic.answerOfhtml) ? (
               <AtLoadMore
                 status='noMore'
                 noMoreText='-- No More Data --'
@@ -115,13 +114,15 @@ export default class AnswerList extends Taro.Component {
                   textAlign: 'center',
                   paddingTop: '10PX'
                 }
-              }>
+              }
+              >
                 <View>
                   <AtIcon prefixClass={ICON_PREFIX_CLASS} value='tubiao-' color='#aaa' size='54'></AtIcon>
                 </View>
                 <View style={{
                   marginTop: '5PX'
-                }}>
+                }}
+                >
                   <Text>期待你的第一个答案哦~</Text>
                 </View>
               </View>

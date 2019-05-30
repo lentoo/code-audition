@@ -1,11 +1,11 @@
 import Taro from '@tarojs/taro';
-import { View, Text, ScrollView, Swiper, SwiperItem, Image } from '@tarojs/components';
-import { AtIcon, AtButton, AtFloatLayout, AtLoadMore, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
+import { View, Text} from '@tarojs/components';
+import { AtIcon, AtButton, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
 
 //#region Components
 
 import CdTabbar from '../../components/cd-tabbar'
-import QuestionTitle from './components/question-title'
+import TopicTitle from './components/topic-title'
 import AnswerList from './components/answer-list'
 import NoTopic from './components/no-topic'
 //#endregion Components
@@ -13,7 +13,9 @@ import { ICON_PREFIX_CLASS, APP_NAME, UN_SELECTED_CATEGORY, NO_TOPIC } from '../
 
 import './index.scss'
 import { getQuestion } from '../../api/home'
+
 const ERR_CODE = {
+  OK: 0,
   1: UN_SELECTED_CATEGORY,
   2: NO_TOPIC
 }
@@ -24,7 +26,7 @@ export default class Home extends Taro.Component {
       like: false,
       $switch: true,
       // clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight,
-      question: {},
+      topic: {},
       showNoTopic: false,
       noTopicType: UN_SELECTED_CATEGORY,
       showActionSheet: false,
@@ -50,7 +52,7 @@ export default class Home extends Taro.Component {
   onPageScroll({ scrollTop }) {
     if (scrollTop > 100) {
       Taro.setNavigationBarTitle({
-        title: this.state.question.title
+        title: this.state.topic.title
       })
     } else {
       Taro.setNavigationBarTitle({
@@ -78,9 +80,9 @@ export default class Home extends Taro.Component {
     return getQuestion()
       .then(res => {
         Taro.hideLoading()
-        const showNoTopic = res.errCode !== 0
+        const showNoTopic = res.errCode !== ERR_CODE.OK
         this.setState({
-          question: res,
+          topic: res,
           showNoTopic,
           noTopicType: ERR_CODE[res.errCode]
         })
@@ -119,7 +121,7 @@ export default class Home extends Taro.Component {
       // 点击分享
       shartObj = {
         path: '/pages/index/index',
-        title: this.state.question.title
+        title: this.state.topic.title
       }
     }
     return shartObj
@@ -150,10 +152,10 @@ export default class Home extends Taro.Component {
    * @memberof Home
    */
   handleReplyClick() {
-    const { current, question } = this.state
+    const { current, topic } = this.state
     Taro.showLoading()
     Taro.navigateTo({
-      url: `write-review/index?nickName=${current.nickName}&id=${current.id}&title=${question.title}`,
+      url: `write-review/index?nickName=${current.nickName}&id=${current.id}&title=${topic.title}`,
     }).then(() => {
       Taro.hideLoading()
       this.setState({
@@ -182,51 +184,56 @@ export default class Home extends Taro.Component {
     Taro.stopPullDownRefresh()
     // }, 1000)
   }
-  render() {
-    const { question, showNoTopic, noTopicType } = this.state
+  renderTopic() {
+    const { topic, showNoTopic } = this.state
     const answerList = []
-    // new Array(10).fill({
-    //   id: 1,
-    //   nickName: '陈大鱼头'
-    // })
+    return showNoTopic
+      ? (<View></View>)
+      : (
+        <View className='main'>
+          <TopicTitle topic={topic}></TopicTitle>
+
+          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} topic={topic}></AnswerList>
+
+          <View className='fixed-btns'>
+            <View className='fab-btn'>
+              <AtFab size='small'>
+                <AtButton className='btn-share' openType='share'>
+                  <AtIcon prefixClass={ICON_PREFIX_CLASS} value='share' color='#666' size='18'></AtIcon>
+                </AtButton>
+              </AtFab>
+
+            </View>
+            <View className='fab-btn'>
+              <AtFab onClick={this.onFabNextClick.bind(this)} size='small'>
+                <Text className='at-icon at-icon-chevron-down'></Text>
+              </AtFab>
+            </View>
+          </View>
+
+          <AtActionSheet
+            isOpened={this.state.showActionSheet}
+            cancelText='取消'
+          >
+            <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
+              回复
+                </AtActionSheetItem>
+          </AtActionSheet>
+
+        </View>
+      )
+  }
+  render() {
+    const { showNoTopic, noTopicType } = this.state
     return (
       <View className='home'>
         {
-          showNoTopic ? (
+          showNoTopic && (
             <NoTopic type={noTopicType}></NoTopic>
-          ) : (
-              <View className='main'>
-                <QuestionTitle question={question}></QuestionTitle>
-
-                <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} question={question}></AnswerList>
-
-                <View className='fixed-btns'>
-                  <View className='fab-btn'>
-                    <AtFab size='small'>
-                      <AtButton className='btn-share' openType='share'>
-                        <AtIcon prefixClass={ICON_PREFIX_CLASS} value='share' color='#666' size='18'></AtIcon>
-                      </AtButton>
-                    </AtFab>
-
-                  </View>
-                  <View className='fab-btn'>
-                    <AtFab onClick={this.onFabNextClick.bind(this)} size='small'>
-                      <Text className='at-icon at-icon-chevron-down'></Text>
-                    </AtFab>
-                  </View>
-                </View>
-
-                <AtActionSheet
-                  isOpened={this.state.showActionSheet}
-                  cancelText='取消'
-                >
-                  <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
-                    回复
-                  </AtActionSheetItem>
-                </AtActionSheet>
-
-              </View>
-            )
+          )
+        }
+        {
+          this.renderTopic()
         }
 
 

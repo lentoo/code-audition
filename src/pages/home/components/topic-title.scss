@@ -1,0 +1,89 @@
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/mixins.scss';
+.title {
+    height: 100%;
+    padding-bottom: 0;
+
+    // @include box-shadow-bottom();
+    // box-shadow: $box-shadow-base;
+    &-info {
+      padding: 10PX 20PX;
+      background: #fff;
+    }
+    &-data {
+      @include flex(row);
+      align-items: center;
+    }
+    &-pv {
+      padding-top: 5PX;
+      color: $tip-color;
+      font-size: 12PX;
+    }
+    &-label {
+      @include flex(row);
+      justify-content: space-between;
+    }
+    &-tags {
+      @include flex(row);
+      flex: 1;
+      justify-content: flex-start;
+      padding-bottom: 10PX;
+      padding-right: 50PX;
+    }
+    &-tag {
+      background: #ebf5f8;
+      border-radius: 10PX;
+      padding: 5PX 10PX;
+      color: $primary-color;
+      font-size: 12PX;
+      margin-right: 10PX;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    &-avatar{
+      position: absolute;
+      right: 20PX;
+      &-img {
+        width: 30PX;
+        height: 30PX;
+        border-radius: 50%;
+        // @include border-radius;
+      }
+      &-name {
+        position: absolute;
+        bottom: -10PX;        
+        text-align: center;
+        font-size: 12PX;
+        font-weight: 700;
+        color: $tip-color;
+      }
+    }
+    &-text {
+      font-size: 16PX;
+      font-weight: 700;
+      color: #333;
+    }
+    &-desc {
+      margin: 10PX 0;
+      font-size: 14PX;
+      color: #666;
+    }
+    &-actions {
+      @include flex(row);
+      align-items: center;
+      margin-top: 1PX;
+      &-item {
+        background: #fff;
+        flex: 1;
+        height: 45PX;
+        line-height: 45PX;
+        font-size: 12PX;
+        text-align: center;
+        color: $primary-color;
+        &:first-child {
+          margin-right: 1PX;
+        }
+      }
+    }
+  }

@@ -22,6 +22,15 @@ export default class CdParseWxml extends Taro.Component {
       fail: false
     }
   }
+  componentWillReceiveProps() {
+    this.setState({
+      data: null
+    }, () => {
+      setTimeout(() => {
+        this.parseTemplate()
+      }, 500)
+    })
+  }
   componentDidMount() {
     setTimeout(() => {
       this.parseTemplate()
@@ -59,7 +68,7 @@ export default class CdParseWxml extends Taro.Component {
       )
     }
     return (
-      <View className='cd-parse-wxml'>
+      <View className='cd-parse-wxml' key={data}>
         {
           data ? (
             <View>
