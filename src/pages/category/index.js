@@ -18,6 +18,7 @@ class Category extends Component {
       first: true,
       value: '',
       last: false,
+      current: 0,
       sortList: null,
       limit: maxLength,
       sortListData: [],
@@ -26,16 +27,18 @@ class Category extends Component {
   }
   config = {
     navigationBarTitleText: '码上面试',
-    enablePullDownRefresh: true,
+    enablePullDownRefresh: false,
     backgroundTextStyle: 'dark',
   }
   componentWillMount () {
     let first = true
-    if (Storage.getItemSync(FIRST) === false) {
-      this.setState({
-        first
-      })
-    }
+    const firstStorage = Storage.getItemSync(FIRST)
+    if (firstStorage === false) {
+      first = false
+    } 
+    this.setState({
+      first
+    })
     this.getSortList()
   }
   async onPullDownRefresh() {
@@ -57,6 +60,9 @@ class Category extends Component {
   async onActionClick() {
     Taro.showLoading()
     await this.getSortList()
+    this.setState({
+      current: 0
+    })
     Taro.hideLoading()
   }
   /**
@@ -75,7 +81,7 @@ class Category extends Component {
     const current = event.detail.current
 
     this.setState({
-
+      current,
       last: current === this.state.sortCount
     })
   }
@@ -127,7 +133,6 @@ class Category extends Component {
    * @memberof Category
    */
   async updateUserInfo(userInfo) {
-    console.log('doSaveUserInfo', res)
     const res = await saveUserInfo({
       openId: getGlobalData(OPEN_ID),
       userInfo
@@ -141,6 +146,15 @@ class Category extends Component {
     //   console.log('doSaveUserInfo', res)
     // })
   }
+  /**
+   * @description 点击下一步
+   * 1. 判断用户是否选择了分类
+   * 2. 判断用户是否第一次进入平台
+   * @author lentoo
+   * @date 2019-05-31
+   * @param {*} event
+   * @memberof Category
+   */
   async handleGetUserInfo(event) {
     if (this.state.sortListData.filter(sort => Boolean(sort.select)).length === 0) {
       Taro.showToast({
@@ -183,6 +197,9 @@ class Category extends Component {
 
     await this.saveUserSort()
     Taro.hideLoading()
+    this.redirectPage()
+  }
+  redirectPage () {
     // 第一个页面就是分类页
     if (Taro.getCurrentPages().length === 1) {
       Taro.redirectTo({
@@ -191,7 +208,7 @@ class Category extends Component {
     } else {
       // 从其他页面进来分类页
       Taro.navigateBack()
-    }
+    }    
   }
   /**
    * @description 保存用户关注的分类
@@ -257,6 +274,7 @@ class Category extends Component {
             style={{
               height: Taro.pxTransform(itemHeight * 2 * (this.state.limit / 3))
             }}
+            current={this.state.current}
           >
             {
               changeArrray.map((item, index) => {

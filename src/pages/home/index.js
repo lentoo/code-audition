@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { View, Text} from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { AtIcon, AtButton, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
 
 //#region Components
@@ -179,10 +179,8 @@ export default class Home extends Taro.Component {
     })
     Taro.vibrateShort()
     await this.loadData()
-    // setTimeout(() => {
     Taro.hideLoading()
     Taro.stopPullDownRefresh()
-    // }, 1000)
   }
   renderTopic() {
     const { topic, showNoTopic } = this.state
@@ -211,14 +209,6 @@ export default class Home extends Taro.Component {
             </View>
           </View>
 
-          <AtActionSheet
-            isOpened={this.state.showActionSheet}
-            cancelText='取消'
-          >
-            <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
-              回复
-                </AtActionSheetItem>
-          </AtActionSheet>
 
         </View>
       )
@@ -236,6 +226,19 @@ export default class Home extends Taro.Component {
           this.renderTopic()
         }
 
+        <AtActionSheet
+          cancelText='取消'
+          isOpened={this.state.showActionSheet}
+          onClose={() => {
+            this.setState({
+              showActionSheet: false
+            })
+          }}
+        >
+          <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
+            回复
+          </AtActionSheetItem>
+        </AtActionSheet>
 
 
         {/* <View className='tabbar'> */}

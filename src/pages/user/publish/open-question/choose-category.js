@@ -78,8 +78,9 @@ class ChooseCategory extends Taro.Component {
     })
   }
   handleChange(value) {
+    this.page = 1
     this.setState({
-      name: value
+      name: value      
     })
     this.loadCategory()
   }
@@ -146,7 +147,7 @@ class ChooseCategory extends Taro.Component {
           <AtInput
             placeholderClass='placeholder'
             className='title-input'
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={this.state.name}
             placeholder='分类名称'
           ></AtInput>

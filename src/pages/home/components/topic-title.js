@@ -13,9 +13,27 @@ export default class TopicTitle extends Taro.Component {
   static defaultProps = {
     topic: {}
   }
-  constructor (prop) {
+  constructor(prop) {
     super(prop)
+    this.state = {
+      addIconStyle: {
+        transition: '.3s ease-in-out transform',
+        transform: 'scale(1)'
+      },
+      showFollow: true,
+      isFollow: false
+    }
     this.toWriteReview = this.toWriteReview.bind(this)
+  }
+  componentWillReceiveProps() {
+    this.setState({
+      addIconStyle: {
+        transition: '.3s ease-in-out transform',
+        transform: 'scale(1)'
+      },
+      showFollow: true,
+      isFollow: false
+    })
   }
   /**
    * @description 跳转写评论页面
@@ -31,8 +49,52 @@ export default class TopicTitle extends Taro.Component {
       Taro.hideLoading()
     })
   }
+  addFollow() {
+    this.setState({
+      addIconStyle: {
+        transition: '.3s ease-in-out transform',
+        transform: 'scale(0)',
+      }
+    }, () => {
+      setTimeout(() => {
+        this.setState({
+          isFollow: true
+        })
+      }, 350)
+    })
+  }
+  renderFollow() {
+    const { addIconStyle, isFollow, showFollow } = this.state
+
+    return (
+      <View className='follow-view'
+        onClick={this.addFollow.bind(this)}
+      >
+        {showFollow &&
+          (
+            <View className={['title-icon-add', isFollow ? 'follow' : ''].join(' ')}
+
+              onAnimationEnd={() => {
+                console.log('onAnimationEnd');
+                this.setState({
+                  showFollow: false
+                })
+              }}
+            >
+              {
+                !isFollow ? (<AtIcon className='icon-add' value='add' size='10' color='#fff' customStyle={addIconStyle}></AtIcon>)
+                  : (<AtIcon className='icon-check' value='check' size='12' color='#f5222d'></AtIcon>)
+              }
+            </View>
+          )
+
+        }
+      </View>
+    )
+  }
   render() {
     const { topic } = this.props
+    // const { addIconStyle, isFollow, showFollow } = this.state
     return (
       <View className='title'>
 
@@ -45,10 +107,14 @@ export default class TopicTitle extends Taro.Component {
                     <Text key={tag} className='title-tag'>{tag}</Text>
                   )
                 })
-              }              
+              }
             </View>
             <View className='title-avatar'>
               <Image className='title-avatar-img' src={topic.avatarUrl}></Image>
+              {/* <View className='at-icon at-icon-add'></View> */}
+              {
+                this.renderFollow()
+              }
               {/* <View className='title-avatar-name'>
                 <Text>{topic.nickName}</Text>
               </View> */}
@@ -58,9 +124,9 @@ export default class TopicTitle extends Taro.Component {
             <Text className='title-text'>{topic.title}</Text>
           </View>
           <View className='title-desc'>
-            { 
+            {
               topic.descriptionOfhtml && <CdParseWxml template={topic.descriptionOfhtml}></CdParseWxml>
-            }            
+            }
             {/* <Text>{topic.descriptionOfhtml}</Text> */}
           </View>
           <View className='title-data'>

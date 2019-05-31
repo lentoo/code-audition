@@ -22,14 +22,17 @@ export default class CdParseWxml extends Taro.Component {
       fail: false
     }
   }
-  componentWillReceiveProps() {
-    this.setState({
-      data: null
-    }, () => {
-      setTimeout(() => {
-        this.parseTemplate()
-      }, 500)
-    })
+  componentWillReceiveProps(nextProp) {
+    console.log('params', arguments);
+    if (nextProp.template !== this.props.template) {
+      this.setState({
+        data: null
+      }, () => {
+        setTimeout(() => {
+          this.parseTemplate()
+        }, 500)
+      })
+    }
   }
   componentDidMount() {
     setTimeout(() => {

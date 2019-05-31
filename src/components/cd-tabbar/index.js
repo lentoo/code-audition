@@ -15,21 +15,39 @@ export default class CdTabbar extends Taro.Component {
     ]
 
     const index = tabList.findIndex(item => item.title === title)
-    this.state.current = index
-    this.state.tabList = tabList
+    this.state = {
+      current: index,
+      tabList
+    }
+    // this.state.current = index
+    // this.state.tabList = tabList
   }
   handleClick (value) {
-    Taro.showNavigationBarLoading()
-    Taro.showLoading()
-    Taro.redirectTo({
-      url: this.state.tabList[value].url
-    }).then(() => {
-      Taro.hideLoading()
-      Taro.hideNavigationBarLoading()
+    console.log({
+      value,
+      current: this.state.current
     })
-    this.setState({
-      current: value
-    })
+    /**
+     * 点击同一页
+     */
+    if (value === this.state.current) {
+      Taro.pageScrollTo({
+        scrollTop: 0
+      })
+      Taro.startPullDownRefresh()
+    } else {
+      Taro.showNavigationBarLoading()
+      Taro.showLoading()
+      Taro.redirectTo({
+        url: this.state.tabList[value].url
+      }).then(() => {
+        Taro.hideLoading()
+        Taro.hideNavigationBarLoading()
+      })
+      this.setState({
+        current: value
+      })
+    }
   }
   render() {
     return (
