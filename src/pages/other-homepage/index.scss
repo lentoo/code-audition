@@ -1,0 +1,158 @@
+@import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+.user {
+  position: relative;
+  .icons {
+    position: absolute;
+    left: 5%;
+  }
+  .icon-wrapper {
+    @include center(column);
+    @include wh(34PX, 34PX);
+    border-radius: 50%;
+    // text-align: center;
+    background-color: rgba(0, 0, 0, .3);
+    // vertical-align: middle;
+    at-icon {      
+      display: inline-block;
+    }
+  }
+  .icon-text {
+    font-size: 16px;
+    color: #fff;
+  }
+  .user-info-wrapper {
+    background: url(https://img.ccode.live/image/png/user-bg.pnguser-bg.png) no-repeat;
+    background-size: cover;
+    height: 400px;
+  }
+  .user-main {
+    position: relative;
+    top: -20PX;
+    background: #fff;
+    border-radius: 16PX 16PX 0 0;
+    // overflow: hidden;
+    .user-avatar {
+      // background: #fff;
+      padding: 5PX;
+      padding-bottom: 0;
+      position: relative;
+      .avatar {
+        border-radius: 50%;
+        @include box-shadow();
+        position: absolute;
+        top: -30PX;
+        left: 20PX;
+      }
+    }
+  }
+  .avatar {
+    width: 110px;
+    height: 110px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  .avatar-tag {
+    display: inline-block;
+    margin-left: 10PX;
+    @include center(row);
+    @include wh(20PX, 20PX);
+    // padding: 2px 10px;
+    line-height: 20PX;
+    border-radius: 50%;
+    background-color: #FF4D94;
+    &.man {
+      background-color: #007fff;
+    }
+  }
+  .avatar-name {
+    font-size: 28px;
+    color: #fff;
+  }
+  .attention-wrapper {
+    // margin: 0 20px;
+    background: #fff;
+    // margin-top: 20px;
+    padding: 20px 0 ;
+    padding-left: 200px;    
+     @include card;
+    .attention {
+      flex: 1;
+      text-align: center;
+      border-right: 1PX solid $--border-color-light;
+      &:last-child {
+        border-right-width: 0;
+      }
+      &-title {
+        font-size: 12PX;
+        color: #999
+      }
+      &-num {
+        // padding-bottom: 8px;
+        // font-weight: 700;
+        font-size: 22PX;
+        color: #333;
+      }
+    }
+  }
+  .user-name {
+    @include center(row);
+    padding-right: 10PX;
+    padding-top: 14PX;
+    .user-nickname-wrapper {
+      flex: 1;
+      padding-right: 10PX;
+      @include flex(row);
+    }
+    .user-nickname {
+      margin-left: 20PX;
+      font-size: 18PX;
+      // font-weight: 700;
+      color: #333;
+      @include ell();
+    }
+  }
+  .user-tabs {
+    padding-top: 20px;
+    .at-tabs__item {
+      transition: .2s all ease-in;
+    }
+    .at-tabs__item--active {    
+      font-weight:700;
+      font-size: 16PX;
+    }
+    .no-share {
+      padding: 20PX 0;
+      text-align: center;
+      font-size: 12PX;
+      color: #999;
+    }
+  }
+  .user-menus-wrapper {
+    margin-top: 20px;
+    padding: 0 16px;
+    .user-menus {
+      border-radius: 4PX;
+      background: #fff;
+      @include box-shadow();
+      box-sizing: border-box;
+    }
+    .user-menu {
+      @include flex(row);
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      &_text {
+        flex: 1;
+        padding-left: 10px;
+        text-align: left;
+        color: $fontColor;
+        font-size: 14PX;
+      }
+    }
+  }
+}
+.icon-index--icon {
+  vertical-align: middle;
+}

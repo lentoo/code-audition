@@ -49,7 +49,8 @@
     }
     .search-wrapper {
       @include flex(column);
-      background: #eee;
+      // background: #eee;
+      background: #fff;
       height: 100%;
       z-index: 10;
       .search-scroll {

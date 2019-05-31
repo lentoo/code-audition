@@ -73,15 +73,8 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 5,
 					"name": "投稿",
-					"pathName": "pages/publish/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "开放题",
 					"pathName": "pages/user/publish/open-question/index",
 					"query": "",
 					"scene": null
@@ -118,6 +111,13 @@
 					"id": -1,
 					"name": "用户",
 					"pathName": "pages/user/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "他人主页",
+					"pathName": "pages/other-homepage/index",
 					"query": "",
 					"scene": null
 				}

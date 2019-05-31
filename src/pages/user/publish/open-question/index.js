@@ -10,7 +10,7 @@ import { searchTitle } from '../../../../api/question';
 import './index.scss';
 
 @connect(
-  state => ({publish: state.publish}),
+  state => ({ publish: state.publish }),
   {
     ...publishActions
   }
@@ -43,7 +43,7 @@ class OpenQuestion extends Taro.Component {
     this.autoPosition = this.autoPosition.bind(this)
     this.next = this.next.bind(this)
   }
-  next () {
+  next() {
     this.props.dispatchPublishItem({
       title: this.state.questionTitle,
       type: 10,
@@ -55,11 +55,11 @@ class OpenQuestion extends Taro.Component {
     })
   }
   handleQuestionChange(e) {
-    this.setState({
-      showSearchBox: true,
-      loadingStatus: 'loading',
-      questionItems: []
-    })
+    // this.setState({
+    //   showSearchBox: true,
+    //   loadingStatus: 'loading',
+    //   questionItems: []
+    // })
     searchTitle({
       title: e.target.value
     }).then(res => {
@@ -85,9 +85,10 @@ class OpenQuestion extends Taro.Component {
       bottom: inputHeight
     })
   }
-  render() {
-    const wrapper = this.state.showSearchBox ?
-      (
+  renderSearchBox() {
+    const { showSearchBox, loadingStatus } = this.state
+    if (showSearchBox) {
+      return (
         <View className='search-wrapper'>
           <View className='search-scroll'>
             <ScrollView
@@ -97,7 +98,7 @@ class OpenQuestion extends Taro.Component {
                 this.state.questionItems.map(item => (<QuestionItem item={item} key={item.id}></QuestionItem>))
               }
               {
-                this.state.loadingStatus !== 'none' ? (<AtLoadMore status={this.state.loadingStatus}></AtLoadMore>) : ''
+                loadingStatus !== 'none' ? (<AtLoadMore status={loadingStatus}></AtLoadMore>) : ''
               }
 
             </ScrollView>
@@ -117,48 +118,21 @@ class OpenQuestion extends Taro.Component {
                 添加问题描述
               </Text>
             </View>
-            <View className='search-right'>
+            <View className='search-right' onClick={() => {
+              this.setState({
+                showSearchBox: false,
+                autoAnswerFocus: true
+              })
+            }}
+            >
               <Text className='search-text'>写答案</Text>
             </View>
           </View>
         </View>
-      ) : (
-        <View className='answer-wrapper'>
-          <AtTextarea
-            value={this.state.description}
-            onChange={e => {
-              this.setState({
-                description: e.target.value
-              })
-            }}
-            focus={this.state.autoDescFocus}
-            showConfirmBar
-            count={false}
-            height={200}
-            placeholder='问题描述（选填）'
-          />
-          <AtTextarea
-            value={this.state.answer}
-            onChange={e => {
-              this.setState({
-                answer: e.target.value
-              })
-            }}
-            showConfirmBar
-            count={false}
-            height={300}
-            placeholder='请输入答案'
-          />
-          <View className='fixed-b' style={{
-            bottom: `${this.state.nextBottom}px`
-          }}
-          >
-            <View className='fixed-wrapper'>
-              <Text onClick={this.next}>下一步</Text>
-            </View>
-          </View>
-        </View>
       )
+    }
+  }
+  render() {
     return (
       <View className='open-question'>
         <View className='question-info'>
@@ -172,7 +146,45 @@ class OpenQuestion extends Taro.Component {
             onBlur={this.autoPosition}
           />
           <View className='wrapper'>
-            {wrapper}
+            <View className='answer-wrapper'>
+              <AtTextarea
+                value={this.state.description}
+                onChange={e => {
+                  this.setState({
+                    description: e.target.value
+                  })
+                }}
+                focus={this.state.autoDescFocus}
+                showConfirmBar
+                count={false}
+                height={200}
+                placeholder='问题描述（选填）'
+              />
+              <AtTextarea
+                value={this.state.answer}
+                onChange={e => {
+                  this.setState({
+                    answer: e.target.value
+                  })
+                }}
+                focus={this.state.autoAnswerFocus}
+                showConfirmBar
+                count={false}
+                height={300}
+                placeholder='请输入答案'
+              />
+              <View className='fixed-b' style={{
+                bottom: `${this.state.nextBottom}px`
+              }}
+              >
+                <View className='fixed-wrapper'>
+                  <Text onClick={this.next}>下一步</Text>
+                </View>
+              </View>
+            </View>
+            {
+              this.renderSearchBox()
+            }
           </View>
 
         </View>

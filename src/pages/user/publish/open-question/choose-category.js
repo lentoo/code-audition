@@ -216,10 +216,10 @@ class ChooseCategory extends Taro.Component {
                       {
                         selectedCategories.some(sort => sort.id === item.id)
                         ? (
-                            <AtButton customStyle={{ width: '60px'}} size='small' onClick={this.removeCategory.bind(this, item)}>已添加</AtButton>
+                            <AtButton customStyle={{ width: '60px', fontSize: '12px'}} size='small' onClick={this.removeCategory.bind(this, item)}>已添加</AtButton>
                         )
                         : (
-                            <AtButton customStyle={{ width: '60px'}} type='primary' size='small' onClick={this.selectCategory.bind(this, item)}>添加</AtButton>
+                            <AtButton customStyle={{ width: '60px', fontSize: '12px'}} type='primary' size='small' onClick={this.selectCategory.bind(this, item)}>添加</AtButton>
                         )
                       }
                     </View>

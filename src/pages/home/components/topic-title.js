@@ -23,6 +23,7 @@ export default class TopicTitle extends Taro.Component {
       showFollow: true,
       isFollow: false
     }
+    this.handleAvatarClick = this.handleAvatarClick.bind(this)
     this.toWriteReview = this.toWriteReview.bind(this)
   }
   componentWillReceiveProps() {
@@ -61,6 +62,14 @@ export default class TopicTitle extends Taro.Component {
           isFollow: true
         })
       }, 350)
+    })
+  }
+  handleAvatarClick () {
+    Taro.showNavigationBarLoading()
+    Taro.navigateTo({
+      url: '/pages/other-homepage/index'
+    }).then(() => {
+      Taro.hideNavigationBarLoading()
     })
   }
   renderFollow() {
@@ -110,7 +119,7 @@ export default class TopicTitle extends Taro.Component {
               }
             </View>
             <View className='title-avatar'>
-              <Image className='title-avatar-img' src={topic.avatarUrl}></Image>
+              <Image className='title-avatar-img' onClick={this.handleAvatarClick} src={topic.avatarUrl}></Image>
               {/* <View className='at-icon at-icon-add'></View> */}
               {
                 this.renderFollow()

@@ -33,6 +33,7 @@ class App extends Component {
       'pages/home/write-review/index',
       'pages/demo/index',
       'pages/category/index',
+      'pages/other-homepage/index',
       'pages/scan-code-login/index',
       'pages/user/index',
       'pages/user/publish/open-question/index',
