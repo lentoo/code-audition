@@ -1,0 +1,21 @@
+@import '../../assets/styles/var.scss';
+@import '../../assets/styles/mixins.scss';
+.offline {
+  @include center(row);
+  .container {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    margin-top: -100px;
+  }
+  &-img {
+    width: 120PX;
+    height: 120PX;
+  }
+  &-desc {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: $tip-color;
+    font-size: 14PX;
+  }
+}

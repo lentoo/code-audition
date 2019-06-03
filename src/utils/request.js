@@ -8,7 +8,8 @@ const SUCCESS = 1
 const EXPIRED = 0
 
 const BASE_URL = process.env.BASE_URL
-console.log('BASE_URL', BASE_URL);
+const env = process.env.NODE_ENV
+console.log('BASE_URL', BASE_URL, 'env', env);
 
 
 export default async function fetch(options) {
@@ -38,6 +39,15 @@ export default async function fetch(options) {
     return data === null ? {} : data
   }).catch((err) => {
     const defaultMsg = err.code === EXPIRED ? '登录失效' : '请求异常'
+    // 跳转错误页
+    if (env === 'production') {
+      if (err.errMsg.includes('request:fail') || err.errMsg === 'request:ok') {
+        const page = Taro.getCurrentPages().shift()
+        Taro.redirectTo({
+          url: '/pages/offline/index?redirect=/'+page.route 
+        })      
+      }
+    }
     if (showToast) {
       Taro.showToast({
         title: err && err.errorMsg || defaultMsg,

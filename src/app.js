@@ -40,7 +40,8 @@ class App extends Component {
       'pages/user/publish/open-question/choose-category',
       'pages/user/publish/open-question/submit-success',
       'pages/user/feedback/index',
-      'pages/user/message/index'
+      'pages/user/message/index',
+      'pages/offline/index',
     ],
     window: {
       navigationBarBackgroundColor: '#007fff',
