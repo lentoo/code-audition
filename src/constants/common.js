@@ -41,3 +41,11 @@ export const SORT_LIST = 'SORT_LIST'
  * 底部安全区高度
  */
 export const SAFE_AREA_INSET_BOTTOM = 'env(safe-area-inset-bottom)'
+
+/** method types */ 
+export const METHODS = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE'
+}

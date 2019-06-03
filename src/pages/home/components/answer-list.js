@@ -31,36 +31,6 @@ export default class AnswerList extends Taro.Component {
             }
           }
         >
-          
-          {
-            topic.answerOfhtml && (
-              <View className='answer-item'>
-                  <View className='user-box' onClick={this.handleTapItem.bind(this)}>
-                    <View className='user-info'>
-                      <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={topic.avatarUrl}></Image>
-                      </View>
-                      <View className='user-name'>
-                        <Text className='user-name-text'>
-                          {
-                            topic.nickName
-                          }
-                        </Text>
-                      </View>
-                    </View>
-                    <View className='icon-more'>
-                      <AtIcon prefixClass={ICON_PREFIX_CLASS} value='more-fill' size={16} color='#999'></AtIcon>
-                    </View>
-                  </View>
-                  <View className='answer-desc'>
-                    {
-                      topic.answerOfhtml && <CdParseWxml template={topic.answerOfhtml}></CdParseWxml>
-                    }
-                  </View>
-                </View>
-            )
-          }
-
           {
             data.map(item => {
               return (
@@ -70,12 +40,12 @@ export default class AnswerList extends Taro.Component {
                   <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
                     <View className='user-info'>
                       <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={topic.avatarUrl}></Image>
+                        <Image className='user-avatar' src={item.avatarUrl}></Image>
                       </View>
                       <View className='user-name'>
                         <Text className='user-name-text'>
                           {
-                            topic.nickName
+                            item.nickName
                           }
                         </Text>
                       </View>
@@ -86,7 +56,14 @@ export default class AnswerList extends Taro.Component {
                   </View>
                   <View className='answer-desc'>
                     {
-                      topic.answerOfhtml && <CdParseWxml template={topic.answerOfhtml}></CdParseWxml>
+                      item.targetNickName && (
+                        <View className='user-mention'>
+                          <Text>@{item.targetNickName}</Text>
+                        </View>
+                      )
+                    }
+                    {
+                      item.commentOfhtml && <CdParseWxml template={item.commentOfhtml}></CdParseWxml>
                     }
                   </View>
                 </View>
@@ -94,7 +71,7 @@ export default class AnswerList extends Taro.Component {
             })
           }
           {
-            (data.length === 0 && topic.answerOfhtml) ? (
+            (topic.answerOfhtml) ? (
               <AtLoadMore
                 status='noMore'
                 noMoreText='-- No More Data --'

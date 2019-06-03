@@ -51,6 +51,11 @@
       .answer-desc {
         font-size: 12PX;
         color: #333;
+        .user-mention {
+          color: #666;
+          font-weight: 700;
+          font-size: 12PX;
+        }
       }
     }
   }

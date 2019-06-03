@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\k\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add dist/constants/common --silent --no-progress
+  C:\Program Files\nodejs\node.exe C:\Users\k\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add src/api/home --silent --no-progress
 
 PATH: 
-  C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;F:\code-audition\node_modules\.bin;C:\Users\k\AppData\Local\Temp\yarn--1559272788102-0.8577358176611005;F:\code-audition\node_modules\.bin;C:\Users\k\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\k\AppData\Local\Yarn\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\TortoiseSVN\bin;;E:\software\Microsoft VS Code\bin;C:\Users\k\AppData\Roaming\npm
+  C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;F:\code-audition\node_modules\.bin;C:\Users\k\AppData\Local\Temp\yarn--1559524750769-0.9211713955774938;F:\code-audition\node_modules\.bin;C:\Users\k\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\k\AppData\Local\Yarn\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\TortoiseSVN\bin;;E:\software\Microsoft VS Code\bin;C:\Users\k\AppData\Roaming\npm
 
 Yarn version: 
   1.16.0
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/dist%2fconstants/common: Request "https://registry.yarnpkg.com/dist%2fconstants/common" returned a 405
+  Error: https://registry.yarnpkg.com/src%2fapi/home: Request "https://registry.yarnpkg.com/src%2fapi/home" returned a 405
       at Request.params.callback [as _callback] (C:\Users\k\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66100:18)
       at Request.self.callback (C:\Users\k\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:129590:22)
       at Request.emit (events.js:189:13)
@@ -64,6 +64,7 @@ npm manifest:
       "@tarojs/taro-swan": "^1.3.0-beta.5",
       "@tarojs/taro-tt": "^1.3.0-beta.5",
       "@tarojs/taro-weapp": "^1.3.0-beta.5",
+      "classnames": "^2.2.6",
       "global": "^4.3.2",
       "nerv-devtools": "^1.3.9",
       "nervjs": "^1.3.9",

@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { SAFE_AREA_INSET_BOTTOM } from '@/constants/common';
-import { AtTextarea, AtToast, AtIcon } from 'taro-ui';
+import { AtTextarea, AtIcon } from 'taro-ui';
+import { set as setGlobalData } from '@/utils/global-data';
 import './index.scss'
+import { postAnswer } from '../../../api/home';
 /**
  * @description 写评论页面
  * @author lentoo
@@ -39,6 +40,7 @@ export default class WriteReview extends Taro.Component {
       title: this.$router.params.title
     })
   }
+  
   /**
    * @description 点击完成时触发
    * @author lentoo
@@ -55,14 +57,38 @@ export default class WriteReview extends Taro.Component {
    * @date 2019-05-21
    * @memberof WriteReview
    */
-  onSubmit() {
-    Taro.showToast({
-      title: 'onSubmit',
-      icon: 'none'
+  async onSubmit() {
+    const { value } = this.state
+    const { id, userId } = this.$router.params
+    const params = {
+      id,
+      commentOfhtml: value,
+    }
+    if (userId) {
+      params.targetUserId = userId
+    }
+    Taro.showLoading({
+      title: '正在提交中'
     })
+    try {
+      const res = await postAnswer(params)
+      Taro.showToast({
+        title: '提交成功',
+        icon: 'success'
+      }).then(() => {
+        setGlobalData('write-review', true)
+        Taro.navigateBack()
+
+      })      
+      console.log('res', res);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      Taro.hideLoading()
+    }
   }
   render() {
-    const { nickName } = this.props
+    const { nickName } = this.$router.params
     return (
       <View className='write-review'>
         <View className='tips'>

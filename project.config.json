@@ -6,7 +6,7 @@
 	"cloud": true,
 	"cloudfunctionRoot": "cloud/functions/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -35,7 +35,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -118,6 +118,13 @@
 					"id": -1,
 					"name": "他人主页",
 					"pathName": "pages/other-homepage/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "离线",
+					"pathName": "pages/offline/index",
 					"query": "",
 					"scene": null
 				}

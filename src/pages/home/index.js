@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import { AtIcon, AtButton, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
+import { get as getGlobalData, set as setGlobalData } from '@/utils/global-data';
 
 //#region Components
 
@@ -12,7 +13,7 @@ import NoTopic from './components/no-topic'
 import { ICON_PREFIX_CLASS, APP_NAME, UN_SELECTED_CATEGORY, NO_TOPIC } from '../../constants/common'
 
 import './index.scss'
-import { getQuestion } from '../../api/home'
+import { getQuestion, getAnswerList } from '../../api/home'
 
 const ERR_CODE = {
   OK: 0,
@@ -22,15 +23,19 @@ const ERR_CODE = {
 export default class Home extends Taro.Component {
   constructor(params) {
     super(params)
+    this.screenHeight = Taro.getSystemInfoSync().screenHeight
+    this.pagination = {
+      page: 1,
+      limit: 5
+    }
     this.state = {
-      like: false,
-      $switch: true,
-      // clientHeight: Utils.getSystemInfoSync().windowHeight - Utils.getSystemInfoSync().statusBarHeight,
       topic: {},
       showNoTopic: false,
       noTopicType: UN_SELECTED_CATEGORY,
       showActionSheet: false,
-      current: null
+      current: null,
+      answerList: [],
+      answerPage: {}
     }
   }
   config = {
@@ -41,6 +46,18 @@ export default class Home extends Taro.Component {
   }
   componentDidMount() {
     this.loadData()
+  }
+  componentDidShow() {
+    const writeReview = getGlobalData('write-review')
+    if (writeReview) {
+      this.pagination = 1
+      this.getAnswerList({
+        id: this.state.topic.id,
+        ...this.pagination
+      }, true)
+      setGlobalData('write-review', false)
+    }
+    console.log('componentDidShow');
   }
   /**
    * @description 页面滚动回调
@@ -57,6 +74,33 @@ export default class Home extends Taro.Component {
     } else {
       Taro.setNavigationBarTitle({
         title: '码上面试'
+      })
+    }
+  }
+  /**
+   * @description 页面滚动
+   * @author lentoo
+   * @date 2019-06-03
+   * @param {*} event
+   * @memberof Home
+   */
+  onScroll (event) {
+    const { detail } = event
+    this.onPageScroll(detail)
+  }
+  /**
+   * @description 页面滚动到底部
+   * @author lentoo
+   * @date 2019-06-03
+   * @memberof Home
+   */
+  onScrollToLower () {
+    const { answerPage, topic } = this.state
+    if (answerPage.current < answerPage.pages) {
+      this.pagination.page++
+      this.getAnswerList({
+        id: topic.id,
+        ...this.pagination
       })
     }
   }
@@ -86,27 +130,37 @@ export default class Home extends Taro.Component {
           showNoTopic,
           noTopicType: ERR_CODE[res.errCode]
         })
+        this.getAnswerList(res)
         console.log('res', res);
       })
   }
+  async getAnswerList (params, reset = false) {
+    const res = await getAnswerList({
+      id: params.id,
+      ...this.pagination
+    })
+    const { data: answerList, page } = res
+    console.log('answerList', answerList, page);
+    if (reset) {
+      this.setState({
+        answerList,
+        answerPage: page
+      })
+    } else {
+      this.setState({
+        answerList: [...this.state.answerList, ...answerList],
+        answerPage: page
+      })
+    }
+  }
   /**
-   * @description 双击屏幕
+   * @description 分享页面
    * @author lentoo
-   * @date 2019-05-16
-   * @param {*} e
+   * @date 2019-06-03
+   * @param {*} options
+   * @returns
    * @memberof Home
    */
-  doubleTap(e) {
-    console.log(e)
-    if (e.timeStamp - this.touchStartTime < 300) {
-      Taro.showToast({
-        icon: 'none',
-        title: '已喜欢'
-      })
-      this.setLike(true)
-    }
-    this.touchStartTime = e.timeStamp;
-  }
   onShareAppMessage(options) {
     console.log(options)
     let shartObj = {}
@@ -125,12 +179,6 @@ export default class Home extends Taro.Component {
       }
     }
     return shartObj
-  }
-  setLike(state) {
-    this.setState({
-      like: state
-    })
-    console.log(this.state);
   }
   /**
    * @description 当我们点击答案的头部时会触发，弹出 ActionSheet
@@ -155,7 +203,7 @@ export default class Home extends Taro.Component {
     const { current, topic } = this.state
     Taro.showLoading()
     Taro.navigateTo({
-      url: `write-review/index?nickName=${current.nickName}&id=${current.id}&title=${topic.title}`,
+      url: `write-review/index?nickName=${current.nickName}&userId=${current.userInfoId}&title=${topic.title}&id=${topic.id}`,
     }).then(() => {
       Taro.hideLoading()
       this.setState({
@@ -163,7 +211,6 @@ export default class Home extends Taro.Component {
       })
     })
   }
-
   /**
    * @description 点击下一题
    * @author lentoo
@@ -183,15 +230,18 @@ export default class Home extends Taro.Component {
     Taro.stopPullDownRefresh()
   }
   renderTopic() {
-    const { topic, showNoTopic } = this.state
-    const answerList = []
+    const { topic, showNoTopic, answerList } = this.state
+    const list = [{
+      ...topic,
+      commentOfhtml: topic.answerOfhtml
+    }, ...answerList]
     return showNoTopic
       ? (<View></View>)
       : (
         <View className='main'>
           <TopicTitle topic={topic}></TopicTitle>
 
-          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} topic={topic}></AnswerList>
+          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={list} topic={topic}></AnswerList>
 
           <View className='fixed-btns'>
             <View className='fab-btn'>
@@ -216,7 +266,13 @@ export default class Home extends Taro.Component {
   render() {
     const { showNoTopic, noTopicType } = this.state
     return (
-      <View className='home'>
+      <ScrollView className='home' style={{
+        height: '100vh'
+      }} 
+        scrollY 
+        onScroll={this.onScroll.bind(this)}
+        onScrollToLower={this.onScrollToLower.bind(this)}
+      >
         {
           showNoTopic && (
             <NoTopic type={noTopicType}></NoTopic>
@@ -244,7 +300,7 @@ export default class Home extends Taro.Component {
         {/* <View className='tabbar'> */}
         <CdTabbar title='首页'></CdTabbar>
         {/* </View> */}
-      </View>
+      </ScrollView>
     );
   }
 }
