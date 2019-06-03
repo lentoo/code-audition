@@ -51,7 +51,7 @@ class OtherHomePage extends Taro.Component {
   }
   render() {
     const { userInfo } = this.state
-    const tabList = [{ title: '分享' }, { title: '喜欢' }]
+    const tabList = [{ title: '分享' }, { title: '收藏' }]
     return (
       <View className='user'>
         <View className='icons' style={
@@ -61,7 +61,7 @@ class OtherHomePage extends Taro.Component {
         }
         >
           <View onClick={this.handleBack} className='icon-wrapper'>
-            <AtIcon value='chevron-left' size='20' color='#fefefe'></AtIcon>
+            <AtIcon value='chevron-left' size='18' color='#fefefe'></AtIcon>
           </View>
         </View>
         {/* <Image className='bg-img'></Image> */}

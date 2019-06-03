@@ -21,7 +21,8 @@ export default class TopicTitle extends Taro.Component {
         transform: 'scale(1)'
       },
       showFollow: true,
-      isFollow: false
+      isFollow: false,
+      isCollection: false
     }
     this.handleAvatarClick = this.handleAvatarClick.bind(this)
     this.toWriteReview = this.toWriteReview.bind(this)
@@ -64,12 +65,31 @@ export default class TopicTitle extends Taro.Component {
       }, 350)
     })
   }
+  /**
+   * @description 点击头像
+   * @author lentoo
+   * @date 2019-06-03
+   * @memberof TopicTitle
+   */
   handleAvatarClick () {
     Taro.showNavigationBarLoading()
     Taro.navigateTo({
       url: '/pages/other-homepage/index'
     }).then(() => {
       Taro.hideNavigationBarLoading()
+    })
+  }
+  /**
+   * @description 点击收藏
+   * @author lentoo
+   * @date 2019-06-03
+   * @memberof TopicTitle
+   */
+  handleCollectionClick () {
+    this.setState(prevState => {
+      return {
+        isCollection: !prevState.isCollection
+      }
     })
   }
   renderFollow() {
@@ -103,6 +123,7 @@ export default class TopicTitle extends Taro.Component {
   }
   render() {
     const { topic } = this.props
+    const { isCollection } = this.state
     // const { addIconStyle, isFollow, showFollow } = this.state
     return (
       <View className='title'>
@@ -160,17 +181,18 @@ export default class TopicTitle extends Taro.Component {
         </View>
 
         <View className='title-actions'>
-          <View className='title-actions-item'>
-            <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='slidebar_biaoqing' size='16' color='#007fff'></AtIcon>
+          <View className='title-actions-item' onClick={this.handleCollectionClick.bind(this)}>
+
+            <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='shoucang' size='14' color={isCollection? '#007fff' : '#999'}></AtIcon>
             <Text>
-              关注
-                    </Text>
+              {isCollection ? '已收藏' : '收藏'}
+            </Text>
           </View>
           <View className='title-actions-item' onClick={this.toWriteReview}>
             <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='xie' size='16' color='#007fff'></AtIcon>
             <Text>
               写答案
-                    </Text>
+            </Text>
           </View>
         </View>
       </View>
