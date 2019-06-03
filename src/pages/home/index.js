@@ -66,7 +66,8 @@ export default class Home extends Taro.Component {
    * @param {*} { scrollTop }
    * @memberof Home
    */
-  onPageScroll({ scrollTop }) {
+  onPageScroll(event) {
+    const { scrollTop } = event
     if (scrollTop > 100) {
       Taro.setNavigationBarTitle({
         title: this.state.topic.title
@@ -78,23 +79,12 @@ export default class Home extends Taro.Component {
     }
   }
   /**
-   * @description 页面滚动
-   * @author lentoo
-   * @date 2019-06-03
-   * @param {*} event
-   * @memberof Home
-   */
-  onScroll (event) {
-    const { detail } = event
-    this.onPageScroll(detail)
-  }
-  /**
    * @description 页面滚动到底部
    * @author lentoo
    * @date 2019-06-03
    * @memberof Home
    */
-  onScrollToLower () {
+  onReachBottom () {
     const { answerPage, topic } = this.state
     if (answerPage.current < answerPage.pages) {
       this.pagination.page++
@@ -111,7 +101,11 @@ export default class Home extends Taro.Component {
    * @memberof Home
    */
   async onPullDownRefresh() {
+    Taro.showLoading({
+      mask: true
+    })
     await this.loadData()
+    Taro.hideLoading()
     Taro.stopPullDownRefresh()
     Taro.vibrateShort()
   }
@@ -130,7 +124,7 @@ export default class Home extends Taro.Component {
           showNoTopic,
           noTopicType: ERR_CODE[res.errCode]
         })
-        this.getAnswerList(res)
+        this.getAnswerList(res, true)
         console.log('res', res);
       })
   }
@@ -146,6 +140,7 @@ export default class Home extends Taro.Component {
         answerList,
         answerPage: page
       })
+      this.pagination.page = 1
     } else {
       this.setState({
         answerList: [...this.state.answerList, ...answerList],
@@ -221,13 +216,6 @@ export default class Home extends Taro.Component {
   async onFabNextClick(event) {
     event.stopPropagation()
     Taro.startPullDownRefresh()
-    Taro.showLoading({
-      mask: true
-    })
-    Taro.vibrateShort()
-    await this.loadData()
-    Taro.hideLoading()
-    Taro.stopPullDownRefresh()
   }
   renderTopic() {
     const { topic, showNoTopic, answerList } = this.state
@@ -266,7 +254,7 @@ export default class Home extends Taro.Component {
   render() {
     const { showNoTopic, noTopicType } = this.state
     return (
-      <ScrollView className='home' style={{
+      <View className='home' style={{
         height: '100vh'
       }} 
         scrollY 
@@ -300,7 +288,7 @@ export default class Home extends Taro.Component {
         {/* <View className='tabbar'> */}
         <CdTabbar title='首页'></CdTabbar>
         {/* </View> */}
-      </ScrollView>
+      </View>
     );
   }
 }

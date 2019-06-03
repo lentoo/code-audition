@@ -181,7 +181,12 @@ export default class TopicTitle extends Taro.Component {
         </View>
 
         <View className='title-actions'>
-          <View className='title-actions-item' onClick={this.handleCollectionClick.bind(this)}>
+          <View className='title-actions-item' onClick={this.handleCollectionClick.bind(this)} style={
+            {
+              color: isCollection ? '#007fff' : '#999'
+            }
+          }
+          >
 
             <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='shoucang' size='14' color={isCollection? '#007fff' : '#999'}></AtIcon>
             <Text>

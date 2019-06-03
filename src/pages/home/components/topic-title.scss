@@ -109,6 +109,7 @@
       align-items: center;
       margin-top: 1PX;
       &-item {
+        transition: .5s ease all;
         background: #fff;
         flex: 1;
         height: 45PX;
