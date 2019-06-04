@@ -46,7 +46,7 @@ export default class TopicTitle extends Taro.Component {
   toWriteReview() {
     Taro.showLoading()
     Taro.navigateTo({
-      url: 'write-review/index?title=' + this.props.topic.title
+      url: `write-review/index?title=${this.props.topic.title}&id=${this.props.topic.id}`
     }).then(() => {
       Taro.hideLoading()
     })
