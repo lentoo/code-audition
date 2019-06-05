@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { AtIcon } from 'taro-ui';
 import { ICON_PREFIX_CLASS } from '@/constants/common';
 import CdParseWxml from '../../../components/cd-parse-wxml'
+import Tag from './tag'
 import './topic-title.scss';
+import { addAttentionUser } from '../../../api/home';
 
 export default class TopicTitle extends Taro.Component {
   static propTypes = {
@@ -13,14 +15,14 @@ export default class TopicTitle extends Taro.Component {
   static defaultProps = {
     topic: {}
   }
-  constructor(prop) {
-    super(prop)
+  constructor(...props) {
+    super(...props)
     this.state = {
       addIconStyle: {
         transition: '.3s ease-in-out transform',
         transform: 'scale(1)'
       },
-      showFollow: true,
+      showFollow: false,
       isFollow: false,
       isCollection: false
     }
@@ -28,14 +30,22 @@ export default class TopicTitle extends Taro.Component {
     this.toWriteReview = this.toWriteReview.bind(this)
   }
   componentWillReceiveProps() {
-    this.setState({
-      addIconStyle: {
-        transition: '.3s ease-in-out transform',
-        transform: 'scale(1)'
-      },
-      showFollow: true,
-      isFollow: false
-    })
+    if (this.props.topic && this.props.topic.attentionStatus !== undefined) {
+      this.setState({
+        showFollow: this.props.topic.attentionStatus === 0
+      })
+    }
+    // this.setState({
+    //   addIconStyle: {
+    //     transition: '.3s ease-in-out transform',
+    //     transform: 'scale(1)'
+    //   },
+    //   showFollow: true,
+    //   isFollow: false
+    // })
+  }
+  componentDidShow () {
+    Taro.hideNavigationBarLoading()
   }
   /**
    * @description 跳转写评论页面
@@ -51,19 +61,28 @@ export default class TopicTitle extends Taro.Component {
       Taro.hideLoading()
     })
   }
-  addFollow() {
-    this.setState({
-      addIconStyle: {
-        transition: '.3s ease-in-out transform',
-        transform: 'scale(0)',
-      }
-    }, () => {
-      setTimeout(() => {
-        this.setState({
-          isFollow: true
-        })
-      }, 350)
-    })
+  async addFollow() {
+    const { topic } = this.props
+    try {
+      await addAttentionUser({
+        userId: topic.userInfoId
+      })
+      this.setState({
+        addIconStyle: {
+          transition: '.3s ease-in-out transform',
+          transform: 'scale(0)',
+        }
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            isFollow: true
+          })
+        }, 350)
+      })      
+    } catch (error) {
+      console.log('error', error);
+    }
+    
   }
   /**
    * @description 点击头像
@@ -71,12 +90,10 @@ export default class TopicTitle extends Taro.Component {
    * @date 2019-06-03
    * @memberof TopicTitle
    */
-  handleAvatarClick () {
+  handleAvatarClick() {
     Taro.showNavigationBarLoading()
     Taro.navigateTo({
       url: '/pages/other-homepage/index'
-    }).then(() => {
-      Taro.hideNavigationBarLoading()
     })
   }
   /**
@@ -85,7 +102,7 @@ export default class TopicTitle extends Taro.Component {
    * @date 2019-06-03
    * @memberof TopicTitle
    */
-  handleCollectionClick () {
+  handleCollectionClick() {
     this.setState(prevState => {
       return {
         isCollection: !prevState.isCollection
@@ -127,79 +144,85 @@ export default class TopicTitle extends Taro.Component {
     // const { addIconStyle, isFollow, showFollow } = this.state
     return (
       <View className='title'>
+        <View className='title-wrapper'>
+          <View className='title-info-wrapper'>
 
-        <View className='title-info'>
-          <View className='title-label'>
-            <View className='title-tags'>
-              {
-                topic.sorts.map(tag => {
-                  return (
-                    <Text key={tag} className='title-tag'>{tag}</Text>
-                  )
-                })
-              }
-            </View>
-            <View className='title-avatar'>
-              <Image className='title-avatar-img' onClick={this.handleAvatarClick} src={topic.avatarUrl}></Image>
-              {/* <View className='at-icon at-icon-add'></View> */}
-              {
-                this.renderFollow()
-              }
-              {/* <View className='title-avatar-name'>
-                <Text>{topic.nickName}</Text>
-              </View> */}
-            </View>
-          </View>
-          <View>
-            <Text className='title-text'>{topic.title}</Text>
-          </View>
-          <View className='title-desc'>
-            {
-              topic.descriptionOfhtml && <CdParseWxml template={topic.descriptionOfhtml}></CdParseWxml>
-            }
-            {/* <Text>{topic.descriptionOfhtml}</Text> */}
-          </View>
-          <View className='title-data'>
-            <View className='title-pv'>
-              <View>
-                <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='page-view' size='12' color='#999'></AtIcon>
-                <Text>{topic.browse || 0}</Text>
+            <View className='title-info'>
+              <View className='title-label'>
+                <View className='title-tags'>
+                  {
+                    topic.sorts && topic.sorts.map(tag => {
+                      return (
+                        <Tag key={tag} className='title-tag'>{tag}</Tag>
+                      )
+                    })
+                  }
+                </View>
+                <View className='title-avatar'>
+                  <Image className='title-avatar-img' onClick={this.handleAvatarClick} src={topic.avatarUrl}></Image>
+                  {/* <View className='at-icon at-icon-add'></View> */}
+                  {
+                    this.renderFollow()
+                  }
+                  {/* <View className='title-avatar-name'>
+                    <Text>{topic.nickName}</Text>
+                  </View> */}
+                </View>
+              </View>
+              <View className='title-text-wrapper'>
+                <Text selectable className='title-text'>{topic.title}</Text>
+              </View>
+              <View className='title-desc'>
+                {
+                  topic.descriptionOfhtml && <CdParseWxml template={topic.descriptionOfhtml}></CdParseWxml>
+                }
+                {/* <Text>{topic.descriptionOfhtml}</Text> */}
+              </View>
+              <View className='title-data'>
+                <View className='title-pv'>
+                  <View>
+                    <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='page-view' size='12' color='#999'></AtIcon>
+                    <Text>{topic.browse || 0}</Text>
+                  </View>
+                </View>
+                {/* <View className='title-tags'>
+                  <Text className='title-tag'>
+                    Vue1
+                          </Text>
+                  <Text className='title-tag'>
+                    Vue2
+                          </Text>
+                  <Text className='title-tag'>
+                    Vue3
+                          </Text>
+                </View> */}
               </View>
             </View>
-            {/* <View className='title-tags'>
-              <Text className='title-tag'>
-                Vue1
-                      </Text>
-              <Text className='title-tag'>
-                Vue2
-                      </Text>
-              <Text className='title-tag'>
-                Vue3
-                      </Text>
-            </View> */}
+
+            <View className='title-actions'>
+              <View className='title-actions-item' onClick={this.handleCollectionClick.bind(this)} style={
+                {
+                  color: isCollection ? '#007fff' : '#999'
+                }
+              }
+              >
+
+                <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='shoucang' size='14' color={isCollection ? '#007fff' : '#999'}></AtIcon>
+                <Text>
+                  {isCollection ? '已收藏' : '收藏'}
+                </Text>
+              </View>
+              <View className='title-actions-item' onClick={this.toWriteReview}>
+                <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='xie' size='16' color='#007fff'></AtIcon>
+                <Text>
+                  写答案
+                </Text>
+              </View>
+            </View>
+            
           </View>
         </View>
 
-        <View className='title-actions'>
-          <View className='title-actions-item' onClick={this.handleCollectionClick.bind(this)} style={
-            {
-              color: isCollection ? '#007fff' : '#999'
-            }
-          }
-          >
-
-            <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='shoucang' size='14' color={isCollection? '#007fff' : '#999'}></AtIcon>
-            <Text>
-              {isCollection ? '已收藏' : '收藏'}
-            </Text>
-          </View>
-          <View className='title-actions-item' onClick={this.toWriteReview}>
-            <AtIcon className='mr5' prefixClass={ICON_PREFIX_CLASS} value='xie' size='16' color='#007fff'></AtIcon>
-            <Text>
-              写答案
-            </Text>
-          </View>
-        </View>
       </View>
     );
   }

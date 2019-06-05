@@ -28,7 +28,7 @@
   will-change: right;
   position: fixed;
   right: 16PX;
-  bottom: 200PX;
+  bottom: 150PX;
   @include mb-safe();
   .fab-btn {
     margin-bottom: 15PX;
@@ -41,7 +41,7 @@
   }
   .at-fab {
     background-color: #fff;
-    @include box-shadow();
+    box-shadow: 0 2px 8px rgba(0,0,0,.16);
     // background-color: $primary-color;
   }
   .at-icon {

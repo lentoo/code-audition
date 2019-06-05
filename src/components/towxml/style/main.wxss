@@ -406,16 +406,13 @@
 }
 
 /**内置元素**/
-image,
-video {
+.cd-parse-wxml image, .cd-parse-wxml video {
     width: 100%;
     margin: 10rpx auto;
 }
-
-image {
+.cd-parse-wxml image {
     height: auto;
 }
-
-video {
+.cd-parse-wxml video {
     height: 220px;
 }

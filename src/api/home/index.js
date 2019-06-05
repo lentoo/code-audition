@@ -1,7 +1,9 @@
 
 import fetch from '@/utils/request';
+import { Validate } from '../../utils/';
 import { METHODS } from '../../constants/common';
 
+const validate = new Validate()
 /**
  * @description 题目推送
  * @author lentoo
@@ -123,5 +125,19 @@ export function putUserCategories (params) {
     url: '/audition/sort/put',
     method: METHODS.PUT,
     payload: params
+  })
+}
+/**
+ * @description 关注用户
+ * @author lentoo
+ * @date 2019-06-04
+ * @export
+ * @param {*} params
+ * @returns
+ */
+export function addAttentionUser (params) {
+  validate.required(params.userId)
+  return fetch({
+    url: `/audition/userInfo/attention/${params.userId}`
   })
 }

@@ -3,12 +3,20 @@
 .title {
     height: 100%;
     padding-bottom: 0;
-
+    &-wrapper {
+      background: $primary-color;
+      padding: 30px 40px;
+    }
     // @include box-shadow-bottom();
     // box-shadow: $box-shadow-base;
     &-info {
-      padding: 10PX 20PX;
+      position: relative;
+      padding: 20px 40px;
       background: #fff;
+      &-wrapper {
+        border-radius: 8px;
+        overflow: hidden;
+      }
     }
     &-data {
       @include flex(row);
@@ -27,34 +35,24 @@
       @include flex(row);
       flex: 1;
       justify-content: flex-start;
-      padding-bottom: 10PX;
-      padding-right: 50PX;
+      padding-bottom: 20px;
+      padding-right: 100px;
     }
-    &-tag {
-      background: #ebf5f8;
-      border-radius: 10PX;
-      padding: 5PX 10PX;
-      color: $primary-color;
-      font-size: 12PX;
-      margin-right: 10PX;
-      &:last-child {
-        margin-right: 0;
-      }
-    }
+
     &-avatar{
       position: absolute;
-      right: 20PX;
+      right: 30px;
       &-img {
-        width: 30PX;
-        height: 30PX;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         // @include border-radius;
       }
       &-name {
         position: absolute;
-        bottom: -10PX;        
+        bottom: -20px;        
         text-align: center;
-        font-size: 12PX;
+        font-size: 24px;
         font-weight: 700;
         color: $tip-color;
       }
@@ -66,7 +64,7 @@
         // height: 80px;
         position:absolute;
         left:0;
-        bottom: -10px;
+        bottom: -20px;
         display:flex;
         justify-content:center;
       }
@@ -94,31 +92,36 @@
         
       }
     }
+    .title-text-wrapper {
+      margin-top: 10px;
+    }
     &-text {
-      font-size: 16PX;
+      font-size: 32px;
       font-weight: 700;
       color: #333;
     }
     &-desc {
-      margin: 10PX 0;
-      font-size: 14PX;
+      margin: 20px 0;
+      font-size: 28px;
       color: #666;
     }
     &-actions {
       @include flex(row);
       align-items: center;
-      margin-top: 1PX;
+      border-top: 1PX solid #f5f5f5;
+      // margin-top: 1PX;
       &-item {
         transition: .5s ease all;
         background: #fff;
         flex: 1;
-        height: 45PX;
-        line-height: 45PX;
-        font-size: 12PX;
+        height: 90px;
+        line-height: 90px;
+        font-size: 24px;
         text-align: center;
         color: $primary-color;
         &:first-child {
-          margin-right: 1PX;
+          border-right: 1PX solid #f5f5f5;
+          // margin-right: 1PX;
         }
       }
     }
