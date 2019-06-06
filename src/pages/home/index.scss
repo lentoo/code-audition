@@ -64,3 +64,18 @@
   visibility: hidden;
   transform: translate3d(100%, 0, 0)
 }
+
+.at-float-layout .layout-body {
+  padding: 0;
+  .at-icon {
+    vertical-align: 0;
+  }
+  .at-radio__icon--checked {
+    position: relative;
+    top: 22px;
+  }
+}
+// .at-button--primary {
+//   background-color: $primary-color;
+//   border-radius: 24px;
+// }

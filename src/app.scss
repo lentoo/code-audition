@@ -44,3 +44,7 @@ page {
     font-size: 24PX !important;
   }
 }
+.at-button--primary {
+  background-color: $primary-color;
+  border-radius: 24px;
+}

@@ -171,3 +171,12 @@ export class Utils {
     }
   }
 }
+
+export class Validate {
+  required(value) {
+    if (!value) {
+      throw new Error('key is required')
+    }
+    return this
+  }
+}

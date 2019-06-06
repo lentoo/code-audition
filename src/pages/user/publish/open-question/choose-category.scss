@@ -42,6 +42,9 @@
     position: fixed;
     right: 20px;
     bottom: 100px;
+    .at-fab {
+      background-color: $primary-color;
+    }
   }
   .category {
     &-list {

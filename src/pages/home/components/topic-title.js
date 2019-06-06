@@ -1,12 +1,13 @@
 import Taro from '@tarojs/taro';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text, Image, ScrollView } from '@tarojs/components';
 import PropTypes from 'prop-types'
-import { AtIcon } from 'taro-ui';
+import { AtIcon, AtFloatLayout, AtRadio, AtButton, AtLoadMore } from 'taro-ui';
 import { ICON_PREFIX_CLASS } from '@/constants/common';
 import CdParseWxml from '../../../components/cd-parse-wxml'
 import Tag from './tag'
 import './topic-title.scss';
 import { addAttentionUser } from '../../../api/home';
+import { getCollections, saveTopicInCollection } from '../../../api/user';
 
 export default class TopicTitle extends Taro.Component {
   static propTypes = {
@@ -24,15 +25,22 @@ export default class TopicTitle extends Taro.Component {
       },
       showFollow: false,
       isFollow: false,
-      isCollection: false
+      isCollection: false,
+      isOpenFloatLayout: false,
+      collectionLoading: false,
+      collectionList: []
     }
     this.handleAvatarClick = this.handleAvatarClick.bind(this)
     this.toWriteReview = this.toWriteReview.bind(this)
+    this.handleRadioClick = this.handleRadioClick.bind(this)
+    this.handleCollectionSubmitClick = this.handleCollectionSubmitClick.bind(this)
   }
   componentWillReceiveProps() {
-    if (this.props.topic && this.props.topic.attentionStatus !== undefined) {
+    const topic = this.props.topic
+    if (topic && topic.attentionStatus !== undefined) {
       this.setState({
-        showFollow: this.props.topic.attentionStatus === 0
+        showFollow: topic.attentionStatus === 0,
+        isCollection: topic.collectionStatus === 1
       })
     }
     // this.setState({
@@ -44,7 +52,8 @@ export default class TopicTitle extends Taro.Component {
     //   isFollow: false
     // })
   }
-  componentDidShow () {
+  componentDidShow() {
+    
     Taro.hideNavigationBarLoading()
   }
   /**
@@ -60,6 +69,28 @@ export default class TopicTitle extends Taro.Component {
     }).then(() => {
       Taro.hideLoading()
     })
+  }
+  async loadCollections(params) {
+    try {
+      this.setState({
+        collectionLoading: true
+      })
+      let res = await getCollections(params)
+      res = res.map(item => {
+        return {
+          ...item,
+          value: true,
+          checked: item.select === 1 ? true : false
+        }
+      })
+      this.setState({
+        collectionList: res,
+        collectionLoading: false
+      })
+      console.log('res', res);
+    } catch (error) {
+      console.log('err', error);
+    }
   }
   async addFollow() {
     const { topic } = this.props
@@ -78,11 +109,11 @@ export default class TopicTitle extends Taro.Component {
             isFollow: true
           })
         }, 350)
-      })      
+      })
     } catch (error) {
       console.log('error', error);
     }
-    
+
   }
   /**
    * @description 点击头像
@@ -96,6 +127,12 @@ export default class TopicTitle extends Taro.Component {
       url: '/pages/other-homepage/index'
     })
   }
+  handleAddCollectionClick() {
+    Taro.showNavigationBarLoading()
+    Taro.navigateTo({
+      url: '/pages/user/collection/add-collection'
+    })
+  }
   /**
    * @description 点击收藏
    * @author lentoo
@@ -103,11 +140,43 @@ export default class TopicTitle extends Taro.Component {
    * @memberof TopicTitle
    */
   handleCollectionClick() {
+    this.loadCollections({
+      questionId: this.props.topic.id
+    })
     this.setState(prevState => {
       return {
-        isCollection: !prevState.isCollection
+        isOpenFloatLayout: true,
+        // isCollection: !prevState.isCollection
       }
     })
+  }
+  handleRadioClick(item) {
+
+    const list = [...this.state.collectionList]
+    this.setState({
+      collectionList: list.map(obj => obj.id === item.id ? { ...obj, checked: !item.checked } : obj)
+    })
+  }
+  async handleCollectionSubmitClick () {
+    Taro.showLoading()
+    const { topic } = this.props
+    const { collectionList } = this.state
+    const collectionIds = collectionList.filter(item => item.checked).map(item => item.id)
+    try {
+      await saveTopicInCollection({
+        id: topic.id,
+        collectionIds
+      })
+      this.setState({
+        isOpenFloatLayout: false,
+        isCollection: !!collectionIds.length
+      })
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      Taro.hideLoading()
+    }
+
   }
   renderFollow() {
     const { addIconStyle, isFollow, showFollow } = this.state
@@ -140,7 +209,7 @@ export default class TopicTitle extends Taro.Component {
   }
   render() {
     const { topic } = this.props
-    const { isCollection } = this.state
+    const { isCollection, isOpenFloatLayout, collectionLoading, collectionList } = this.state
     // const { addIconStyle, isFollow, showFollow } = this.state
     return (
       <View className='title'>
@@ -185,17 +254,6 @@ export default class TopicTitle extends Taro.Component {
                     <Text>{topic.browse || 0}</Text>
                   </View>
                 </View>
-                {/* <View className='title-tags'>
-                  <Text className='title-tag'>
-                    Vue1
-                          </Text>
-                  <Text className='title-tag'>
-                    Vue2
-                          </Text>
-                  <Text className='title-tag'>
-                    Vue3
-                          </Text>
-                </View> */}
               </View>
             </View>
 
@@ -219,10 +277,65 @@ export default class TopicTitle extends Taro.Component {
                 </Text>
               </View>
             </View>
-            
+
           </View>
         </View>
+        <AtFloatLayout isOpened={isOpenFloatLayout}
+          title='添加到收藏集'
+          onClose={() => {
+            this.setState({
+              isOpenFloatLayout: false
+            })
+          }}
+        >
+          <View className='collection'>
+            <View className='collection-wrapper'>
 
+              <View className='collection-title'>
+                <View style={{
+                  height: '100%'
+                }}
+                  onClick={this.handleAddCollectionClick}
+                >
+                  <AtIcon value='add' size='14'></AtIcon><Text className='collection-title-text'>新建收藏集</Text>
+                </View>
+              </View>
+              <ScrollView scrollY className='collection-body'>
+                <View className='collection-list'>
+
+                  {
+                    collectionLoading ?
+                      (
+                        <AtLoadMore status='loading'></AtLoadMore>
+                      ) :
+                      collectionList.map(item => {
+                        return (
+                          <AtRadio key={item.id} options={
+                            [
+                              {
+                                label: item.name,
+                                desc: `${item.attentionNum} 个关注 · ${item.questionNum} 个题目`,
+                                value: item.value
+                              }
+                            ]
+                          }
+                            value={item.checked}
+                            onClick={() => {
+                              this.handleRadioClick(item)
+                            }}
+                          ></AtRadio>
+                        )
+                      })
+                  }
+                </View>
+              </ScrollView>
+              <View className='collection-footer'>
+                <AtButton type='primary' onClick={this.handleCollectionSubmitClick}>完成</AtButton>
+              </View>
+
+            </View>
+          </View>
+        </AtFloatLayout>
       </View>
     );
   }

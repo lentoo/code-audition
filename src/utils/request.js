@@ -58,3 +58,24 @@ export default async function fetch(options) {
     return Promise.reject({ message: defaultMsg, ...err })
   })
 }
+/**
+ * @description 文件上传
+ * @author lentoo
+ * @date 2019-06-05
+ * @export
+ * @param {*} tempPath
+ * @returns
+ */
+export function uploadFile (tempPath, cb) {
+  console.log('tempPath', tempPath);
+  return Taro.uploadFile({
+    url: process.env.UPLOAD_URL + '/api/upload',
+    filePath: tempPath,
+    name: 'file',
+    success: res => {
+      if (cb && typeof cb === 'function') {
+        cb.call(this, res)
+      }
+    }
+  })
+}

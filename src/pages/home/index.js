@@ -26,7 +26,7 @@ export default class Home extends Taro.Component {
     this.screenHeight = Taro.getSystemInfoSync().screenHeight
     this.pagination = {
       page: 1,
-      limit: 5
+      limit: 2
     }
     this.state = {
       topic: {},
@@ -128,24 +128,38 @@ export default class Home extends Taro.Component {
         console.log('res', res);
       })
   }
+  /**
+   * @description 获取答案列表
+   * @author lentoo
+   * @date 2019-06-05
+   * @param {*} params
+   * @param {boolean} [reset=false]
+   * @memberof Home
+   */
   async getAnswerList (params, reset = false) {
     const res = await getAnswerList({
       id: params.id,
       ...this.pagination
     })
-    const { data: answerList, page } = res
-    console.log('answerList', answerList, page);
+    const { data, page } = res
+    const { answerList, topic} = this.state
+    const list = [
+      ...answerList,
+      ...data
+    ]
+    
+    if (topic.answerOfhtml) {
+      list.unshift({
+        ...topic,
+        commentOfhtml: topic.answerOfhtml
+      })
+    }
+    this.setState({
+      answerList: list,
+      answerPage: page
+    })
     if (reset) {
-      this.setState({
-        answerList,
-        answerPage: page
-      })
       this.pagination.page = 1
-    } else {
-      this.setState({
-        answerList: [...this.state.answerList, ...answerList],
-        answerPage: page
-      })
     }
   }
   /**
@@ -219,17 +233,13 @@ export default class Home extends Taro.Component {
   }
   renderTopic() {
     const { topic, showNoTopic, answerList } = this.state
-    const list = [{
-      ...topic,
-      commentOfhtml: topic.answerOfhtml
-    }, ...answerList]
     return showNoTopic
       ? (<View></View>)
       : (
         <View className='main'>
           <TopicTitle topic={topic}></TopicTitle>
 
-          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={list} topic={topic}></AnswerList>
+          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} topic={topic}></AnswerList>
 
           <View className='fixed-btns'>
             <View className='fab-btn'>

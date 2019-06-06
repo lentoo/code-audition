@@ -131,30 +131,49 @@
       color: #999;
     }
   }
-  .user-menus-wrapper {
-    margin-top: 20px;
-    padding: 0 16px;
-    .user-menus {
-      border-radius: 4PX;
-      background: #fff;
-      @include box-shadow();
+  .share-scroll-view {
+    box-sizing: border-box;
+    padding: 10PX 5PX;
+    .share-item {
       box-sizing: border-box;
+      background: #fff;
+      border-radius: 4PX;
+      padding: 20px 10px;
+      @include box-shadow();
     }
-    .user-menu {
+  }
+  .share-item-title-wrapper {
+    @include flex(row);
+    .share-item-title {
       @include flex(row);
       align-items: center;
-      text-align: center;
-      padding: 20px;
-      &_text {
-        flex: 1;
-        padding-left: 10px;
-        text-align: left;
-        color: $fontColor;
+      padding: 8px;
+      flex: 2;      
+      font-size: 12PX;
+      color: #666;
+      &-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+      }
+      &-nickname-wrapper {
+        color: #333;
         font-size: 14PX;
+        margin-left: 10PX;
+        font-weight: 600;
+      }
+      &-date-wrapper {
+        margin-left: 10PX;
+        color: #999;
+      }
+    }
+    .share-item-tags {
+      flex: 1;
+      // padding-right: 20px;
+      text-align: right;
+      &:last-child {
+        margin-right: 0;
       }
     }
   }
-}
-.icon-index--icon {
-  vertical-align: middle;
 }
