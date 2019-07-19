@@ -1,7 +1,13 @@
-import Taro from '@tarojs/taro';
-import { View, Text, ScrollView } from '@tarojs/components';
-import { AtIcon, AtButton, AtActionSheet, AtActionSheetItem, AtFab } from 'taro-ui';
-import { get as getGlobalData, set as setGlobalData } from '@/utils/global-data';
+import Taro from '@tarojs/taro'
+import { View, Text, ScrollView } from '@tarojs/components'
+import {
+  AtIcon,
+  AtButton,
+  AtActionSheet,
+  AtActionSheetItem,
+  AtFab
+} from 'taro-ui'
+import { get as getGlobalData, set as setGlobalData } from '@/utils/global-data'
 
 //#region Components
 
@@ -10,7 +16,12 @@ import TopicTitle from './components/topic-title'
 import AnswerList from './components/answer-list'
 import NoTopic from './components/no-topic'
 //#endregion Components
-import { ICON_PREFIX_CLASS, APP_NAME, UN_SELECTED_CATEGORY, NO_TOPIC } from '../../constants/common'
+import {
+  ICON_PREFIX_CLASS,
+  APP_NAME,
+  UN_SELECTED_CATEGORY,
+  NO_TOPIC
+} from '../../constants/common'
 
 import './index.scss'
 import { getQuestion, getAnswerList } from '../../api/home'
@@ -41,7 +52,7 @@ export default class Home extends Taro.Component {
   config = {
     navigationBarTitleText: '码上面试',
     backgroundTextStyle: 'dark',
-    enablePullDownRefresh: true,
+    enablePullDownRefresh: true
     // navigationStyle: 'custom',
   }
   componentDidMount() {
@@ -51,13 +62,16 @@ export default class Home extends Taro.Component {
     const writeReview = getGlobalData('write-review')
     if (writeReview) {
       this.pagination = 1
-      this.getAnswerList({
-        id: this.state.topic.id,
-        ...this.pagination
-      }, true)
+      this.getAnswerList(
+        {
+          id: this.state.topic.id,
+          ...this.pagination
+        },
+        true
+      )
       setGlobalData('write-review', false)
     }
-    console.log('componentDidShow');
+    console.log('componentDidShow')
   }
   /**
    * @description 页面滚动回调
@@ -84,7 +98,7 @@ export default class Home extends Taro.Component {
    * @date 2019-06-03
    * @memberof Home
    */
-  onReachBottom () {
+  onReachBottom() {
     const { answerPage, topic } = this.state
     if (answerPage.current < answerPage.pages) {
       this.pagination.page++
@@ -115,18 +129,17 @@ export default class Home extends Taro.Component {
    */
   loadData = () => {
     Taro.showLoading()
-    return getQuestion()
-      .then(res => {
-        Taro.hideLoading()
-        const showNoTopic = res.errCode !== ERR_CODE.OK
-        this.setState({
-          topic: res,
-          showNoTopic,
-          noTopicType: ERR_CODE[res.errCode]
-        })
-        this.getAnswerList(res, true)
-        console.log('res', res);
+    return getQuestion().then(res => {
+      Taro.hideLoading()
+      const showNoTopic = res.errCode !== ERR_CODE.OK
+      this.setState({
+        topic: res,
+        showNoTopic,
+        noTopicType: ERR_CODE[res.errCode]
       })
+      this.getAnswerList(res, true)
+      console.log('res', res)
+    })
   }
   /**
    * @description 获取答案列表
@@ -136,18 +149,15 @@ export default class Home extends Taro.Component {
    * @param {boolean} [reset=false]
    * @memberof Home
    */
-  async getAnswerList (params, reset = false) {
+  async getAnswerList(params, reset = false) {
     const res = await getAnswerList({
       id: params.id,
       ...this.pagination
     })
     const { data, page } = res
-    const { answerList, topic} = this.state
-    const list = [
-      ...answerList,
-      ...data
-    ]
-    
+    const { answerList, topic } = this.state
+    const list = reset ? data : [...answerList, ...data]
+
     if (topic.answerOfhtml) {
       list.unshift({
         ...topic,
@@ -212,7 +222,9 @@ export default class Home extends Taro.Component {
     const { current, topic } = this.state
     Taro.showLoading()
     Taro.navigateTo({
-      url: `write-review/index?nickName=${current.nickName}&userId=${current.userInfoId}&title=${topic.title}&id=${topic.id}`,
+      url: `write-review/index?nickName=${current.nickName}&userId=${
+        current.userInfoId
+      }&title=${topic.title}&id=${topic.id}`
     }).then(() => {
       Taro.hideLoading()
       this.setState({
@@ -233,72 +245,71 @@ export default class Home extends Taro.Component {
   }
   renderTopic() {
     const { topic, showNoTopic, answerList } = this.state
-    return showNoTopic
-      ? (<View></View>)
-      : (
-        <View className='main'>
-          <TopicTitle topic={topic}></TopicTitle>
+    return showNoTopic ? (
+      <View />
+    ) : (
+      <View className="main">
+        <TopicTitle topic={topic} />
 
-          <AnswerList onItemClick={this.handleTapItem.bind(this)} data={answerList} topic={topic}></AnswerList>
+        <AnswerList
+          onItemClick={this.handleTapItem.bind(this)}
+          data={answerList}
+          topic={topic}
+        />
 
-          <View className='fixed-btns'>
-            <View className='fab-btn'>
-              <AtFab size='small'>
-                <AtButton className='btn-share' openType='share'>
-                  <AtIcon prefixClass={ICON_PREFIX_CLASS} value='share' color='#666' size='18'></AtIcon>
-                </AtButton>
-              </AtFab>
-
-            </View>
-            <View className='fab-btn'>
-              <AtFab onClick={this.onFabNextClick.bind(this)} size='small'>
-                <Text className='at-icon at-icon-chevron-down'></Text>
-              </AtFab>
-            </View>
+        <View className="fixed-btns">
+          <View className="fab-btn">
+            <AtFab size="small">
+              <AtButton className="btn-share" openType="share">
+                <AtIcon
+                  prefixClass={ICON_PREFIX_CLASS}
+                  value="share"
+                  color="#666"
+                  size="18"
+                />
+              </AtButton>
+            </AtFab>
           </View>
-
-
+          <View className="fab-btn">
+            <AtFab onClick={this.onFabNextClick.bind(this)} size="small">
+              <Text className="at-icon at-icon-chevron-down" />
+            </AtFab>
+          </View>
         </View>
-      )
+      </View>
+    )
   }
   render() {
     const { showNoTopic, noTopicType } = this.state
     return (
-      <View className='home' style={{
-        height: '100vh'
-      }} 
-        scrollY 
+      <View
+        className="home"
+        style={{
+          height: '100vh'
+        }}
+        scrollY
         onScroll={this.onScroll.bind(this)}
-        onScrollToLower={this.onScrollToLower.bind(this)}
-      >
-        {
-          showNoTopic && (
-            <NoTopic type={noTopicType}></NoTopic>
-          )
-        }
-        {
-          this.renderTopic()
-        }
+        onScrollToLower={this.onScrollToLower.bind(this)}>
+        {showNoTopic && <NoTopic type={noTopicType} />}
+        {this.renderTopic()}
 
         <AtActionSheet
-          cancelText='取消'
+          cancelText="取消"
           isOpened={this.state.showActionSheet}
           onClose={() => {
             this.setState({
               showActionSheet: false
             })
-          }}
-        >
+          }}>
           <AtActionSheetItem onClick={this.handleReplyClick.bind(this)}>
             回复
           </AtActionSheetItem>
         </AtActionSheet>
 
-
         {/* <View className='tabbar'> */}
-        <CdTabbar title='首页'></CdTabbar>
+        <CdTabbar title="首页" />
         {/* </View> */}
       </View>
-    );
+    )
   }
 }
