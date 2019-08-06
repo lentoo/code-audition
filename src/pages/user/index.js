@@ -36,15 +36,8 @@ class User extends Taro.Component {
       menus: [
         {
           icon: 'pengyouquan',
-          title: '分享'
-        },
-        {
-          icon: 'weibiaoti--',
-          title: '刷过的题'
-        },
-        {
-          icon: 'xihuan',
-          title: '喜欢'
+          title: '收藏集',
+          url: '/pages/user/collection/index'
         },
         {
           icon: 'tougaodashang-copy',
@@ -61,6 +54,17 @@ class User extends Taro.Component {
           title: '反馈',
           url: '/pages/user/feedback/index'
         }
+        // {
+        //   icon: 'weibiaoti--',
+        //   title: '刷过的题'
+        // },
+        // {
+        //   icon: 'xihuan',
+        //   title: '喜欢'
+        // },
+
+
+
       ]
     })
 
@@ -151,7 +155,7 @@ class User extends Taro.Component {
                 <Text>112</Text>
               </View>
               <View className='attention-title'>
-                <Text>关注</Text>
+                <Text>投稿</Text>
               </View>
             </View>
           </View>

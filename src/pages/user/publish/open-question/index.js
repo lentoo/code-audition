@@ -86,7 +86,7 @@ class OpenQuestion extends Taro.Component {
     })
   }
   renderSearchBox() {
-    const { showSearchBox, loadingStatus } = this.state
+    const { showSearchBox, loadingStatus, questionItems, bottom } = this.state
     if (showSearchBox) {
       return (
         <View className='search-wrapper'>
@@ -95,7 +95,7 @@ class OpenQuestion extends Taro.Component {
               scrollY
             >
               {
-                this.state.questionItems.map(item => (<QuestionItem item={item} key={item.id}></QuestionItem>))
+                questionItems.map(item => (<QuestionItem item={item} key={item.id}></QuestionItem>))
               }
               {
                 loadingStatus !== 'none' ? (<AtLoadMore status={loadingStatus}></AtLoadMore>) : ''
@@ -104,7 +104,7 @@ class OpenQuestion extends Taro.Component {
             </ScrollView>
           </View>
           <View className='search-item' style={{
-            bottom: this.state.bottom === 0 ? SAFE_AREA_INSET_BOTTOM : `${this.state.bottom}px`
+            bottom: bottom === 0 ? SAFE_AREA_INSET_BOTTOM : `${bottom}px`
           }}
           >
             <View className='search-left' onClick={() => {

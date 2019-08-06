@@ -41,7 +41,9 @@ class App extends Component {
       'pages/user/publish/open-question/submit-success',
       'pages/user/feedback/index',
       'pages/user/message/index',
+      'pages/user/collection/index',
       'pages/user/collection/add-collection',
+      'pages/user/collection/Detail',
       'pages/offline/index',
     ],
     window: {
