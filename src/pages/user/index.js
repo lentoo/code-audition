@@ -183,7 +183,7 @@ class UserView extends Taro.Component {
             <Text>112</Text>
           </View>
           <View className="attention-title">
-            <Text>投稿</Text>
+            <Text>作品</Text>
           </View>
         </View>
       </View>

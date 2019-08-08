@@ -13,7 +13,8 @@ export default class Collection extends Taro.Component {
     this.tabList = [{ title: '我的' }, { title: '关注的' }]
     this.state = {
       current: 0,
-      currentItem: null
+      currentItem: null,
+      tips: true
     }
     this.handleTabClick = this.handleTabClick.bind(this)
     this.handleFabClick = this.handleFabClick.bind(this)
@@ -36,14 +37,19 @@ export default class Collection extends Taro.Component {
     this.setState({
       currentItem: item
     })
-
-    Taro.showModal({
-      title: '提示',
-      content: '确认删除吗？',
-      success: () => {
-        this.handleConfirmDelete()
-      }
-    })
+    if (this.state.tips) {
+      Taro.showModal({
+        title: '提示',
+        content: '确认删除吗？',
+        success: res => {
+          if (res.confirm) {
+            this.handleConfirmDelete()
+          }
+        }
+      })
+    } else {
+      this.handleConfirmDelete()
+    }
   }
   handleConfirmDelete() {
     Taro.showLoading({
@@ -53,6 +59,9 @@ export default class Collection extends Taro.Component {
     setTimeout(() => {
       Taro.hideLoading()
     }, 1500)
+    this.setState({
+      tips: false
+    })
     console.log('删除条目', this.state.currentItem)
   }
   handleItemClick(item) {
