@@ -35,11 +35,11 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "用户",
+					"id": 0,
+					"name": "user",
 					"pathName": "pages/user/index",
 					"query": "",
 					"scene": null
@@ -132,6 +132,7 @@
 					"id": -1,
 					"name": "我的收藏",
 					"pathName": "pages/user/collection/index",
+					"query": "",
 					"scene": null
 				}
 			]

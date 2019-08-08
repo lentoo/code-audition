@@ -1,14 +1,13 @@
-import Taro from '@tarojs/taro';
-import { View, Text, Textarea } from '@tarojs/components';
+import Taro from '@tarojs/taro'
+import { View, Text, Textarea } from '@tarojs/components'
 import { AtImagePicker, AtButton } from 'taro-ui'
 import './index.scss'
-import api from '../../../api/api'
+import api from '../../../../api/api'
 
 export default class Feedback extends Taro.Component {
-
   config = {
-   navigationBarTitleText: '反馈'
-  };
+    navigationBarTitleText: '反馈'
+  }
   state = {
     value: '',
     feedbackTypes: [
@@ -76,11 +75,9 @@ export default class Feedback extends Taro.Component {
       })
       this.setState({
         value: '',
-        files: [],
-
+        files: []
       })
     } else {
-
       Taro.showToast({
         title: res.msg,
         icon: 'none'
@@ -90,23 +87,27 @@ export default class Feedback extends Taro.Component {
   }
   render() {
     return (
-      <View className='feedback'>
-        <View className='feedback-wrapper'>
-          <View className='feedback-types'>
-            {
-              this.state.feedbackTypes.map(type => {
-                return (
-                  <View className='feedback-type' key={type.value} onClick={this.changeFeedBack.bind(this, type.value)}>
-                    <View className={['feedback-type_btn', this.state.activeFeedBack === type.value ? 'active' : '']}>
-                    <Text className='feedback-type_btn_text'>
-                      {type.name}
-                    </Text>
+      <View className="feedback">
+        <View className="feedback-wrapper">
+          <View className="feedback-types">
+            {this.state.feedbackTypes.map(type => {
+              return (
+                <View
+                  className="feedback-type"
+                  key={type.value}
+                  onClick={this.changeFeedBack.bind(this, type.value)}>
+                  <View
+                    className={[
+                      'feedback-type_btn',
+                      this.state.activeFeedBack === type.value ? 'active' : ''
+                    ]}>
+                    <Text className="feedback-type_btn_text">{type.name}</Text>
                   </View>
-                </View>)
-              })
-            }
+                </View>
+              )
+            })}
           </View>
-          <View className='feedback-images'>
+          <View className="feedback-images">
             <AtImagePicker
               multiple
               files={this.state.files}
@@ -115,27 +116,35 @@ export default class Feedback extends Taro.Component {
               onImageClick={this.onImageClick.bind(this)}
             />
           </View>
-          <View className='feedback-input-wrapper'>
-            <Textarea value={this.state.value} onInput={(e) => {
-              this.setState({
-                value: e.target.value
-              })
-            }} className='feedback-input' maxlength={300} autoHeight placeholder={this.state.feedbackTypes.find(type => type.value === this.state.activeFeedBack).placeholder}
-            >
-
-            </Textarea>
-            <View className='feedback-input-count'>
-              <Text>
-                {this.state.value.length}  /300
-              </Text>
+          <View className="feedback-input-wrapper">
+            <Textarea
+              value={this.state.value}
+              onInput={e => {
+                this.setState({
+                  value: e.target.value
+                })
+              }}
+              className="feedback-input"
+              maxlength={300}
+              autoHeight
+              placeholder={
+                this.state.feedbackTypes.find(
+                  type => type.value === this.state.activeFeedBack
+                ).placeholder
+              }
+            />
+            <View className="feedback-input-count">
+              <Text>{this.state.value.length} /300</Text>
             </View>
           </View>
 
-          <View className='feedback-submit-wrapper'>
-            <AtButton type='secondary' onClick={this.submitFeedback.bind(this)}>提交</AtButton>
+          <View className="feedback-submit-wrapper">
+            <AtButton type="secondary" onClick={this.submitFeedback.bind(this)}>
+              提交
+            </AtButton>
           </View>
         </View>
       </View>
-    );
+    )
   }
 }

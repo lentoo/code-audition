@@ -1,14 +1,14 @@
-import Taro from '@tarojs/taro';
-import { View, ScrollView, Text, Image, Canvas } from '@tarojs/components';
-import { AtInput, AtFab, AtButton, AtLoadMore } from 'taro-ui';
-import { connect } from '@tarojs/redux';
-import * as publishActions from '@/actions/publish';
+import Taro from '@tarojs/taro'
+import { View, ScrollView, Text, Image, Canvas } from '@tarojs/components'
+import { AtInput, AtFab, AtButton, AtLoadMore } from 'taro-ui'
+import { connect } from '@tarojs/redux'
+import * as publishActions from '@/actions/publish'
 import Tag from '@/components/cd-tag'
 import { Utils } from '@/utils'
 import './choose-category.scss'
 
-import { searchCategory, submitQuestion } from '../../../../api/question';
-import { uploadFile } from '@/utils/request';
+import { searchCategory, submitQuestion } from '../../../../../api/question'
+import { uploadFile } from '@/utils/request'
 
 @connect(
   state => ({ publish: state.publish }),
@@ -20,7 +20,7 @@ class ChooseCategory extends Taro.Component {
   config = {
     navigationBarTitleText: '选择分类',
     enablePullDownRefresh: false,
-    backgroundTextStyle: 'dark',
+    backgroundTextStyle: 'dark'
   }
   constructor(...props) {
     super(...props)
@@ -74,7 +74,7 @@ class ChooseCategory extends Taro.Component {
       title: '正在提交中...'
     })
     const unknownCategories = selectedCategories.filter(item => item.unknown)
-    console.log('unknownCategories', unknownCategories);
+    console.log('unknownCategories', unknownCategories)
     unknownCategories.map(item => {
       uploadFile(item.icon)
     })
@@ -82,7 +82,7 @@ class ChooseCategory extends Taro.Component {
     submitQuestion({
       ...this.props.publish.publishItem
     }).then(res => {
-      console.log('res', res);
+      console.log('res', res)
       Taro.hideToast()
       Taro.navigateTo({
         url: '/pages/user/publish/open-question/submit-success'
@@ -121,8 +121,8 @@ class ChooseCategory extends Taro.Component {
     context.draw(false, () => {
       Taro.canvasToTempFilePath({
         canvasId: 'firstCanvas',
-        success: (res) => {
-          console.log('success', res);
+        success: res => {
+          console.log('success', res)
           this.canvasImgPath = res.tempFilePath
         }
       })
@@ -135,7 +135,7 @@ class ChooseCategory extends Taro.Component {
   async loadCategory(reset = false) {
     if (this.state.name.trim() === '') {
       this.setState({
-        sortList: [],
+        sortList: []
       })
       return
     }
@@ -154,11 +154,14 @@ class ChooseCategory extends Taro.Component {
         })
       } else {
         if (res.page.total === 0) {
-          this.setState({
-            showCanvas: true
-          }, () => {
-            this.initCanvas()
-          })
+          this.setState(
+            {
+              showCanvas: true
+            },
+            () => {
+              this.initCanvas()
+            }
+          )
         }
       }
       let sortList = []
@@ -168,7 +171,7 @@ class ChooseCategory extends Taro.Component {
         loading: false
       })
     } catch (error) {
-      console.log('error', error);
+      console.log('error', error)
     }
   }
   selectCategory(category) {
@@ -183,7 +186,6 @@ class ChooseCategory extends Taro.Component {
     this.setState({
       selectedCategories: [...selectedCategories, category]
     })
-
   }
   /**
    * @description 删除分类
@@ -193,15 +195,19 @@ class ChooseCategory extends Taro.Component {
    * @memberof ChooseCategory
    */
   removeCategory(category) {
-    
     if (category.unknown) {
       this.removeUnkonwnCategory(category.sortName)
       return
     }
     const { selectedCategories } = this.state
-    console.log('selectedCategories', selectedCategories.filter(item => item.id !== category.id));
+    console.log(
+      'selectedCategories',
+      selectedCategories.filter(item => item.id !== category.id)
+    )
     this.setState({
-      selectedCategories: selectedCategories.filter(item => item.id !== category.id)
+      selectedCategories: selectedCategories.filter(
+        item => item.id !== category.id
+      )
     })
   }
   /**
@@ -211,10 +217,12 @@ class ChooseCategory extends Taro.Component {
    * @param {*} name
    * @memberof ChooseCategory
    */
-  removeUnkonwnCategory (name) {
+  removeUnkonwnCategory(name) {
     const { selectedCategories } = this.state
     this.setState({
-      selectedCategories: selectedCategories.filter(item => item.sortName !== name)
+      selectedCategories: selectedCategories.filter(
+        item => item.sortName !== name
+      )
     })
   }
   /**
@@ -225,51 +233,62 @@ class ChooseCategory extends Taro.Component {
    */
   addUnknownCategory() {
     this.setState({
-      selectedCategories: [...this.state.selectedCategories, {
-        sortName: this.state.name,
-        questionCount: 0,
-        attentionFrequency: 0,
-        icon: this.canvasImgPath,
-        unknown: true
-      }]
+      selectedCategories: [
+        ...this.state.selectedCategories,
+        {
+          sortName: this.state.name,
+          questionCount: 0,
+          attentionFrequency: 0,
+          icon: this.canvasImgPath,
+          unknown: true
+        }
+      ]
     })
   }
   renderCanvasItem() {
     const { name, selectedCategories } = this.state
     return (
-      <View className='category-item'>
-        <View className='category-info'>
-          <View className='category-img-box'>
-            <Canvas style={{
-              width: Taro.pxTransform(80),
-              height: Taro.pxTransform(80)
-            }}
-              canvasId='firstCanvas'
-            ></Canvas>
+      <View className="category-item">
+        <View className="category-info">
+          <View className="category-img-box">
+            <Canvas
+              style={{
+                width: Taro.pxTransform(80),
+                height: Taro.pxTransform(80)
+              }}
+              canvasId="firstCanvas"
+            />
             {/* <Image className='category-img'></Image> */}
           </View>
-          <View className='category-description'>
-            <View className='category-title'>
-              <Text>{ name }</Text>
+          <View className="category-description">
+            <View className="category-title">
+              <Text>{name}</Text>
             </View>
-            <View className='category-desc'>
+            <View className="category-desc">
               <Text>0人关注 · 0个问题</Text>
             </View>
           </View>
         </View>
-        <View className='category-btns'>
-          {
-            selectedCategories.some(sort => sort.sortName === name) 
-              ? (
-                <AtButton onClick={() => {
-                  this.removeUnkonwnCategory(name)
-                }} customStyle={{ width: '60px', fontSize: '12px' }} type='primary' size='small'
-                >已添加</AtButton>      
-              )
-              : (
-                <AtButton onClick={this.addUnknownCategory} customStyle={{ width: '60px', fontSize: '12px' }} type='primary' size='small'>添加</AtButton>
-              )
-          }
+        <View className="category-btns">
+          {selectedCategories.some(sort => sort.sortName === name) ? (
+            <AtButton
+              onClick={() => {
+                this.removeUnkonwnCategory(name)
+              }}
+              customStyle={{ width: '60px', fontSize: '12px' }}
+              type="primary"
+              size="small">
+              已添加
+            </AtButton>
+          ) : (
+            <AtButton
+              onClick={this.addUnknownCategory}
+              customStyle={{ width: '60px', fontSize: '12px' }}
+              type="primary"
+              size="small">
+              添加
+            </AtButton>
+          )}
         </View>
       </View>
     )
@@ -288,117 +307,124 @@ class ChooseCategory extends Taro.Component {
         scrollX
         style={{
           width: '100vw'
-        }}
-      >
-        <View className='tags-wrapper'>
-          {
-            selectedCategories.length === 0 ? (
-              <Text className='tag-placeholder'>
-                可以添加5个分类
-                  </Text>
-            ) :
-              selectedCategories.map(item => (
-                <Tag
-                  key={item.id}
-                  onClick={() => {
-                    this.removeCategory(item)
-                  }}
-                  className='tag'
-                  type='primary'
-                  content={item.sortName}
-                  active
-                ></Tag>
-              ))
-          }
+        }}>
+        <View className="tags-wrapper">
+          {selectedCategories.length === 0 ? (
+            <Text className="tag-placeholder">可以添加5个分类</Text>
+          ) : (
+            selectedCategories.map(item => (
+              <Tag
+                key={item.id}
+                onClick={() => {
+                  this.removeCategory(item)
+                }}
+                className="tag"
+                type="primary"
+                content={item.sortName}
+                active
+              />
+            ))
+          )}
         </View>
-
       </ScrollView>
     )
   }
   render() {
-    const { sortList, loading, selectedCategories, name, showCanvas } = this.state
+    const {
+      sortList,
+      loading,
+      selectedCategories,
+      name,
+      showCanvas
+    } = this.state
     return (
-      <View className='choose-category'>
+      <View className="choose-category">
         <View>
           <AtInput
-            placeholderClass='placeholder'
-            className='title-input'
+            placeholderClass="placeholder"
+            className="title-input"
             onChange={this.handleChange.bind(this)}
             value={name}
-            placeholder='分类名称'
+            placeholder="分类名称"
             clear
-          ></AtInput>
+          />
         </View>
 
-        <View className='tags'>
-          {this.renderSelectedCategories()}
-        </View>
+        <View className="tags">{this.renderSelectedCategories()}</View>
 
-        <View className='category-list-wrapper' ref={node => this.refWrapper = node}>
+        <View
+          className="category-list-wrapper"
+          ref={node => (this.refWrapper = node)}>
           <ScrollView
             scrollY
-            className='category-list-scroll'
+            className="category-list-scroll"
             style={{
               height: this.scrollHeight
             }}
-            onScrollToLower={this.onScrollToLower}
-          >
-            <View className='category-list'>
-              {
-                showCanvas && this.renderCanvasItem()
-              }
-              {
-                sortList.map(item => {
-                  return (
-                    <View className='category-item' key={item.id}>
-                      <View className='category-info'>
-                        <View className='category-img-box'>
-                          <Image className='category-img' src={item.icon}></Image>
-                        </View>
-                        <View className='category-description'>
-                          <View className='category-title'>
-                            <Text>{item.sortName}</Text>
-                          </View>
-                          <View className='category-desc'>
-                            <Text>{item.attentionFrequency}人关注 · {item.questionCount}个问题</Text>
-                          </View>
-                        </View>
+            onScrollToLower={this.onScrollToLower}>
+            <View className="category-list">
+              {showCanvas && this.renderCanvasItem()}
+              {sortList.map(item => {
+                return (
+                  <View className="category-item" key={item.id}>
+                    <View className="category-info">
+                      <View className="category-img-box">
+                        <Image className="category-img" src={item.icon} />
                       </View>
-                      <View className='category-btns'>
-                        {
-                          selectedCategories.some(sort => sort.id === item.id)
-                            ? (
-                              <AtButton customStyle={{ width: '60px', fontSize: '12px' }} size='small' onClick={() => {
-                                this.removeCategory(item)
-                              }}
-                              >已添加</AtButton>
-                            )
-                            : (
-                              <AtButton customStyle={{ width: '60px', fontSize: '12px' }} type='primary' size='small' onClick={() => {
-                                this.selectCategory(item)
-                              }}
-                              >添加</AtButton>
-                            )
-                        }
+                      <View className="category-description">
+                        <View className="category-title">
+                          <Text>{item.sortName}</Text>
+                        </View>
+                        <View className="category-desc">
+                          <Text>
+                            {item.attentionFrequency}人关注 ·{' '}
+                            {item.questionCount}个问题
+                          </Text>
+                        </View>
                       </View>
                     </View>
-                  )
-                })
-              }
-              {
-                loading && (<AtLoadMore status='loading' loadingText='正在加载中...'></AtLoadMore>)
-              }
+                    <View className="category-btns">
+                      {selectedCategories.some(sort => sort.id === item.id) ? (
+                        <AtButton
+                          customStyle={{ width: '60px', fontSize: '12px' }}
+                          size="small"
+                          onClick={() => {
+                            this.removeCategory(item)
+                          }}>
+                          已添加
+                        </AtButton>
+                      ) : (
+                        <AtButton
+                          customStyle={{ width: '60px', fontSize: '12px' }}
+                          type="primary"
+                          size="small"
+                          onClick={() => {
+                            this.selectCategory(item)
+                          }}>
+                          添加
+                        </AtButton>
+                      )}
+                    </View>
+                  </View>
+                )
+              })}
+              {loading && (
+                <AtLoadMore status="loading" loadingText="正在加载中..." />
+              )}
             </View>
           </ScrollView>
         </View>
 
-        <View className='fab-btn'>
+        <View className="fab-btn">
           <AtFab onClick={this.handleClick}>
-            <Text style={{ fontSize: '16px', lineHeight: `48rpx` }} className='at-fab__icon at-icon at-icon-add'></Text>
+            <Text
+              style={{ fontSize: '16px', lineHeight: `48rpx` }}
+              className="at-fab__icon at-icon at-icon-add"
+            />
           </AtFab>
         </View>
       </View>
-    );
+    )
   }
 }
 

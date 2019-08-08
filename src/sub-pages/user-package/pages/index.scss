@@ -1,14 +1,7 @@
-@import '../../assets/styles/var.scss';
-@import '../../assets/styles/mixins.scss';
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/mixins.scss';
 .user {
   position: relative;
-  .icon-wrapper {
-    // @include center(column);
-    // @include wh(40PX, 40PX);
-    // border-radius: 50%;
-    // background-color: rgba(0, 0, 0, .3);
-    // vertical-align: middle;
-  }
   .user-info {
     background: linear-gradient(to bottom right, #007FFF, #4c78ff) ;
     padding: 10px 20px;
@@ -61,12 +54,13 @@
         color: #f5f5f5;
       }
       &-num {
-        padding-bottom: 8px;
-        font-size: 18PX;
+        font-size: 20PX;
       }
     }
   }
-
+  &-icons {
+    padding-left: 20px;
+  }
   &-actions {
     position: relative;
     top: -50px;
