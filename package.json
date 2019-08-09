@@ -19,7 +19,8 @@
     "dev:tt": "npm run build:tt -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
     "dev:rn": "npm run build:rn -- --watch",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "release": "release-it"
   },
   "author": "",
   "license": "MIT",
@@ -71,6 +72,7 @@
     "eslint-config-taro": "1.3.12",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
-    "eslint-plugin-taro": "1.3.12"
+    "eslint-plugin-taro": "1.3.12",
+    "release-it": "^12.3.5"
   }
 }
