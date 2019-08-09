@@ -1,9 +1,5 @@
 import Taro from '@tarojs/taro'
-import { get as getGlobalData, set as setGlobalData } from './global-data';
-
-export function getUserInfo() {
-  return Taro.getUserInfo()
-}
+import { get as getGlobalData, set as setGlobalData } from './global-data'
 
 export class Storage {
   static setItem(key, val) {
@@ -95,47 +91,48 @@ export class Utils {
    * @memberof Grid
    */
   static changeArray(array, line = 3) {
-    let len = array.length;
-    let n = line;
-    let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-    let res = [];
+    let len = array.length
+    let n = line
+    let lineNum = len % n === 0 ? len / n : Math.floor(len / n + 1)
+    let res = []
     for (let i = 0; i < lineNum; i++) {
       // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-      let temp = array.slice(i * n, i * n + n);
-      res.push(temp);
+      let temp = array.slice(i * n, i * n + n)
+      res.push(temp)
     }
     return res
   }
 
   // 防抖
   // 暴力版： 定时器期间，有新操作时，清空旧定时器，重设新定时器
-  static debounce (fn, wait) {
-    let timer, timeStamp = 0;
-    let context, args;
+  static debounce(fn, wait) {
+    let timer,
+      timeStamp = 0
+    let context, args
 
     let run = () => {
       timer = setTimeout(() => {
-        fn.apply(context, args);
-      }, wait);
+        fn.apply(context, args)
+      }, wait)
     }
     let clean = () => {
-      clearTimeout(timer);
+      clearTimeout(timer)
     }
 
-    return function () {
-      context = this;
-      args = arguments;
-      let now = (new Date()).getTime();
+    return function() {
+      context = this
+      args = arguments
+      let now = new Date().getTime()
 
       if (now - timeStamp < wait) {
-        console.log('reset', now);
-        clean();  // clear running timer
-        run();    // reset new timer from current time
+        console.log('reset', now)
+        clean() // clear running timer
+        run() // reset new timer from current time
       } else {
-        console.log('set', now);
-        run();    // last timer alreay executed, set a new timer
+        console.log('set', now)
+        run() // last timer alreay executed, set a new timer
       }
-      timeStamp = now;
+      timeStamp = now
     }
   }
   /**
@@ -164,7 +161,9 @@ export class Utils {
       return Math.floor(result / hour) + '小时前'
     } else if (result / day > 1 && result / day < 7) {
       return Math.floor(result / day) + '天前'
-    } else if (this.switchTime(now, 'YYYY') === this.switchTime(timeStamp, 'YYYY')) {
+    } else if (
+      this.switchTime(now, 'YYYY') === this.switchTime(timeStamp, 'YYYY')
+    ) {
       return this.switchTime(timeStamp, 'MM月DD日')
     } else {
       return this.switchTime(timeStamp, 'YYYY年MM月DD日')

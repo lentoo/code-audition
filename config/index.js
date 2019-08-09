@@ -10,7 +10,6 @@ const config = {
     '750': 1,
     '828': 1.81 / 2
   },
-  typescript: true,
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: {
@@ -29,15 +28,25 @@ const config = {
         'transform-class-properties',
         'transform-object-rest-spread'
       ]
+    },
+    sass: {
+      resource: [
+        path.resolve(__dirname, '../src/assets/styles/var.scss'),
+        path.resolve(__dirname, '../src/assets/styles/mixins.scss')
+      ],
+      projectDirectory: path.resolve(__dirname, '..')
     }
   },
   defineConstants: {},
   alias: {
-    '@/components': path.resolve(__dirname, '..', 'src/components'),
-    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
-    '@/actions': path.resolve(__dirname, '..', 'src/actions'),
-    '@/assets': path.resolve(__dirname, '..', 'src/assets'),
-    '@/constants': path.resolve(__dirname, '..', 'src/constants')
+    '@/': path.resolve(__dirname, '../src'),
+    '@/components': path.resolve(__dirname, '../src/components'),
+    '@/utils': path.resolve(__dirname, '../src/utils'),
+    '@/actions': path.resolve(__dirname, '../src/actions'),
+    '@/assets': path.resolve(__dirname, '../src/assets'),
+    '@/constants': path.resolve(__dirname, '../src/constants'),
+    '@/domain': path.resolve(__dirname, '../src/common/domain'),
+    '@/data-source': path.resolve(__dirname, '../src/common/data-source')
   },
   copy: {
     patterns: [],

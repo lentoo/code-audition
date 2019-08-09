@@ -8,7 +8,7 @@ import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
 import { scanLogin } from '../../actions/login'
 import api from '../../api/api'
-import User from '../../common/domain/user-domain/user'
+import User from '../../common/domain/user-domain/entities/user'
 @connect(
   ({ login }) => ({
     login

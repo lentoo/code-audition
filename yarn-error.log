@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @/api/api --silent --no-progress
+  /usr/local/bin/node /usr/local/bin/yarn add @/pages/home/components/tag --silent --no-progress
 
 PATH: 
-  /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/lentoo/Desktop/my-code/code-audition/node_modules/.bin:/var/folders/7l/0bthqzg90rj72nj58h36px0r0000gn/T/yarn--1565247581487-0.7238299592461517:/Users/lentoo/Desktop/my-code/code-audition/node_modules/.bin:/Users/lentoo/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/lentoo/Downloads/Visual Studio Code.app/Contents/Resources/app/bin:/Users/lentoo/Downloads/flutter/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/lentoo/Library/Android/sdk/platform-tools:/Users/lentoo/Library/Android/sdk/tools
+  /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/lentoo/Desktop/my-code/code-audition/node_modules/.bin:/var/folders/7l/0bthqzg90rj72nj58h36px0r0000gn/T/yarn--1565334394870-0.1557728018404605:/Users/lentoo/Desktop/my-code/code-audition/node_modules/.bin:/Users/lentoo/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/lentoo/Downloads/Visual Studio Code.app/Contents/Resources/app/bin:/Users/lentoo/Downloads/flutter/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/lentoo/Library/Android/sdk/platform-tools:/Users/lentoo/Library/Android/sdk/tools
 
 Yarn version: 
   1.17.3
@@ -14,8 +14,8 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@%2fapi/api: Not found
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66830:18)
+  Error: https://registry.yarnpkg.com/@%2fpages/home/components/tag: Request "https://registry.yarnpkg.com/@%2fpages/home/components/tag" returned a 405
+      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66839:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140464:22)
       at Request.emit (events.js:198:13)
       at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141436:10)

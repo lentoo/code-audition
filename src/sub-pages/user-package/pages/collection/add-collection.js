@@ -24,6 +24,13 @@ export default class AddCollection extends Taro.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
+  componentDidMount() {
+    const isEdit = this.$router.params.edit
+    isEdit &&
+      Taro.setNavigationBarTitle({
+        title: '修改收藏集标题'
+      })
+  }
   handleChange(value) {
     this.setState({
       name: value
