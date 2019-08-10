@@ -2,28 +2,29 @@
 $--border-color-base: rgba(0, 0, 0, .02);
 .collection {
   &-detail {
-    background: #fff;
+    background: #f5f5f5;
   }
   &-title {
     padding: 20px 30px;
     @include center(row);
     justify-content: space-between;
+    background: #fff;
     &-info {
       &-name {
-        font-size: 36px;
-        color: #666;
+        font-size: 40px;
+        color: #333;
         font-weight: bold;
       }
       &-desc {
         margin-top: 15px;
-        font-size: 28px;
+        font-size: 26px;
         color: #888;
         @include center(row);
 
       }
       &-btn {
         margin-left: 20px;
-        font-size: 28px;
+        font-size: 26px;
       }
     }
     &-img {
@@ -44,14 +45,18 @@ $--border-color-base: rgba(0, 0, 0, .02);
   }
 
   &-list {
-    padding: 20px;    
+    margin-top: 10px;
+    padding: 20px;
+
   }
   &-item {
+    &-wrapper {
+      margin-bottom: 30px;
+    }
     padding: 20px;
-    margin-bottom: 30px;
     background: #fff;
     border-radius: .5em;
-    box-shadow: -10px 0px 10px $--border-color-base, 0px -10px 10px $--border-color-base, 10px 0px 10px $--border-color-base, 0px 5px 10px $--border-color-base;
+    // box-shadow: -10px 0px 10px $--border-color-base, 0px -10px 10px $--border-color-base, 10px 0px 10px $--border-color-base, 0px 5px 10px $--border-color-base;
     &-title {
       @include flex(row);
       justify-content: space-between;
