@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { View, Text, ScrollView } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtFab, AtSwipeAction } from 'taro-ui'
+import { CollectionService } from '../services'
 import './index.scss'
 
 export default class Collection extends Taro.Component {
@@ -19,6 +20,7 @@ export default class Collection extends Taro.Component {
     this.handleTabClick = this.handleTabClick.bind(this)
     this.handleFabClick = this.handleFabClick.bind(this)
     this.handleSwipeActionClick = this.handleSwipeActionClick.bind(this)
+    this.onLoadData()
   }
   /**
    * @description Tab 点击事件处理
@@ -32,6 +34,10 @@ export default class Collection extends Taro.Component {
     this.setState({
       current: value
     })
+  }
+  onLoadData = async () => {
+    const response = await CollectionService.getCollection()
+    console.log('response', response)
   }
   handleSwipeActionClick(item) {
     this.setState({
