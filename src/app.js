@@ -57,7 +57,8 @@ class App extends Component {
           'pages/feedback/index',
           'pages/publish/open-question/index',
           'pages/publish/open-question/choose-category',
-          'pages/publish/open-question/submit-success'
+          'pages/publish/open-question/submit-success',
+          'pages/sort/Index'
         ]
       }
     ],

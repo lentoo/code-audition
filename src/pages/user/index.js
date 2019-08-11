@@ -52,7 +52,8 @@ class UserView extends Taro.Component {
         {
           icon: 'classify_icon',
           title: '分类',
-          url: '/pages/category/index'
+          url: `${userSubPackagePath}/sort/Index`
+          // url: '/pages/category/index'
         },
         {
           icon: 'fankuitianxie',
@@ -183,7 +184,7 @@ class UserView extends Taro.Component {
             <Text>112</Text>
           </View>
           <View className="attention-title">
-            <Text>作品</Text>
+            <Text>我的投稿</Text>
           </View>
         </View>
       </View>
