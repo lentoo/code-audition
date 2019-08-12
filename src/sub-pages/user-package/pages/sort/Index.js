@@ -3,6 +3,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 import { AtSearchBar } from 'taro-ui'
 import Loading from '@/components/Loading/Loading'
+import { SortService } from '../services'
 /**
  * @description 分类列表页面
  * @author lentoo
@@ -18,10 +19,10 @@ export default class SortView extends Taro.Component {
     navigationBarBackgroundColor: '#fff',
     navigationBarTextStyle: 'black'
   }
-  onPullDownRefresh() {
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 500)
+  async onPullDownRefresh() {
+    Taro.vibrateLong()
+    await this.onLoadData(true)
+    Taro.stopPullDownRefresh()
   }
   constructor(...props) {
     super(...props)
@@ -31,6 +32,7 @@ export default class SortView extends Taro.Component {
       loading: false,
       loadingFinished: false
     }
+    this.page = 1
   }
   componentDidMount() {
     this.onLoadData()
@@ -50,8 +52,38 @@ export default class SortView extends Taro.Component {
     this.setState({
       loading: true
     })
+    this.page++
     await this.onLoadData()
-    if (this.state.sortList.length >= 50) {
+  }
+  onSearchBarValueChange = value => {
+    this.setState({
+      searchValue: value
+    })
+  }
+  onSearchBarActionClick = () => {
+    this.page = 1
+    this.setState(
+      {
+        loadingFinished: false
+      },
+      () => {
+        this.onLoadData(true)
+      }
+    )
+  }
+  async onLoadData(clear = false) {
+    if (this.state.loadingFinished) return
+    const { data, page } = await SortService.getSortList(
+      this.state.searchValue,
+      this.page
+    )
+    this.setState(prevState => {
+      const sortList = clear ? data : [...prevState.sortList, ...data]
+      return {
+        sortList
+      }
+    })
+    if (page.pages === this.page) {
       this.setState({
         loadingFinished: true
       })
@@ -61,30 +93,6 @@ export default class SortView extends Taro.Component {
       })
     }
   }
-  onSearchBarValueChange = value => {
-    this.setState({
-      searchValue: value
-    })
-  }
-  onLoadData() {
-    if (this.state.loadingFinished) return
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.setState(
-          prev => {
-            return {
-              sortList: prev.sortList.concat(
-                new Array(10).fill(prev.sortList.length)
-              )
-            }
-          },
-          () => {
-            resolve()
-          }
-        )
-      }, 1500)
-    })
-  }
   render() {
     const { loading, loadingFinished } = this.state
     return (
@@ -92,12 +100,23 @@ export default class SortView extends Taro.Component {
         <View className="title">
           <Text>分类</Text>
           <AtSearchBar
+            onActionClick={this.onSearchBarActionClick}
             value={this.state.searchValue}
             onChange={this.onSearchBarValueChange}
+            onClear={() => {
+              this.setState(
+                {
+                  searchValue: ''
+                },
+                this.onSearchBarActionClick
+              )
+            }}
           />
-          {this.renderSortList()}
-          {loading && <Loading finished={loadingFinished} />}
         </View>
+        {this.renderSortList()}
+        {loading && (
+          <Loading finished={loadingFinished} noMoreText="已全部加载完成！" />
+        )}
       </View>
     )
   }
@@ -110,24 +129,21 @@ export default class SortView extends Taro.Component {
         ) : (
           sortList.map((item, index) => {
             return (
-              <View key={index} className="sort-list-item">
+              <View key={item.id} className="sort-list-item">
                 <View className="sort-list-item-left">
-                  <Image
-                    className="sort-list-item-left-img"
-                    src="https://upload.jianshu.io/users/upload_avatars/15717347/4e662bed-45ab-42f3-bd1d-07f09ec201b2?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120"
-                  />
+                  <Image className="sort-list-item-left-img" src={item.icon} />
                 </View>
                 <View className="sort-list-item-right">
                   <View className="sort-list-item-right-info">
                     <View className="sort-list-item-title">
-                      <Text>Vue</Text>
+                      <Text>{item.sortName}</Text>
                     </View>
                     <View className="sort-list-item-desc">
                       <Text>123个题目 · 94 个关注</Text>
                     </View>
                   </View>
                   <View>
-                    {index % 2 === 0 ? (
+                    {item.select === 1 ? (
                       <Text className="sort-list-item-right-btn">已关注</Text>
                     ) : (
                       <Text className="sort-list-item-right-btn">+ 关注</Text>

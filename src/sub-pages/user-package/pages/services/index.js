@@ -1,3 +1,3 @@
 import UserService from '../../../../common/domain/user-domain/user.service'
-
-export { UserService }
+import SortService from '../../../../common/domain/sort-domain/sort.service'
+export { UserService, SortService }
