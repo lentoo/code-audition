@@ -51,18 +51,18 @@ $--border-color-base: rgba(0, 0, 0, .02);
   }
   &-item {
     &-wrapper {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     padding: 20px;
     background: #fff;
-    border-radius: .5em;
+    border-radius: 10px;
     // box-shadow: -10px 0px 10px $--border-color-base, 0px -10px 10px $--border-color-base, 10px 0px 10px $--border-color-base, 0px 5px 10px $--border-color-base;
     &-title {
       @include flex(row);
       justify-content: space-between;
-      font-size: 34px;
-      font-weight: bold;
-      padding-bottom: 10px;
+      font-size: 30px;
+      // font-weight: bold;
+      padding-bottom: 15px;
     }
     &-info {
       @include flex(row);
@@ -87,3 +87,5 @@ $--border-color-base: rgba(0, 0, 0, .02);
 
   }
 }
+
+

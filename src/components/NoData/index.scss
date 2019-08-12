@@ -1,0 +1,19 @@
+.no-data {
+  &-box {
+    @include flex(column);
+    text-align: center;
+    width: 100%;
+    padding: 40px 0;
+  }
+  &-text {
+    margin-top: 2px;
+    color: $tip-color;
+    font-size: 24px;
+  }
+  &-primary-text {
+    margin-top: 20px;
+    color: $primary-color;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
