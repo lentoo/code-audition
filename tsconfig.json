@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "noImplicitThis": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/constants/*": ["./constants/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/package": ["./package.json"],
+      "@/project": ["./project.config.json"],
+      "@/domain/*": ["./src/common/domain/*"],
+      "@/data-source/*": ["./src/common/data-source/*"]
+    }
+  },
+  "include": ["types/**/*", "src/**/*"],
+  "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules"]
+}
