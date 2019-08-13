@@ -24,10 +24,15 @@ class UserView extends Taro.Component {
     navigationStyle: 'custom',
     backgroundTextStyle: 'light'
   }
+
   state = {
     menus: [],
     statusBarHeight: Taro.getSystemInfoSync().statusBarHeight,
     userInfo: new User({})
+  }
+  constructor(...props) {
+    super(...props)
+    this.userSubPackagePath = '/sub-pages/user-package/pages'
   }
   componentDidMount() {
     Taro.getUserInfo().then(res => {
@@ -35,7 +40,7 @@ class UserView extends Taro.Component {
         userInfo: res.userInfo
       })
     })
-    const userSubPackagePath = '/sub-pages/user-package/pages'
+    const { userSubPackagePath } = this
     this.setState({
       menus: [
         {
@@ -163,7 +168,13 @@ class UserView extends Taro.Component {
   renderStatistics() {
     return (
       <View className="flex-row attention-wrapper">
-        <View className="attention">
+        <View
+          className="attention"
+          onClick={() => {
+            Taro.navigateTo({
+              url: `${this.userSubPackagePath}/my-focus/Index`
+            })
+          }}>
           <View className="attention-num">
             <Text>111</Text>
           </View>

@@ -58,7 +58,9 @@ class App extends Component {
           'pages/publish/open-question/index',
           'pages/publish/open-question/choose-category',
           'pages/publish/open-question/submit-success',
-          'pages/sort/Index'
+          'pages/sort/Index',
+          'pages/my-focus/Index',
+          'pages/my-focus/AddFocusUserItem'
         ]
       }
     ],
@@ -83,12 +85,17 @@ class App extends Component {
     }
   }
   loadOpenId() {
+    let openid = Storage.getItemSync(OPEN_ID)
+    if (openid) {
+      setGlobalData(OPEN_ID, openid)
+      return
+    }
     Taro.cloud
       .callFunction({
         name: 'GetAppId'
       })
       .then(res => {
-        const openid = res.result.openid
+        openid = res.result.openid
         setGlobalData(OPEN_ID, openid)
         Storage.setItemSync(OPEN_ID, openid)
       })

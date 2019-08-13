@@ -58,7 +58,7 @@ export default class CollectionDetail extends Taro.Component {
     })
   }
   async onPullDownRefresh() {
-    Taro.vibrateLong()
+    Taro.vibrateShort()
     await this.onLoadData(true)
     Taro.stopPullDownRefresh()
   }
