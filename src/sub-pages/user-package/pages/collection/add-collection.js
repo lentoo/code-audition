@@ -1,8 +1,8 @@
-import Taro from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
+import Taro from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
 import './add-collection.scss'
-import { AtForm, AtInput, AtButton } from 'taro-ui';
-import { addCollection } from '../../../api/user';
+import { AtForm, AtInput, AtButton } from 'taro-ui'
+import { addCollection } from '../../../../api/user'
 
 /**
  * @description 添加收藏集
@@ -13,10 +13,9 @@ import { addCollection } from '../../../api/user';
  * @extends {Taro.Component}
  */
 export default class AddCollection extends Taro.Component {
-
   config = {
     navigationBarTitleText: '添加收藏集'
-  };
+  }
   constructor() {
     super(...arguments)
     this.state = {
@@ -25,7 +24,14 @@ export default class AddCollection extends Taro.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
-  handleChange (value) {
+  componentDidMount() {
+    const isEdit = this.$router.params.edit
+    isEdit &&
+      Taro.setNavigationBarTitle({
+        title: '修改标题'
+      })
+  }
+  handleChange(value) {
     this.setState({
       name: value
     })
@@ -36,7 +42,7 @@ export default class AddCollection extends Taro.Component {
    * @date 2019-06-05
    * @memberof AddCollection
    */
-  async handleClick () {
+  async handleClick() {
     Taro.showLoading({
       title: '正在提交中...'
     })
@@ -46,30 +52,30 @@ export default class AddCollection extends Taro.Component {
       })
       Taro.navigateBack()
     } catch (error) {
-      console.log('error', error);
-    } finally{
+      console.log('error', error)
+    } finally {
       Taro.hideLoading()
     }
   }
   render() {
     return (
-      <View className='add-collection'>
+      <View className="add-collection">
         <AtForm>
           <AtInput
-            type='text'
-            placeholder='名称'
+            type="text"
+            placeholder="名称"
             border={false}
             value={this.state.name}
             onChange={this.handleChange}
             clear
-          >
-
-          </AtInput>
+          />
         </AtForm>
-        <View className='btn-wrapper'>
-          <AtButton onClick={this.handleClick} type='primary'>创建</AtButton>
+        <View className="btn-wrapper">
+          <AtButton onClick={this.handleClick} type="primary">
+            创建
+          </AtButton>
         </View>
       </View>
-    );
+    )
   }
 }

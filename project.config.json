@@ -35,11 +35,11 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 12,
+			"current": 14,
 			"list": [
 				{
-					"id": -1,
-					"name": "用户",
+					"id": 0,
+					"name": "user",
 					"pathName": "pages/user/index",
 					"query": "",
 					"scene": null
@@ -125,6 +125,20 @@
 					"id": -1,
 					"name": "离线",
 					"pathName": "pages/offline/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的收藏",
+					"pathName": "pages/user/collection/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 14,
+					"name": "收藏详情",
+					"pathName": "sub-pages/user-package/pages/collection/Detail",
 					"query": "",
 					"scene": null
 				}

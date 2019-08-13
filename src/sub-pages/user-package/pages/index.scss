@@ -1,12 +1,7 @@
+@import '../../../assets/styles/var.scss';
+@import '../../../assets/styles/mixins.scss';
 .user {
   position: relative;
-  .icon-wrapper {
-    // @include center(column);
-    // @include wh(40PX, 40PX);
-    // border-radius: 50%;
-    // background-color: rgba(0, 0, 0, .3);
-    // vertical-align: middle;
-  }
   .user-info {
     background: linear-gradient(to bottom right, #007FFF, #4c78ff) ;
     padding: 10px 20px;
@@ -23,7 +18,7 @@
       // padding-bottom: 60px;
     }
   }
-
+  
   .avatar {
     box-sizing: border-box;
     vertical-align: middle;
@@ -59,12 +54,13 @@
         color: #f5f5f5;
       }
       &-num {
-        padding-bottom: 8px;
-        font-size: 18PX;
+        font-size: 20PX;
       }
     }
   }
-
+  &-icons {
+    padding-left: 20px;
+  }
   &-actions {
     position: relative;
     top: -50px;
@@ -75,7 +71,7 @@
       background: #fff;
       border-radius: 6PX;
       // box-shadow: 0 0 12PX 4PX rgba(190, 189, 189, 0.37);
-      @include box-shadow();
+      box-shadow: $box-shadow-base;
     }
     &-list {
       @include flex(row);
@@ -86,7 +82,7 @@
       flex: 1;
       &-text {
         margin-top: 10px;
-        font-size: 24px;
+        font-size: 12PX;
       }
     }
   }
@@ -101,7 +97,7 @@
 
       &-text {
         margin-left: 30px;
-        font-size: 30px;
+        font-size: 15PX;
         color: #444;
       }
     }

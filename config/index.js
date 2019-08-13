@@ -16,32 +16,41 @@ const config = {
     babel: {
       sourceMap: true,
       presets: [
-        ['env', {
-          modules: false
-        }]
+        [
+          'env',
+          {
+            modules: false
+          }
+        ]
       ],
       plugins: [
         'transform-decorators-legacy',
         'transform-class-properties',
         'transform-object-rest-spread'
       ]
+    },
+    sass: {
+      resource: [
+        path.resolve(__dirname, '../src/assets/styles/var.scss'),
+        path.resolve(__dirname, '../src/assets/styles/mixins.scss')
+      ],
+      projectDirectory: path.resolve(__dirname, '..')
     }
   },
-  defineConstants: {
-
-  },
+  defineConstants: {},
   alias: {
-    '@/components': path.resolve(__dirname, '..', 'src/components'),
-    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
-    '@/actions': path.resolve(__dirname, '..', 'src/actions'),
-    '@/assets': path.resolve(__dirname, '..', 'src/assets'),
-    '@/constants': path.resolve(__dirname, '..', 'src/constants'),
+    '@/': path.resolve(__dirname, '../src'),
+    '@/components': path.resolve(__dirname, '../src/components'),
+    '@/utils': path.resolve(__dirname, '../src/utils'),
+    '@/actions': path.resolve(__dirname, '../src/actions'),
+    '@/assets': path.resolve(__dirname, '../src/assets'),
+    '@/constants': path.resolve(__dirname, '../src/constants'),
+    '@/domain': path.resolve(__dirname, '../src/common/domain'),
+    '@/data-source': path.resolve(__dirname, '../src/common/data-source')
   },
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {}
   },
   weapp: {
     module: {
@@ -49,18 +58,12 @@ const config = {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
+            browsers: ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
           }
         },
         pxtransform: {
           enable: true,
-          config: {
-
-          }
+          config: {}
         },
         url: {
           enable: true,
@@ -87,11 +90,7 @@ const config = {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
+            browsers: ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
           }
         },
         cssModules: {
@@ -106,7 +105,7 @@ const config = {
   }
 }
 
-module.exports = function (merge) {
+module.exports = function(merge) {
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'))
   }

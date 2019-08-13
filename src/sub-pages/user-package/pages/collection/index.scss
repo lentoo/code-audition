@@ -1,0 +1,45 @@
+@import '../../../../assets/styles/var.scss';
+@import '../../../../assets/styles/mixins.scss';
+.collection {
+  .fab-btn {
+    position: fixed;
+    right: 32px;
+    bottom: 200px;
+    .at-fab {
+      background-color: $primary-color;
+    }
+    font-size: 28px;
+  }
+  .panel {
+    height: calc(100vh - 90px);
+    padding-bottom: env(safe-area-inset-bottom);
+    .scroll-view {
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  &-item {
+    @include flex(row);
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1PX solid $--border-color-lighter;
+    &-left {
+      flex: 1;
+      padding-left: 15px;
+    }
+    &-title {
+      color: #222;
+      font-size: 32px;
+      font-weight: 700;
+      padding-bottom: 15px;
+    }
+    &-description {
+      color: #666;
+      font-size: 24px;
+    }
+    &-right {
+      padding: 0 10px;
+    }
+  }
+}

@@ -3,21 +3,14 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/constants/*": [
-        "./constants/*"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/utils/*": [
-        "./src/utils/*"
-      ],
-      "@/package": [
-        "./package.json"
-      ],
-      "@/project": [
-        "./project.config.json"
-      ],
+      "@/*": ["./src/*"],
+      "@/constants/*": ["./constants/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/package": ["./package.json"],
+      "@/project": ["./project.config.json"],
+      "@/domain/*": ["./src/common/domain/*"],
+      "@/data-source/*": ["./src/common/data-source/*"]
     }
   }
 }

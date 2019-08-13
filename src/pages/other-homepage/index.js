@@ -51,17 +51,17 @@ class OtherHomePage extends Taro.Component {
     )
   }
   renderTabs() {
-    const { userInfo } = this.state
+    const { userInfo, current } = this.state
     const tabList = [{ title: '动态' }, { title: '投稿' }]
     return (
       <View className='user-tabs'>
         <AtTabs
           animated={false}
-          current={this.state.current}
+          current={current}
           tabList={tabList}
           onClick={this.handleClick.bind(this)}
         >
-          <AtTabsPane current={this.state.current} index={0} >
+          <AtTabsPane current={current} index={0} >
             <View style='background-color: #f5f5f5;'>
               <ScrollView className='share-scroll-view'>
                 <View className='share-item'>
@@ -107,7 +107,7 @@ class OtherHomePage extends Taro.Component {
               <AtLoadMore status='loading'></AtLoadMore>
             </View>
           </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={1}>
+          <AtTabsPane current={current} index={1}>
             <View style='background-color: #f5f5f5;'>
               <View className='no-share'>
                 <View>

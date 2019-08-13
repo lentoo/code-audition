@@ -5,10 +5,13 @@ import { connect } from '@tarojs/redux'
 import { Utils } from '@/utils'
 import CdTabbar from '@/components/cd-tabbar'
 import './index.scss'
-import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
-import { scanLogin } from '../../actions/login'
-import api from '../../api/api'
-import User from '../../common/domain/user-domain/entities/user'
+import {
+  ICON_PREFIX_CLASS,
+  ICON_PRIMARY_COLOR
+} from '../../../constants/common'
+import { scanLogin } from '../../../actions/login'
+import api from '../../../api/api'
+import User from '../../../common/domain/user-domain/entities/user'
 @connect(
   ({ login }) => ({
     login
@@ -35,29 +38,28 @@ class UserView extends Taro.Component {
         userInfo: res.userInfo
       })
     })
-    const userSubPackagePath = '/sub-pages/user-package/pages'
     this.setState({
       menus: [
         {
           icon: 'shoucang',
           title: '收藏集',
-          url: `${userSubPackagePath}/collection/index`,
+          url: './collection/index',
           color: '#fcbd1f'
         },
         {
           icon: 'tougaodashang-copy',
           title: '投稿',
-          url: `${userSubPackagePath}/publish/open-question/index`
+          url: './publish/open-question/index'
         },
         {
           icon: 'classify_icon',
           title: '分类',
-          url: '/pages/category/index'
+          url: './category/index'
         },
         {
           icon: 'fankuitianxie',
           title: '反馈',
-          url: `${userSubPackagePath}/feedback/index`
+          url: './feedback/index'
         }
         // {
         //   icon: 'weibiaoti--',
@@ -117,7 +119,7 @@ class UserView extends Taro.Component {
     const { statusBarHeight } = this.state
     return (
       <View
-        className="icons"
+        className="user-icons"
         style={{
           paddingTop: `${statusBarHeight + 5}px`
         }}>
@@ -183,7 +185,7 @@ class UserView extends Taro.Component {
             <Text>112</Text>
           </View>
           <View className="attention-title">
-            <Text>作品</Text>
+            <Text>投稿</Text>
           </View>
         </View>
       </View>
