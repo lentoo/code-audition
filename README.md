@@ -32,5 +32,5 @@ revert: 恢复先前的提交
 
 
 
-## 更新日志
+## [更新日志](https://github.com/lentoo/code-audition/blob/master/CHANGELOG.md)
 
