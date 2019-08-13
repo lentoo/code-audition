@@ -59,6 +59,7 @@
     "@tarojs/plugin-sass": "1.3.12",
     "@tarojs/plugin-uglifyjs": "1.3.12",
     "@tarojs/webpack-runner": "1.3.12",
+    "@types/classnames": "^2.2.9",
     "@types/react": "^16.4.8",
     "@types/webpack-env": "^1.13.6",
     "babel-eslint": "^8.2.3",

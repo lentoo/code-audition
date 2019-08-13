@@ -179,3 +179,9 @@ export class Validate {
     return this
   }
 }
+
+export function delay(time) {
+  return new Promise(resolve => {
+    setTimeout(resolve, time)
+  })
+}

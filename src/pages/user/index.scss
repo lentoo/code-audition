@@ -1,6 +1,7 @@
 .user {
   position: relative;
   .icon-wrapper {
+    margin-left: 20px;
     // @include center(column);
     // @include wh(40PX, 40PX);
     // border-radius: 50%;
@@ -50,6 +51,7 @@
     .attention {
       width: 100px;
       text-align: center;
+      margin-right: 40px;
       // border-right: 1PX solid $--border-color-light;
       &:last-child {
         border-right-width: 0;
@@ -101,8 +103,8 @@
 
       &-text {
         margin-left: 30px;
-        font-size: 30px;
-        color: #444;
+        font-size: 28px;
+        color: #666;
       }
     }
   }

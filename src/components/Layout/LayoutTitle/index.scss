@@ -1,0 +1,13 @@
+.layout {
+  &-title {
+    background: #fff;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-bottom: 15px;
+    &-text {
+      font-weight: bold;
+      font-size: 40px;  
+    }
+  }
+}

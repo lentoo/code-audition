@@ -4,7 +4,7 @@ import { AtTabs, AtTabsPane, AtFab, AtSwipeAction } from 'taro-ui'
 import { CollectionService } from '../services'
 import './index.scss'
 
-export default class Collection extends Taro.Component {
+export default class CollectionView extends Taro.Component {
   config = {
     navigationBarTitleText: '收藏集',
     enablePullDownRefresh: true
@@ -15,11 +15,11 @@ export default class Collection extends Taro.Component {
     this.state = {
       current: 0,
       currentItem: null,
-      tips: true
+      tips: true,
+      collections: []
     }
-    this.handleTabClick = this.handleTabClick.bind(this)
-    this.handleFabClick = this.handleFabClick.bind(this)
-    this.handleSwipeActionClick = this.handleSwipeActionClick.bind(this)
+  }
+  componentDidShow() {
     this.onLoadData()
   }
   /**
@@ -29,17 +29,18 @@ export default class Collection extends Taro.Component {
    * @param {*} value
    * @memberof Collection
    */
-  handleTabClick(value) {
-    console.log('value', value)
+  handleTabClick = value => {
     this.setState({
       current: value
     })
   }
   onLoadData = async () => {
     const response = await CollectionService.getCollection()
-    console.log('response', response)
+    this.setState({
+      collections: response.data
+    })
   }
-  handleSwipeActionClick(item) {
+  handleSwipeActionClick = item => {
     this.setState({
       currentItem: item
     })
@@ -72,17 +73,16 @@ export default class Collection extends Taro.Component {
   }
   handleItemClick(item) {
     Taro.navigateTo({
-      url: './Detail'
+      url: './Detail?id=' + item.id + '&name=' + item.name
     })
   }
-  handleFabClick() {
+  handleFabClick = () => {
     Taro.navigateTo({
       url: './add-collection'
     })
   }
   render() {
-    const { current, showModal } = this.state
-    const arr = new Array(10).fill('a')
+    const { current } = this.state
     return (
       <View className="collection">
         <AtTabs
@@ -93,37 +93,7 @@ export default class Collection extends Taro.Component {
           <AtTabsPane current={this.state.current} index={0}>
             <View className="panel">
               <ScrollView scrollY className="scroll-view">
-                {arr.map((item, index) => {
-                  return (
-                    <AtSwipeAction
-                      key={index}
-                      onClick={() => this.handleSwipeActionClick(item)}
-                      options={[
-                        {
-                          text: '刪除',
-                          style: {
-                            backgroundColor: '#FF4949'
-                          }
-                        }
-                      ]}>
-                      <View
-                        className="collection-item"
-                        onClick={this.handleItemClick.bind(this, item)}>
-                        <View className="collection-item-left">
-                          <View className="collection-item-title">
-                            <Text>前端</Text>
-                          </View>
-                          <View className="collection-item-description">
-                            <Text>5题</Text>
-                          </View>
-                        </View>
-                        {/* <View className='collection-item-right'>
-                            <AtIcon value='chevron-right' size={20}></AtIcon>
-                          </View> */}
-                      </View>
-                    </AtSwipeAction>
-                  )
-                })}
+                {this.renderCollectionList()}
               </ScrollView>
             </View>
           </AtTabsPane>
@@ -141,5 +111,40 @@ export default class Collection extends Taro.Component {
         </View>
       </View>
     )
+  }
+
+  renderCollectionList() {
+    const { collections } = this.state
+    return collections.map((item, index) => {
+      return (
+        <AtSwipeAction
+          key={item.id}
+          onClick={() => this.handleSwipeActionClick(item)}
+          options={[
+            {
+              text: '刪除',
+              style: {
+                backgroundColor: '#FF4949'
+              }
+            }
+          ]}>
+          <View
+            className="collection-item"
+            onClick={this.handleItemClick.bind(this, item)}>
+            <View className="collection-item-left">
+              <View className="collection-item-title">
+                <Text>{item.name}</Text>
+              </View>
+              <View className="collection-item-description">
+                <Text>{item.questionNum}题</Text>
+              </View>
+            </View>
+            {/* <View className='collection-item-right'>
+                <AtIcon value='chevron-right' size={20}></AtIcon>
+              </View> */}
+          </View>
+        </AtSwipeAction>
+      )
+    })
   }
 }

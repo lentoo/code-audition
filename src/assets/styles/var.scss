@@ -42,3 +42,14 @@ $box-shadow-left: -10px 0px 10px $--border-color-base;
 $box-shadow-top: 0px -10px 10px $--border-color-base;
 $box-shadow-bottom: 0px 5px 10px $--border-color-base;
 $box-shadow-right: 10px 0px 10px $--border-color-base;
+
+/* 通用样式  */
+// 头像
+.avatar {
+  width: 90px;
+  height: 90px;
+}
+// 圆角
+.circle {
+  border-radius: 50%;
+}

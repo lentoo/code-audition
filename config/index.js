@@ -5,6 +5,7 @@ const config = {
   projectName: 'code-audition',
   date: '2019-3-25',
   designWidth: 750,
+  typescript: true,
   deviceRatio: {
     '640': 2.34 / 2,
     '750': 1,
@@ -36,6 +37,9 @@ const config = {
       ],
       projectDirectory: path.resolve(__dirname, '..')
     }
+  },
+  reslove: {
+    extensions: ['ts', 'tsx']
   },
   defineConstants: {},
   alias: {
