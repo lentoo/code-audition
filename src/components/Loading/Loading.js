@@ -1,5 +1,6 @@
 import { AtLoadMore } from 'taro-ui'
 import Taro from '@tarojs/taro'
+
 export function LoadingComponent({
   finished = false,
   noMoreText = '没有更多了'

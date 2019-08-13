@@ -93,6 +93,30 @@ export default class SortView extends Taro.Component {
       })
     }
   }
+  onSearchBarValueChange = value => {
+    this.setState({
+      searchValue: value
+    })
+  }
+  onLoadData() {
+    if (this.state.loadingFinished) return
+    return new Promise(resolve => {
+      setTimeout(() => {
+        this.setState(
+          prev => {
+            return {
+              sortList: prev.sortList.concat(
+                new Array(10).fill(prev.sortList.length)
+              )
+            }
+          },
+          () => {
+            resolve()
+          }
+        )
+      }, 1500)
+    })
+  }
   render() {
     const { loading, loadingFinished } = this.state
     return (
