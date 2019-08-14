@@ -4903,6 +4903,13 @@ git-clone@^0.1.0:
   resolved "https://registry.npm.taobao.org/git-clone/download/git-clone-0.1.0.tgz#0d76163778093aef7f1c30238f2a9ef3f07a2eb9"
   integrity sha1-DXYWN3gJOu9/HDAjjyqe8/B6Lrk=
 
+git-cz@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/git-cz/-/git-cz-3.2.1.tgz#24c0719936064edf133c2886f56e321d3ae443c0"
+  integrity sha512-w4t/bnQOqN4i3F9Se+xMppRX80UKtvyzfUGzRcaNPOL9S9sowZfvri6GkYhSUJTUkgU7MKTSCyalWbAWvDcRwA==
+  dependencies:
+    global "^4.3.2"
+
 git-raw-commits@2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/git-raw-commits/download/git-raw-commits-2.0.0.tgz#d92addf74440c14bcc5c83ecce3fb7f8a79118b5"
