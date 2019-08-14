@@ -3,6 +3,8 @@ import { View, Text, ScrollView } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtFab, AtSwipeAction } from 'taro-ui'
 import { CollectionService } from '../services'
 import './index.scss'
+import Skeleton from '@/components/Skeleton'
+import { ArrayLen } from '@/utils'
 
 export default class CollectionView extends Taro.Component {
   config = {
@@ -16,11 +18,17 @@ export default class CollectionView extends Taro.Component {
       current: 0,
       currentItem: null,
       tips: true,
-      collections: []
+      collections: ArrayLen(6),
+      skeletonLoading: true
     }
   }
   componentDidShow() {
     this.onLoadData()
+  }
+  async onPullDownRefresh() {
+    Taro.vibrateShort()
+    await this.onLoadData()
+    Taro.stopPullDownRefresh()
   }
   /**
    * @description Tab 点击事件处理
@@ -37,7 +45,8 @@ export default class CollectionView extends Taro.Component {
   onLoadData = async () => {
     const response = await CollectionService.getCollection()
     this.setState({
-      collections: response.data
+      collections: response.data,
+      skeletonLoading: false
     })
   }
   handleSwipeActionClick = item => {
@@ -47,7 +56,7 @@ export default class CollectionView extends Taro.Component {
     if (this.state.tips) {
       Taro.showModal({
         title: '提示',
-        content: '确认删除吗？',
+        content: '确认删除吗 (不可恢复) ？',
         success: res => {
           if (res.confirm) {
             this.handleConfirmDelete()
@@ -58,18 +67,23 @@ export default class CollectionView extends Taro.Component {
       this.handleConfirmDelete()
     }
   }
-  handleConfirmDelete() {
+  async handleConfirmDelete() {
     Taro.showLoading({
       title: '正在删除中...',
       mask: true
     })
-    setTimeout(() => {
-      Taro.hideLoading()
-    }, 1500)
-    this.setState({
-      tips: false
-    })
-    console.log('删除条目', this.state.currentItem)
+    const currentItem = this.state.currentItem
+    const res = await CollectionService.delCollectionitem(currentItem.id)
+    const { collections } = this.state
+    this.setState(
+      {
+        tips: false,
+        collections: collections.filter(item => item.id !== currentItem.id)
+      },
+      Taro.hideLoading
+    )
+
+    console.log('删除条目', currentItem)
   }
   handleItemClick(item) {
     Taro.navigateTo({
@@ -85,24 +99,24 @@ export default class CollectionView extends Taro.Component {
     const { current } = this.state
     return (
       <View className="collection">
-        <AtTabs
+        {/* <AtTabs
           tabList={this.tabList}
           current={current}
           onClick={this.handleTabClick}
           swipeable={false}>
-          <AtTabsPane current={this.state.current} index={0}>
-            <View className="panel">
-              <ScrollView scrollY className="scroll-view">
-                {this.renderCollectionList()}
-              </ScrollView>
-            </View>
-          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={0}> */}
+        <View className="panel">
+          <ScrollView scrollY className="scroll-view">
+            {this.renderCollectionList()}
+          </ScrollView>
+        </View>
+        {/* </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
             <View className="panel">
               <ScrollView className="scroll-view">123556</ScrollView>
             </View>
           </AtTabsPane>
-        </AtTabs>
+        </AtTabs> */}
 
         <View className="fab-btn">
           <AtFab onClick={this.handleFabClick}>
@@ -114,7 +128,7 @@ export default class CollectionView extends Taro.Component {
   }
 
   renderCollectionList() {
-    const { collections } = this.state
+    const { collections, skeletonLoading } = this.state
     return collections.map((item, index) => {
       return (
         <AtSwipeAction
@@ -128,21 +142,23 @@ export default class CollectionView extends Taro.Component {
               }
             }
           ]}>
-          <View
-            className="collection-item"
-            onClick={this.handleItemClick.bind(this, item)}>
-            <View className="collection-item-left">
-              <View className="collection-item-title">
-                <Text>{item.name}</Text>
+          <Skeleton title row={1} loading={skeletonLoading}>
+            <View
+              className="collection-item"
+              onClick={this.handleItemClick.bind(this, item)}>
+              <View className="collection-item-left">
+                <View className="collection-item-title">
+                  <Text>{item.name}</Text>
+                </View>
+                <View className="collection-item-description">
+                  <Text>{item.questionNum}题</Text>
+                </View>
               </View>
-              <View className="collection-item-description">
-                <Text>{item.questionNum}题</Text>
-              </View>
+              {/* <View className='collection-item-right'>
+                  <AtIcon value='chevron-right' size={20}></AtIcon>
+                </View> */}
             </View>
-            {/* <View className='collection-item-right'>
-                <AtIcon value='chevron-right' size={20}></AtIcon>
-              </View> */}
-          </View>
+          </Skeleton>
         </AtSwipeAction>
       )
     })

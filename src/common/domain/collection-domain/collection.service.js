@@ -1,6 +1,9 @@
 import {
   getCollection,
-  getCollectionTopic
+  getCollectionTopic,
+  delCollectionItem,
+  editCollectionTitle,
+  addCollection
 } from '../../data-source/collection/collection.data'
 import Collection from './entities/Collection'
 import Topic from '../topic-domain/entities/Topic'
@@ -32,5 +35,14 @@ export default class CollectionService {
       res.data.questionList = res.data.questionList.map(item => new Topic(item))
       return res
     })
+  }
+  static delCollectionitem(id) {
+    return delCollectionItem(id)
+  }
+  static editTitle(id, name) {
+    return editCollectionTitle(id, name)
+  }
+  static addCollection(name) {
+    return addCollection(name)
   }
 }

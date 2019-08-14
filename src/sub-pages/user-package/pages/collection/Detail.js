@@ -7,6 +7,8 @@ import Tag from '@/components/Tag/Tag'
 import NoData from '@/components/NoData'
 import { UserService, CollectionService } from '../services'
 import './detail.scss'
+import Skeleton from '@/components/Skeleton'
+import { ArrayLen } from '@/utils'
 
 export default class CollectionDetail extends Taro.Component {
   config = {
@@ -19,17 +21,18 @@ export default class CollectionDetail extends Taro.Component {
     super(...props)
     this.state = {
       user: new User(),
-      topicList: [],
-      componentId: 0,
+      topicList: ArrayLen(8),
       response: {},
       name: '',
-      loading: false
+      loading: false,
+      skeletonLoading: true
     }
     this.page = 0
   }
 
   componentDidShow() {
-    this.onLoadData()
+    this.page = 0
+    this.onLoadData(true)
   }
   async componentDidMount() {
     const user = await UserService.getUserInfo()
@@ -53,6 +56,7 @@ export default class CollectionDetail extends Taro.Component {
       return {
         response,
         loading: false,
+        skeletonLoading: false,
         topicList
       }
     })
@@ -63,7 +67,6 @@ export default class CollectionDetail extends Taro.Component {
     Taro.stopPullDownRefresh()
   }
   onReachBottom() {
-    console.log('onReachBottom')
     this.onLoadData()
   }
   onPageScroll({ scrollTop }) {
@@ -87,10 +90,11 @@ export default class CollectionDetail extends Taro.Component {
     })
   }
   onEditTitle = () => {
-    Taro.showNavigationBarLoading()
     Taro.navigateTo({
-      url: './add-collection?edit=1'
-    }).finally(Taro.hideNavigationBarLoading)
+      url: `./add-collection?edit=1&id=${this.$router.params.id}&name=${
+        this.state.name
+      }`
+    })
   }
 
   render() {
@@ -111,11 +115,11 @@ export default class CollectionDetail extends Taro.Component {
             <View
               className="collection-title-info-name"
               onClick={this.onEditTitle}>
-              {name}
+              {response.data.collectionName}
               <AtIcon prefixClass={ICON_PREFIX_CLASS} size="16" value="xie" />
             </View>
             <View className="collection-title-info-desc">
-              <Text>数量：{response.count}</Text>
+              <Text>数量：{response.data.count}</Text>
               <AtButton
                 className="collection-title-info-btn"
                 circle
@@ -134,34 +138,35 @@ export default class CollectionDetail extends Taro.Component {
     )
   }
   renderCollectionList() {
-    const { topicList, loading } = this.state
+    const { topicList, loading, skeletonLoading } = this.state
     return (
       <View className="collection-list">
         {topicList.map((item, index) => {
           return (
             <View key={item.id} className="collection-item-wrapper">
-              <AtSwipeAction>
-                <View className="collection-item" id={'item' + index}>
-                  <View className="collection-item-title">
-                    <Text>{item.title}</Text>
-                  </View>
-                  <View className="collection-item-info">
-                    <View className="collection-item-desc">
-                      <Text className="collection-item-desc-name">
-                        {item.userName}
-                      </Text>
-                      <Text className="collection-item-desc-text">
-                        {item.comment} 评论
-                      </Text>
+              <Skeleton title row={1} loading={skeletonLoading}>
+                <AtSwipeAction>
+                  <View className="collection-item" id={'item' + index}>
+                    <View className="collection-item-title">
+                      <Text>{item.title}</Text>
                     </View>
-                    <View className="collection-item-tags">
-                      {item.sorts.map(tag => (
-                        <Tag key={tag}>{tag}</Tag>
-                      ))}
+                    <View className="collection-item-info">
+                      <View className="collection-item-desc">
+                        <Text className="collection-item-desc-name">
+                          {item.userName}
+                        </Text>
+                        <Text className="collection-item-desc-text">
+                          {item.comment} 评论
+                        </Text>
+                      </View>
+                      <View className="collection-item-tags">
+                        {item.sorts &&
+                          item.sorts.map(tag => <Tag key={tag}>{tag}</Tag>)}
+                      </View>
                     </View>
                   </View>
-                </View>
-              </AtSwipeAction>
+                </AtSwipeAction>
+              </Skeleton>
             </View>
           )
         })}
