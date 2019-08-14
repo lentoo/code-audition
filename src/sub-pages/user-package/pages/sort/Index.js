@@ -72,11 +72,13 @@ export default class SortView extends Taro.Component {
     )
   }
   async onLoadData(clear = false) {
+    console.log('data', this.state.loadingFinished)
     if (this.state.loadingFinished) return
     const { data, page } = await SortService.getSortList(
       this.state.searchValue,
       this.page
     )
+    console.log('data', data)
     this.setState(prevState => {
       const sortList = clear ? data : [...prevState.sortList, ...data]
       return {
@@ -96,25 +98,6 @@ export default class SortView extends Taro.Component {
   onSearchBarValueChange = value => {
     this.setState({
       searchValue: value
-    })
-  }
-  onLoadData() {
-    if (this.state.loadingFinished) return
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.setState(
-          prev => {
-            return {
-              sortList: prev.sortList.concat(
-                new Array(10).fill(prev.sortList.length)
-              )
-            }
-          },
-          () => {
-            resolve()
-          }
-        )
-      }, 1500)
     })
   }
   render() {

@@ -135,7 +135,7 @@ export default class TopicTitle extends Taro.Component {
   handleAddCollectionClick() {
     Taro.showNavigationBarLoading()
     Taro.navigateTo({
-      url: '/pages/user/collection/add-collection'
+      url: '/sub-pages/user-package/pages/collection/add-collection'
     })
   }
   /**
