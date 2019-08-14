@@ -185,3 +185,17 @@ export function delay(time) {
     setTimeout(resolve, time)
   })
 }
+/**
+ * @description 生成一个指定长度的有序数组   len = 2 => [0, 1]
+ * @author lentoo
+ * @date 2019-08-14
+ * @export
+ * @param {*} len
+ * @returns
+ */
+export function ArrayLen(len = 0) {
+  const arr = Array.apply(null, Array(len)).map((item, index) => ({
+    id: index
+  }))
+  return arr
+}
