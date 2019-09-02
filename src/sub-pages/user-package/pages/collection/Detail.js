@@ -7,7 +7,7 @@ import Tag from '@/components/Tag/Tag'
 import NoData from '@/components/NoData'
 import { UserService, CollectionService } from '../services'
 import './detail.scss'
-import Skeleton from '@/components/Skeleton'
+import TaroSkeleton from 'taro-skeleton'
 import { ArrayLen } from '@/utils'
 
 export default class CollectionDetail extends Taro.Component {
@@ -144,7 +144,7 @@ export default class CollectionDetail extends Taro.Component {
         {topicList.map((item, index) => {
           return (
             <View key={item.id} className="collection-item-wrapper">
-              <Skeleton title row={1} loading={skeletonLoading}>
+              <TaroSkeleton title row={1} loading={skeletonLoading}>
                 <AtSwipeAction>
                   <View className="collection-item" id={'item' + index}>
                     <View className="collection-item-title">
@@ -166,7 +166,7 @@ export default class CollectionDetail extends Taro.Component {
                     </View>
                   </View>
                 </AtSwipeAction>
-              </Skeleton>
+              </TaroSkeleton>
             </View>
           )
         })}
