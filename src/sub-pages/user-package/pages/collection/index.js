@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtFab, AtSwipeAction } from 'taro-ui'
 import { CollectionService } from '../services'
 import './index.scss'
-import Skeleton from '@/components/Skeleton'
+import TaroSkeleton from 'taro-skeleton'
 import { ArrayLen } from '@/utils'
 
 export default class CollectionView extends Taro.Component {
@@ -142,7 +142,7 @@ export default class CollectionView extends Taro.Component {
               }
             }
           ]}>
-          <Skeleton title row={1} loading={skeletonLoading}>
+          <TaroSkeleton title row={1} loading={skeletonLoading}>
             <View
               className="collection-item"
               onClick={this.handleItemClick.bind(this, item)}>
@@ -158,7 +158,7 @@ export default class CollectionView extends Taro.Component {
                   <AtIcon value='chevron-right' size={20}></AtIcon>
                 </View> */}
             </View>
-          </Skeleton>
+          </TaroSkeleton>
         </AtSwipeAction>
       )
     })

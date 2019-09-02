@@ -1,11 +1,11 @@
-import Taro, { useState, Config } from '@tarojs/taro'
+import Taro, { Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import './index.scss'
 import { LoadingComponent } from '@/components/Loading/Loading'
 import { delay } from '@/utils'
-import Skeleton from '@/components/Skeleton'
+import TaroSkeleton from 'taro-skeleton'
 import FocusUserItem from './components/FocusUserItem'
 export default class MyFocus extends Taro.Component {
   config: Config = {
@@ -58,7 +58,7 @@ export default class MyFocus extends Taro.Component {
       <View className="focus-list">
         {focusList.map((item, index) => {
           return (
-            <Skeleton
+            <TaroSkeleton
               avatar
               title
               row={1}
@@ -67,7 +67,7 @@ export default class MyFocus extends Taro.Component {
               action
               loading={skeletonLoading}>
               <FocusUserItem />
-            </Skeleton>
+            </TaroSkeleton>
           )
         })}
         {loading && !skeletonLoading && <LoadingComponent />}
