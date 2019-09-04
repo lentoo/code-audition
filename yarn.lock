@@ -703,6 +703,11 @@
   resolved "https://registry.npm.taobao.org/@types/minimatch/download/@types/minimatch-3.0.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fminimatch%2Fdownload%2F%40types%2Fminimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha1-PcoOPzOyAPx9ETnAzZbBJoyt/Z0=
 
+"@types/nanographql@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/nanographql/-/nanographql-2.0.1.tgz#f5e83d8dfbb2ce43873ca00526164f8cab77dc2d"
+  integrity sha512-1WqTOVub3K/Hmym7bJnZP1jz5BT8JkINUv3sU+1A5IQY7OJZN8r+yfeczSbMD0MJlvDOLpcS81ykp94sHGdJhg==
+
 "@types/node@*":
   version "12.0.0"
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
@@ -7425,6 +7430,11 @@ mute-stream@0.0.7:
 nan@^2.13.2, nan@^2.9.2:
   version "2.13.2"
   resolved "http://registry.npm.taobao.org/nan/download/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7"
+
+nanographql@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/nanographql/-/nanographql-2.0.0.tgz#d6d0a0839b27f7cd4de6385bcff215fe8058c7bc"
+  integrity sha512-Ze4qVPPG9yGmPzaM0LTKGGEkYQ9BQvvKwOkrrw4iqHVTByuVE02l50XZV+bCfABHLLs+Fm2+vJ+H9eXxFKtavQ==
 
 nanomatch@^1.2.9:
   version "1.2.13"

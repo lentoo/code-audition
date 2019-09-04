@@ -1,8 +1,5 @@
 import Taro from '@tarojs/taro'
-
-import { get as getGlobalData } from './global-data'
-import { OPEN_ID } from '../constants/common'
-import { Storage } from '.'
+import { Utils } from '.'
 
 const SUCCESS = 1
 const EXPIRED = 0
@@ -28,12 +25,7 @@ export default async function fetch(options: requestOptions) {
     autoLogin = true,
     contentType = 'application/x-www-form-urlencoded'
   } = options
-  let token = getGlobalData(OPEN_ID)
-  console.log('token', token)
-  if (!token) {
-    token = Storage.getItemSync(OPEN_ID)
-    console.log(token)
-  }
+  const token = Utils.getOpenId()
   const option: any = {
     url: (BASE_URL + url).trim(),
     method: method.toUpperCase(),

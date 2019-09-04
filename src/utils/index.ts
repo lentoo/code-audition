@@ -1,12 +1,115 @@
 import Taro from '@tarojs/taro'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
-
+import { OPEN_ID } from '@/constants/common'
+/**
+static setItem(key, val, expire = 0) {
+  try {
+    const data = {
+      expireDate: expire === 0 ? null : Date.now() + expire,
+      val
+    }
+    return Taro.setStorage({
+      key,
+      data: JSON.stringify(data)
+    })
+  } catch (error) {
+    console.error('store set item', error)
+  }
+}
+static setItemSync(key, val) {
+  console.log({
+    key,
+    val
+  })
+  return Taro.setStorageSync(key, val)
+}
+static getItem(key) {
+  try {
+    const data = JSON.parse(Taro.getStorageSync(key))
+    if (data && data.expireDate) {
+      const now = Date.now()
+      // 已过期
+      if (data.expireDate - now < 0) {
+        console.log(`storage key: ${key} 有数据，但是已过期，删除之`)
+        Taro.removeStorage({
+          key
+        })
+        return null
+      } else {
+        // 未过期
+        return data.value
+      }
+    }
+    if (data && data.value) {
+      return data.value
+    } else {
+      return data
+    }
+  } catch (error) {
+    console.error('store get item', error)
+  }
+}
+static getItemSync(key) {
+  return this.getItem(key)
+}
+ */
 export class Storage {
   static setItem(key, val) {
     return Taro.setStorage({
       key,
       data: val
     })
+  }
+  /**
+   * @description 本地存储，指定缓存时间
+   * @author lentoo
+   * @date 2019-09-04
+   * @static
+   * @param {string} key
+   * @param {any} val
+   * @param {number} [expire=0]
+   * @returns
+   * @memberof Storage
+   */
+  static setItemByExpire(key: string, val: any, expire = 0) {
+    try {
+      const data = {
+        expireDate: expire === 0 ? null : Date.now() + expire,
+        value: val
+      }
+      return Taro.setStorage({
+        key,
+        data: JSON.stringify(data)
+      })
+    } catch (error) {
+      console.error('store set item', error)
+    }
+  }
+  static getItemByExpire(key: string) {
+    try {
+      const data = JSON.parse(Taro.getStorageSync(key))
+      if (data && data.expireDate) {
+        const now = Date.now()
+        // 已过期
+        if (data.expireDate - now < 0) {
+          console.log(`storage key: ${key} 有数据，但是已过期，删除之`)
+          Taro.removeStorage({
+            key
+          })
+          return null
+        } else {
+          // 未过期
+          return data.value
+        }
+      }
+      if (data && data.value) {
+        return data.value
+      } else {
+        return data
+      }
+    } catch (error) {
+      console.error('store get item', error)
+    }
   }
   static setItemSync(key, val) {
     console.log({
@@ -79,6 +182,13 @@ export class Utils {
       setGlobalData(this.systemInfoKey, systemInfo)
     }
     return systemInfo
+  }
+  static getOpenId() {
+    let openId = getGlobalData(OPEN_ID)
+    if (!openId) {
+      openId = Storage.getItem(OPEN_ID)
+    }
+    return openId || ''
   }
 
   /**
@@ -161,12 +271,6 @@ export class Utils {
       return Math.floor(result / hour) + '小时前'
     } else if (result / day > 1 && result / day < 7) {
       return Math.floor(result / day) + '天前'
-    } else if (
-      this.switchTime(now, 'YYYY') === this.switchTime(timeStamp, 'YYYY')
-    ) {
-      return this.switchTime(timeStamp, 'MM月DD日')
-    } else {
-      return this.switchTime(timeStamp, 'YYYY年MM月DD日')
     }
   }
 }

@@ -2,7 +2,8 @@ module.exports = {
   env: {
     NODE_ENV: '"development"',
     // BASE_URL: 'https://ccode.live'
-    BASE_URL: 'http://localhost:3001'
+    BASE_URL: 'http://localhost:3001',
+    GRAPHQL_URL: 'http://localhost:7001/graphql'
   },
   defineConstants: {
   },
