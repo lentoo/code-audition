@@ -1,8 +1,10 @@
-import Taro from '@tarojs/taro';
-import { View, Text, Canvas, Image } from '@tarojs/components';
-import { AtLoadMore, AtInput } from 'taro-ui';
+import Taro from '@tarojs/taro'
+import { View, Text, Canvas, Image } from '@tarojs/components'
+import { AtLoadMore, AtInput } from 'taro-ui'
 import './index.scss'
 import Towxml from '../../components/towxml/main'
+import '@/utils/graphql-client'
+import { Storage } from '@/utils'
 
 const render = new Towxml()
 export default class Demo extends Taro.Component {
@@ -36,7 +38,6 @@ export default class Demo extends Taro.Component {
       ]
     }
     this.initCanvas = this.initCanvas.bind(this)
-    
   }
 
   componentDidMount() {
@@ -44,6 +45,11 @@ export default class Demo extends Taro.Component {
     //   this.parseLocalData()
     // }, 1000)
     this.initCanvas()
+    Storage.setItemByExpire('test-cache', 'value')
+    setTimeout(() => {
+      const value = Storage.getItemByExpire('test-cache')
+      console.log('value', value)
+    }, 500)
   }
   previewImage(url) {
     Taro.previewImage({
@@ -60,7 +66,7 @@ export default class Demo extends Taro.Component {
     context.arc(30, 30, 30, 2 * Math.PI)
     context.fill()
 
-    context.lineTo(30, 30);
+    context.lineTo(30, 30)
     context.setStrokeStyle('#fff')
     context.setFontSize(26)
     context.setTextAlign('center')
@@ -68,11 +74,11 @@ export default class Demo extends Taro.Component {
     context.setTextBaseline('middle')
     context.fillText(value.substr(0, 1), 30, 30, 200)
     context.draw(false, () => {
-      console.log('draw');
+      console.log('draw')
       Taro.canvasToTempFilePath({
         canvasId: 'firstCanvas',
-        success: (res) => {
-          console.log('success', res);
+        success: res => {
+          console.log('success', res)
           this.setState({
             tempPath: res.tempFilePath
           })
@@ -82,14 +88,17 @@ export default class Demo extends Taro.Component {
   }
   parseLocalData() {
     //将markdown内容转换为towxml数据，交将当前页面对象传入以创建默认事件对象
-    let articleData = render.toJson('<div  name="button" id="button1">测试一个可点击的元素<img src="https://nervjs.github.io/taro/img/logo-taro.png"/></div>', 'html');
+    let articleData = render.toJson(
+      '<div  name="button" id="button1">测试一个可点击的元素<img src="https://nervjs.github.io/taro/img/logo-taro.png"/></div>',
+      'html'
+    )
 
     //自定义事件，格式为`event_`+`绑定类型`+`_`+`事件类型`
     //例如`bind:touchstart`则为：
-    this.$scope['event_bind_tap'] = (event) => {
-      console.log(event.target);     // 打印出元素信息
+    this.$scope['event_bind_tap'] = event => {
+      console.log(event.target) // 打印出元素信息
       // this.previewImage(event.target.dataset._el.attr.src)
-    };
+    }
     const result = this.initData(articleData, {
       app: this.$scope
     })
@@ -104,92 +113,93 @@ export default class Demo extends Taro.Component {
     })
     return result
   }
-  removeItem (remove) {
+  removeItem(remove) {
     this.setState({
       array: this.state.array.filter(item => item.id !== remove.id)
     })
-    console.log('this.state.array.filter(item => item !== remove.id)', this.state.array.filter(item => item.id !== remove.id));
+    console.log(
+      'this.state.array.filter(item => item !== remove.id)',
+      this.state.array.filter(item => item.id !== remove.id)
+    )
   }
   parse() {
-    Taro.cloud.callFunction({
-      name: 'parse',
-      data: {
-        func: 'parse',
-        type: 'html',
-        content: '<p>asdasd 这是一个p</p>'
-      }
-    }).then(res => {
-      console.log('res', res);
-      let data = res.result.data
-      data = render.initData(data, {
-        app: this.$scope
+    Taro.cloud
+      .callFunction({
+        name: 'parse',
+        data: {
+          func: 'parse',
+          type: 'html',
+          content: '<p>asdasd 这是一个p</p>'
+        }
       })
-      this.setState({
-        data: data,
-        fail: false
+      .then(res => {
+        console.log('res', res)
+        let data = res.result.data
+        data = render.initData(data, {
+          app: this.$scope
+        })
+        this.setState({
+          data: data,
+          fail: false
+        })
+        console.log('data', data)
       })
-      console.log('data', data);
-    }).catch(err => {
-      console.log('cloud', err);
-      this.setState({
-        fail: true
+      .catch(err => {
+        console.log('cloud', err)
+        this.setState({
+          fail: true
+        })
       })
-    })
   }
   render() {
     return (
       <View>
         <Text> Demo </Text>
-        {
-          this.renderCanvas()
-        }
-        {
-          this.state.array.map((item, index) => {
-            return (
-              <View key={index}>
-                <Text onClick={this.removeItem.bind(this, item)}>{item.name}</Text>
-              </View>
-            )
-          })
-        }
+        {this.renderCanvas()}
+        {this.state.array.map((item, index) => {
+          return (
+            <View key={index}>
+              <Text onClick={this.removeItem.bind(this, item)}>
+                {item.name}
+              </Text>
+            </View>
+          )
+        })}
       </View>
-    );
+    )
   }
   renderCanvas() {
     const { tempPath, value } = this.state
     return (
       <View>
-        <AtInput value={value} onChange={val => {
-          this.setState({
-            value: val
-          }, () => {
-            this.initCanvas()
-          })
-        }}
-        ></AtInput>
-        <Canvas style='width: 60px; height: 60px;' canvasId='firstCanvas'></Canvas>
-        {
-          tempPath && (
+        <AtInput
+          value={value}
+          onChange={val => {
+            this.setState(
+              {
+                value: val
+              },
+              () => {
+                this.initCanvas()
+              }
+            )
+          }}
+        />
+        <Canvas style="width: 60px; height: 60px;" canvasId="firstCanvas" />
+        {tempPath && (
+          <View>
+            <Text>下面那个是图片</Text>
             <View>
-              <Text>下面那个是图片</Text>
-              <View>
-                <Image
-                  src={tempPath}
-                  style={
-                    {
-                      width: '100px',
-                      height: '100px'
-                    }
-                  }
-                ></Image>
-              </View>
+              <Image
+                src={tempPath}
+                style={{
+                  width: '100px',
+                  height: '100px'
+                }}
+              />
             </View>
-
-
-          )
-        }
-
-
+          </View>
+        )}
       </View>
     )
   }
@@ -197,25 +207,23 @@ export default class Demo extends Taro.Component {
     const { data, fail } = this.state
     if (fail) {
       return (
-        <View className='fail' onClick={this.parseReadme.bind(this)}>
-          <Text className='text'>load failed, try it again?</Text>
+        <View className="fail" onClick={this.parseReadme.bind(this)}>
+          <Text className="text">load failed, try it again?</Text>
         </View>
       )
     }
     return (
       <View>
-        {
-          data ? (
-            <View>
-              <import src='../../components/towxml/entry.wxml' />
-              <template is='entry' data='{{...data}}' />
-            </View>
-          ) : (
-              <View>
-                <AtLoadMore status='loading' loadingText='正在加载中'></AtLoadMore>
-              </View>
-            )
-        }
+        {data ? (
+          <View>
+            <import src="../../components/towxml/entry.wxml" />
+            <template is="entry" data="{{...data}}" />
+          </View>
+        ) : (
+          <View>
+            <AtLoadMore status="loading" loadingText="正在加载中" />
+          </View>
+        )}
       </View>
     )
   }
