@@ -3,10 +3,9 @@ module.exports = {
     NODE_ENV: '"development"',
     // BASE_URL: 'https://ccode.live'
     BASE_URL: 'http://localhost:3001',
-    GRAPHQL_URL: 'http://localhost:7001/graphql'
+    GRAPHQL_URL: 'http://192.168.84.37:7001/graphql'
   },
-  defineConstants: {
-  },
+  defineConstants: {},
   weapp: {
     module: {
       postcss: {

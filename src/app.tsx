@@ -1,10 +1,11 @@
 import '@tarojs/async-await'
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import { Provider } from '@tarojs/redux'
 
 import 'taro-ui/dist/style/index.scss'
 
-import Index from './pages/index'
+import Index from './pages/index/index'
 
 import configStore from './store'
 
@@ -25,7 +26,14 @@ import { OPEN_ID } from './constants/common'
 const store = configStore()
 
 class App extends Component {
-  config = {
+  /**
+   * 指定config的类型声明为: Taro.Config
+   *
+   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
+   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
+   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
+   */
+  config: Config = {
     pages: [
       'pages/index/index',
       'pages/home/index',
@@ -35,17 +43,9 @@ class App extends Component {
       'pages/other-homepage/index',
       'pages/scan-code-login/index',
       'pages/user/index',
-      // 'pages/user/publish/open-question/index',
-      // 'pages/user/publish/open-question/choose-category',
-      // 'pages/user/publish/open-question/submit-success',
-      // 'pages/user/feedback/index',
-      // 'pages/user/message/index',
-      // 'pages/user/collection/index',
-      // 'pages/user/collection/add-collection',
-      // 'pages/user/collection/Detail',
       'pages/offline/index'
-    ],
-    subpackages: [
+    ],    
+    subPackages: [
       {
         root: 'sub-pages/user-package',
         pages: [
@@ -64,6 +64,7 @@ class App extends Component {
         ]
       }
     ],
+
     window: {
       navigationBarBackgroundColor: '#007fff',
       navigationBarTitleText: 'WeChat',

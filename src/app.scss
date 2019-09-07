@@ -19,6 +19,9 @@ page {
   display: flex;
   flex-direction: row;
 }
+.flex-wrap {
+  flex-wrap: wrap;
+}
 .flex-col {
   display: flex;
   flex-direction: column;
@@ -44,6 +47,26 @@ page {
     font-size: 24PX !important;
   }
 }
+
+
+/* 覆盖全局 taro-ui 样式 */
+
+.at-action-sheet__header {
+  font-size: 24px;
+  padding: 30px 24px;
+  font-weight: 500;
+}
+.at-action-sheet__footer {
+  border-top: 0;
+  font-size: 26px;
+  // padding: 30px 24px;
+}
+.at-action-sheet__item {
+  padding: 30px 24px;
+  font-size: 26px;
+  font-weight: 500;
+}
+
 .at-button--primary {
   background-color: $primary-color;
   border-radius: 24px;

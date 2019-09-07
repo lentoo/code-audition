@@ -8,12 +8,14 @@ export interface graphqlRequestOptions {
   variables?: any
   showLoading?: boolean
   loadingText?: string
+  showError?: boolean
 }
 async function fetch({
   qgl,
   variables,
   showLoading = false,
-  loadingText = ''
+  loadingText = '',
+  showError = true
 }: graphqlRequestOptions) {
   const token = Utils.getOpenId()
   showLoading &&
@@ -21,28 +23,28 @@ async function fetch({
       title: loadingText
     })
   let query = nanographql(qgl)
+  console.log('token', token)
   return Taro.request({
     url: graphQLUrl,
     method: 'POST',
     data: query(variables),
     header: { 'header-key': token }
-  })
-    .then(response => {
-      const { data } = response
-      const errors = data.errors as Array<Error>
-      if (errors && errors.length > 0) {
+  }).then(response => {
+    showLoading && Taro.hideLoading()
+    const { data } = response
+    const errors = data.errors as Array<Error>
+    if (errors && errors.length > 0) {
+      showError &&
         Taro.showToast({
           title: errors[0].message,
           icon: 'none',
           duration: 5000
         })
-      } else {
-        return data.data
-      }
-    })
-    .finally(() => {
-      showLoading && Taro.hideLoading()
-    })
+      Promise.reject(errors[0])
+    } else {
+      return data.data
+    }
+  })
 }
 /**
  *
