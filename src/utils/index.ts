@@ -186,7 +186,7 @@ export class Utils {
   static getOpenId() {
     let openId = getGlobalData(OPEN_ID)
     if (!openId) {
-      openId = Storage.getItem(OPEN_ID)
+      openId = Storage.getItemSync(OPEN_ID)
     }
     return openId || ''
   }
@@ -200,14 +200,14 @@ export class Utils {
    * @returns
    * @memberof Grid
    */
-  static changeArray(array, line = 3) {
+  static changeArray<T>(array: T[], line = 3): T[][] {
     let len = array.length
     let n = line
     let lineNum = len % n === 0 ? len / n : Math.floor(len / n + 1)
-    let res = []
+    let res: T[][] = []
     for (let i = 0; i < lineNum; i++) {
       // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-      let temp = array.slice(i * n, i * n + n)
+      let temp: T[] = array.slice(i * n, i * n + n)
       res.push(temp)
     }
     return res

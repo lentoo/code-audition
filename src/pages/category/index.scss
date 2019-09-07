@@ -1,6 +1,4 @@
 
-@import '../../assets/styles/var.scss';
-@import '../../assets/styles/mixins.scss';
 .category, category {
   text-align: center;
   box-sizing: border-box;
@@ -48,6 +46,17 @@
   > View:last-child, > div:last-child{
     padding-bottom: 80px;
   }
+}
+.modal-content {
+  padding: 0 20px;
+  &-item {
+    padding: 20px 0;
+    font-size: 26px;
+    color: #333;
+  }
+}
+.sort-item {
+  flex: 0 0 220px;
 }
 .swiper-container {
   height: auto;

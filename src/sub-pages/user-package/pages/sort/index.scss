@@ -1,6 +1,6 @@
 .sort {
   .title {
-    font-size: 40px;
+    font-size: 44px;
     background: #fff;
     padding: 20px 30px;
     font-weight: bold;
@@ -58,4 +58,7 @@
       }
     }
   }
+}
+.cancelActionItem {
+  color: $danger-color;
 }

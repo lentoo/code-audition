@@ -1,7 +1,7 @@
-
-import fetch from '@/utils/request';
-import { Validate } from '../../utils/';
-import { METHODS } from '../../constants/common';
+import fetch from '@/utils/request'
+import client from '@/utils/graphql-client'
+import { Validate } from '../../utils'
+import { METHODS } from '../../constants/common'
 
 const validate = new Validate()
 /**
@@ -18,14 +18,14 @@ export function getQuestion() {
   })
 }
 /**
- * @description 
+ * @description
  * @author lentoo
  * @date 2019-06-03
  * @export
  * @param {*} params
  * @returns
  */
-export function getAnswerList (params) {
+export function getAnswerList(params) {
   if (!params.id) {
     throw new Error('id is required')
   }
@@ -42,7 +42,7 @@ export function getAnswerList (params) {
  * @param {*} params
  * @returns
  */
-export function postAnswer (params) {
+export function postAnswer(params) {
   if (!params.commentOfhtml) {
     throw new Error('commentOfhtml is required')
   }
@@ -76,11 +76,24 @@ export function searchCategory(params) {
  * @param {*} params
  * @returns
  */
-export function getCategories (params) {
-  return fetch({
-    url: '/audition/sort',
-    method: METHODS.GET,
-    payload: params
+export function getCategories(sortName: string = 'vue') {
+  // return fetch({
+  //   url: '/audition/sort',
+  //   method: METHODS.GET,
+  //   payload: params
+  // })
+  return client({
+    qgl: `
+    query ($name: String) {
+      sorts (name: $name) {
+        sortName
+        icon
+        _id
+      }
+    }`,
+    variables: {
+      name: sortName
+    }
   })
 }
 /**
@@ -90,7 +103,7 @@ export function getCategories (params) {
  * @export
  * @param {*} params
  */
-export function vaildOne (params) {
+export function vaildOne(params) {
   return fetch({
     url: '/audition/userInfo/vaildOne',
     method: METHODS.GET,
@@ -105,7 +118,7 @@ export function vaildOne (params) {
  * @param {*} params
  * @returns
  */
-export function saveUserInfo (params) {
+export function saveUserInfo(params) {
   return fetch({
     url: '/audition/userInfo/save',
     method: METHODS.POST,
@@ -120,7 +133,7 @@ export function saveUserInfo (params) {
  * @param {*} params
  * @returns
  */
-export function putUserCategories (params) {
+export function putUserCategories(params) {
   return fetch({
     url: '/audition/sort/put',
     method: METHODS.PUT,
@@ -135,7 +148,7 @@ export function putUserCategories (params) {
  * @param {*} params
  * @returns
  */
-export function addAttentionUser (params) {
+export function addAttentionUser(params) {
   validate.required(params.userId)
   return fetch({
     url: `/audition/userInfo/attention/${params.userId}`
