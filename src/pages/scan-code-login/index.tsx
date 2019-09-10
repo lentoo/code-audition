@@ -1,26 +1,36 @@
-import Taro from '@tarojs/taro';
+import Taro, { Config } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 
 import { AtIcon, AtButton } from 'taro-ui'
 import { ICON_PREFIX_CLASS } from '../../constants/common';
-import api from '../../api/api'
 import './index.scss'
-import { confirmLogin } from '../../api/login';
+import { LoginServices } from './services'
 
-class ScanCodeLogin extends Taro.Component {
-  config = {
+type PageState = {
+  unicode: string
+  token: string
+}
+
+class ScanCodeLogin extends Taro.Component<{}, PageState> {
+  config: Config = {
     navigationBarTitleText: '登录确认',
   }
-  state = {
-    unicode: ''
+  constructor ( ) {
+    super()
+    this.state = {
+      unicode: '',
+      token: ''
+    }
   }
   componentWillMount () {
     this.setState({
-      unicode: this.$router.params.unicode
+      unicode: this.$router.params.unicode,
+      token: this.$router.params.token
     })
   }
   async confirmLogin () {
-    const doConfirmLoginResult = await confirmLogin()
+    const {unicode, token} = this.state
+    const doConfirmLoginResult = await LoginServices.confirmLogin(unicode, token)
     console.log('doConfirmLoginResult', doConfirmLoginResult);
     if (doConfirmLoginResult.code === 1) {
       Taro.showToast({
@@ -35,7 +45,8 @@ class ScanCodeLogin extends Taro.Component {
     }
   }
   async cancelLogin () {
-    const res = await api.get(`/audition/login/cancelLogin/${this.state.unicode}`)
+    const res = await LoginServices.cancelLogin(this.state.unicode)
+    // const res = await api.get(`/audition/login/cancelLogin/${this.state.unicode}`)
     res.code === 1 && Taro.navigateBack()
   }
   render() {
@@ -63,7 +74,7 @@ class ScanCodeLogin extends Taro.Component {
               <AtButton circle type='primary' onClick={this.confirmLogin.bind(this)}>确认登录电脑端</AtButton>
             </View>
             <View className='scan-login-btn'>
-              <AtButton circle onClick={this.cancelLogin.bind(this)}>取消登录</AtButton>
+              <AtButton className='cancelLoginBtn' circle onClick={this.cancelLogin.bind(this)}>取消登录</AtButton>
             </View>
           </View>
         </View>
