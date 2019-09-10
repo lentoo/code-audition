@@ -1,10 +1,10 @@
 module.exports = {
   env: {
     NODE_ENV: '"production"',
-    BASE_URL: 'https://ccode.live'
+    BASE_URL: 'https://ccode.live',
+    GRAPHQL_URL: 'https://test-xcx.ccode.live/graphql'
   },
-  defineConstants: {
-  },
+  defineConstants: {},
   weapp: {
     module: {
       postcss: {

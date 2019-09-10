@@ -38,3 +38,9 @@ export interface PaginatedResponseClass<TItem> {
   page: PaginationModel
   items: TItem[]
 }
+
+export interface ActionResponseModel {
+  code: Number
+  msg: string
+  data?: string
+}

@@ -5,7 +5,7 @@ const graphQLUrl = <string>process.env.GRAPHQL_URL
 
 export interface graphqlRequestOptions {
   qgl: string
-  variables?: any
+  variables?: { [key: string]: any }
   showLoading?: boolean
   loadingText?: string
   showError?: boolean

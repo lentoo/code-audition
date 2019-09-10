@@ -1,25 +1,13 @@
 import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
-import { connect } from '@tarojs/redux'
-import { Utils } from '@/utils'
 import CdTabbar from '@/components/cd-tabbar'
+
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
-import { scanLogin } from '../../actions/login'
-import api from '../../api/api'
 import User from '../../common/domain/user-domain/entities/user'
+import { LoginServices } from './services'
 
-@connect(
-  ({ login }) => ({
-    login
-  }),
-  dispatch => {
-    return {
-      onScanLogin: params => dispatch(scanLogin(params))
-    }
-  }
-)
 class UserView extends Taro.Component {
   config = {
     navigationStyle: 'custom',
@@ -83,9 +71,11 @@ class UserView extends Taro.Component {
     })
   }
   async scanLogin({ unicode, loginToken }) {
-    const res = await api.get(
-      `/audition/login/unicode/${unicode}?loginToken=${loginToken}`
-    )
+    // const res = await api.get(
+    //   `/audition/login/unicode/${unicode}?loginToken=${loginToken}`
+    // )
+    const res = await LoginServices.scanLogin(unicode, loginToken)
+
     return res
   }
   scan() {
@@ -100,17 +90,21 @@ class UserView extends Taro.Component {
         console.log('scanLoginResult', scanLoginResult)
         if (scanLoginResult.code !== 1) {
           Taro.showToast({
+            icon: 'none',
             title: scanLoginResult.msg
           })
         } else {
-          this.navigationToScanCodeLogin(codeResult.payload)
+          this.navigationToScanCodeLogin({
+            ...codeResult.payload,
+            token: scanLoginResult.data
+          })
         }
       }
     })
   }
-  navigationToScanCodeLogin({ unicode, loginToken }) {
+  navigationToScanCodeLogin({ unicode, token }) {
     Taro.navigateTo({
-      url: `/pages/scan-code-login/index?unicode=${unicode}&token=${loginToken}`
+      url: `/pages/scan-code-login/index?unicode=${unicode}&token=${token}`
     })
   }
   /**
