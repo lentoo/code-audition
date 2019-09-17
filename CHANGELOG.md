@@ -1,4 +1,3 @@
-
 ## [0.1.5](https://github.com/lentoo/code-audition/compare/0.1.4...0.1.5) (2019-09-02)
 
 
@@ -18,8 +17,8 @@
 
 ### Features
 
-* 🎸 新增 graphql 请求 ([95f6c04](https://github.com/lentoo/code-audition/commit/95f6c04))
 * 🎸 收藏夹模块接口对接 ([ad32f50](https://github.com/lentoo/code-audition/commit/ad32f50))
+
 
 
 ## [0.1.3](https://github.com/lentoo/code-audition/compare/0246a27...0.1.3) (2019-08-13)
