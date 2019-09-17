@@ -51,7 +51,9 @@ export function followSort(sortId: string) {
     qgl: `
     mutation ($sortId: String!) {
       likeSort (sortId: $sortId) {
-        openId
+        code
+        msg
+        data
       }
     }
     `,
@@ -66,7 +68,9 @@ export function cancelFollowSort(sortId: string) {
     qgl: `
     mutation ($sortId: String!) {
       unLikeSort (sortId: $sortId) {
-        openId
+        code
+        msg
+        data
       }
     }
     `,

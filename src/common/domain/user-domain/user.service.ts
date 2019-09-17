@@ -3,8 +3,10 @@ import User from './entities/user'
 import {
   getUserInfo,
   fetchUserInfo,
-  saveUserInfo
+  saveUserInfo,
+  loginUser
 } from '../../data-source/users/user.data'
+import { ActionResponseModel } from '../BaseModel'
 
 const CACHE_KEY = 'userInfo'
 export default class UserService {
@@ -33,5 +35,8 @@ export default class UserService {
   }
   static async addUserInfo(u: User): Promise<User> {
     return await saveUserInfo(u)
+  }
+  static login(u: User): Promise<ActionResponseModel> {
+    return loginUser(u).then(({ wxLogin }) => wxLogin)
   }
 }

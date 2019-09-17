@@ -1,16 +1,16 @@
+
 ## [0.1.5](https://github.com/lentoo/code-audition/compare/0.1.4...0.1.5) (2019-09-02)
+
 
 ### Bug Fixes
 
-* 🐛 修复添加收藏夹名称重名跳转异常页面的问题 ([d667913](https://github.com/lentoo/code-audition/commit/d667913))
 * 🐛 修复首页新建收藏夹时导航路径bug ([0bddda9](https://github.com/lentoo/code-audition/commit/0bddda9))
 
 
 ### Features
 
 * 🎸 替换骨架屏组件为 taro-skeleton ([dc8579a](https://github.com/lentoo/code-audition/commit/dc8579a))
-* 🎸 替换骨架屏组件为 taro-skeleton ([512ffa4](https://github.com/lentoo/code-audition/commit/512ffa4))
-* 🎸 添加接口数据缓存 ([8b51707](https://github.com/lentoo/code-audition/commit/8b51707))
+
 
 
 ## [0.1.4](https://github.com/lentoo/code-audition/compare/0.1.3...0.1.4) (2019-08-14)
@@ -18,8 +18,8 @@
 
 ### Features
 
+* 🎸 新增 graphql 请求 ([95f6c04](https://github.com/lentoo/code-audition/commit/95f6c04))
 * 🎸 收藏夹模块接口对接 ([ad32f50](https://github.com/lentoo/code-audition/commit/ad32f50))
-
 
 
 ## [0.1.3](https://github.com/lentoo/code-audition/compare/0246a27...0.1.3) (2019-08-13)

@@ -4,6 +4,7 @@ import { View, Text, Image } from '@tarojs/components'
 import { AtSearchBar, AtActionSheet, AtActionSheetItem } from 'taro-ui'
 import { LoadingComponent } from '@/components/Loading/Loading'
 import { ArrayLen } from '@/utils'
+import classnames from 'classnames'
 
 
 import Sort from '../../../../common/domain/sort-domain/entities/Sort'
@@ -209,13 +210,14 @@ export default class SortView extends Taro.Component<{}, PageState> {
                       </View>
                       <View className="sort-list-item-desc">
                         <Text>
-                          {item.questionNum}个题目 · {item.attentionNum} 个关注
+                          {item.questionNum} 个题目 · {item.attentionNum} 个关注
                         </Text>
                       </View>
                     </View>
                     <View>
                       <Text
-                        className="sort-list-item-right-btn"
+                        className={classnames("sort-list-item-right-btn", item.select ? 'is-follow': '')}
+                        
                         onClick={() => {
                           this.onBeforeFolow(item, index)
                         }}>

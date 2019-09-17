@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import nanographql from 'nanographql'
 import { Utils } from '.'
+import { get as getGlobalData, set as setGlobalData } from './global-data'
 const graphQLUrl = <string>process.env.GRAPHQL_URL
 
 export interface graphqlRequestOptions {
@@ -17,7 +18,7 @@ async function fetch({
   loadingText = '',
   showError = true
 }: graphqlRequestOptions) {
-  const token = Utils.getOpenId()
+  const token = getGlobalData('token')
   showLoading &&
     Taro.showLoading({
       title: loadingText
@@ -31,7 +32,16 @@ async function fetch({
     header: { 'header-key': token }
   }).then(response => {
     showLoading && Taro.hideLoading()
-    const { data } = response
+    const { data, header } = response
+
+    //  if header has x-refresh-authorization
+    if (header['x-refresh-authorization']) {
+      Taro.setStorage({
+        key: 'token',
+        data: header['x-refresh-authorization']
+      })
+      setGlobalData('token', header['x-refresh-authorization'])
+    }
     const errors = data.errors as Array<Error>
     if (errors && errors.length > 0) {
       showError &&

@@ -12,6 +12,8 @@ export default class Sort extends BaseModel {
     this.sortName = props.sortName
     this.icon = props.icon
     this.select = props.select
+    this.attentionNum = props.attentionNum
+    this.questionNum = props.questionNum
   }
 
   /**

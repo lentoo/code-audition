@@ -3,9 +3,27 @@ import client from '@/utils/graphql-client'
 import { OPEN_ID } from '@/constants/common'
 import { get as getData } from '@/utils/global-data'
 import User from '../../domain/user-domain/entities/user'
+import { UserInfo } from '@/utils'
 
 export function getUserInfo() {
   return Taro.getUserInfo()
+}
+
+export function loginUser(u: UserInfo) {
+  return client({
+    qgl: `
+    mutation ($user: AddUserProp!) {
+      wxLogin(user: $user) {
+        code
+        data
+        msg
+      }
+    }
+    `,
+    variables: {
+      user: u
+    }
+  })
 }
 
 export function fetchUserInfo() {
@@ -47,34 +65,6 @@ export function saveUserInfo(u: User) {
     `,
     variables: {
       user: u
-    }
-  })
-}
-export function likeSort(sortId: string) {
-  return client({
-    qgl: `
-    mutation ($sortId: String!) {
-      likeSort(sortId: $sortId) {
-        openId
-      }
-    }
-    `,
-    variables: {
-      sortId
-    }
-  })
-}
-export function unLikeSort(sortId: string) {
-  return client({
-    qgl: `
-    mutation ($sortId: String!) {
-      unLikeSort (sortId: $sortId) {
-        openId
-      }
-    }
-    `,
-    variables: {
-      sortId
     }
   })
 }

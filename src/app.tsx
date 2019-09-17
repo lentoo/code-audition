@@ -82,24 +82,7 @@ class App extends Component {
         env: 'code-interview-13481f',
         traceUser: true
       })
-      this.loadOpenId()
     }
-  }
-  loadOpenId() {
-    let openid = Storage.getItemSync(OPEN_ID)
-    if (openid) {
-      setGlobalData(OPEN_ID, openid)
-      return
-    }
-    Taro.cloud
-      .callFunction({
-        name: 'GetAppId'
-      })
-      .then(res => {
-        openid = res.result.openid
-        setGlobalData(OPEN_ID, openid)
-        Storage.setItemSync(OPEN_ID, openid)
-      })
   }
 
   componentDidShow() {}

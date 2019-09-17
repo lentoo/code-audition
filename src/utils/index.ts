@@ -1,58 +1,6 @@
 import Taro from '@tarojs/taro'
-import { get as getGlobalData, set as setGlobalData } from './global-data'
 import { OPEN_ID } from '@/constants/common'
-/**
-static setItem(key, val, expire = 0) {
-  try {
-    const data = {
-      expireDate: expire === 0 ? null : Date.now() + expire,
-      val
-    }
-    return Taro.setStorage({
-      key,
-      data: JSON.stringify(data)
-    })
-  } catch (error) {
-    console.error('store set item', error)
-  }
-}
-static setItemSync(key, val) {
-  console.log({
-    key,
-    val
-  })
-  return Taro.setStorageSync(key, val)
-}
-static getItem(key) {
-  try {
-    const data = JSON.parse(Taro.getStorageSync(key))
-    if (data && data.expireDate) {
-      const now = Date.now()
-      // 已过期
-      if (data.expireDate - now < 0) {
-        console.log(`storage key: ${key} 有数据，但是已过期，删除之`)
-        Taro.removeStorage({
-          key
-        })
-        return null
-      } else {
-        // 未过期
-        return data.value
-      }
-    }
-    if (data && data.value) {
-      return data.value
-    } else {
-      return data
-    }
-  } catch (error) {
-    console.error('store get item', error)
-  }
-}
-static getItemSync(key) {
-  return this.getItem(key)
-}
- */
+import { get as getGlobalData, set as setGlobalData } from './global-data'
 export class Storage {
   static setItem(key, val) {
     return Taro.setStorage({
@@ -172,7 +120,20 @@ export class UserInfo {
     return Taro.getUserInfo()
   }
 }
-
+export const loadOpenId = async () =>{
+  let openid = Storage.getItemSync(OPEN_ID)
+  if (openid) {
+    setGlobalData(OPEN_ID, openid)
+    return
+  }
+  const res = await Taro.cloud.callFunction({
+    name: 'GetAppId'
+  })
+  openid = res.result.openid
+  setGlobalData(OPEN_ID, openid)
+  Storage.setItemSync(OPEN_ID, openid)
+  return openid
+}
 export class Utils {
   static systemInfoKey = 'system-info'
   static getSystemInfoSync() {
