@@ -1,3 +1,13 @@
+## [0.1.6](https://github.com/lentoo/code-audition/compare/0.1.5...0.1.6) (2019-09-17)
+
+
+### Features
+
+* 🎸 优化登陆逻辑 ([da82374](https://github.com/lentoo/code-audition/commit/da82374))
+* 🎸 新增 graphql 请求 ([95f6c04](https://github.com/lentoo/code-audition/commit/95f6c04))
+
+
+
 ## [0.1.5](https://github.com/lentoo/code-audition/compare/0.1.4...0.1.5) (2019-09-02)
 
 
