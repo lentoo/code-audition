@@ -120,7 +120,7 @@ export class UserInfo {
     return Taro.getUserInfo()
   }
 }
-export const loadOpenId = async () =>{
+export const loadOpenId = async () => {
   let openid = Storage.getItemSync(OPEN_ID)
   if (openid) {
     setGlobalData(OPEN_ID, openid)
@@ -133,6 +133,13 @@ export const loadOpenId = async () =>{
   setGlobalData(OPEN_ID, openid)
   Storage.setItemSync(OPEN_ID, openid)
   return openid
+}
+export const getToken = () => {
+  let token = getGlobalData('token')
+  if (!token) {
+    token = Taro.getStorageSync('token')
+  }
+  return token
 }
 export class Utils {
   static systemInfoKey = 'system-info'

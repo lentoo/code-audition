@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import nanographql from 'nanographql'
-import { Utils } from '.'
+import { Utils, getToken } from '.'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
 const graphQLUrl = <string>process.env.GRAPHQL_URL
 
@@ -18,7 +18,7 @@ async function fetch({
   loadingText = '',
   showError = true
 }: graphqlRequestOptions) {
-  const token = getGlobalData('token')
+  const token = getToken()
   showLoading &&
     Taro.showLoading({
       title: loadingText
@@ -50,7 +50,7 @@ async function fetch({
           icon: 'none',
           duration: 5000
         })
-      Promise.reject(errors[0])
+      return Promise.reject(errors[0])
     } else {
       return data.data
     }

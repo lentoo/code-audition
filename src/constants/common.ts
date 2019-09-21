@@ -5,11 +5,11 @@ export const APP_NAME = '码上面试'
 /**
  * 未选分类
  */
-export const UN_SELECTED_CATEGORY = 'UN_SELECTED_CATEGORY'
+export type NO_TOPIC_TYPE = 'UN_SELECTED_CATEGORY' | 'NO_TOPIC'
 /**
  * 没有题目
  */
-export const NO_TOPIC = 'NO_TOPIC'
+export type NO_TOPIC = 'NO_TOPIC'
 
 /**
  * 图标前缀
@@ -19,7 +19,6 @@ export const ICON_PREFIX_CLASS = 'icon'
  * 图标主颜色
  */
 export const ICON_PRIMARY_COLOR = '#007FFF'
-
 
 /**
  * 用户信息
@@ -42,7 +41,8 @@ export const SORT_LIST = 'SORT_LIST'
  */
 export const SAFE_AREA_INSET_BOTTOM = 'env(safe-area-inset-bottom)'
 
-/** method types */ 
+/** method types */
+
 export const METHODS = {
   GET: 'GET',
   POST: 'POST',

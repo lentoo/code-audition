@@ -6,7 +6,7 @@ import {
   set as setGlobalData,
   get as getGlobalData
 } from '../../utils/global-data'
-import { Storage, loadOpenId } from '../../utils';
+import { Storage, loadOpenId, getToken } from '../../utils';
 import { UserService } from './services'
 import { AtModal, AtModalContent, AtButton } from 'taro-ui';
 import User from '../../common/domain/user-domain/entities/user';
@@ -26,18 +26,16 @@ class Index extends Component<{}, PageState> {
     }
   }
   initTokenData () {
-    const token = Taro.getStorageSync('token')
+    const token = getToken()
     if (token) {
       setGlobalData('token', token)
     }
+    return token
   }
   async componentDidShow () {
-    Taro.showLoading()
+    // Taro.showLoading()
     await loadOpenId()
-    this.initTokenData()
-    const isFirst = await this.validateFirst()
-    Taro.hideLoading()
-    if (isFirst) {
+    if (!this.initTokenData()) {
       this.setState({
         isLoading: true
       })
@@ -47,50 +45,47 @@ class Index extends Component<{}, PageState> {
       })
     }
   }
-  async validateFirst () {
-    const first = Storage.getItemSync(USER_INFO) ? false : true
-
-    if (first) {
-      const res = await UserService.fetchUserInfo()
-      Taro.setStorage({
-        key: USER_INFO,
-        data: res
-      })
-      return res === null
-    }
-
-    return first
-  }
-
-  onGetUserInfo = async (res) => {
-    Taro.showLoading()
-    const u = new User()
-    const getUser = res.detail.userInfo
-    Object.assign(u, getUser)
+  
+  async onLogin (u: User) {
     try {
       u.openId = getGlobalData(OPEN_ID)
       const response = await UserService.login(u)
-      console.log('response', response);
-      Taro.hideLoading()
+
       Taro.setStorage({
         key: 'token',
         data: response.data
       })
+
       setGlobalData('token', response.data)
+      
     } catch (error) {
       Taro.showToast({
         title: '登陆异常',
         icon: 'none'
       })
     }
+ 
+  }
+  onGetUserInfo = async (res) => {
+    Taro.showLoading()
+
+    const u = new User()
+    const getUser = res.detail.userInfo
+    Object.assign(u, getUser)
+    await this.onLogin(u)
+
     setGlobalData(USER_INFO, getUser)
+
     Taro.setStorage({
       key: USER_INFO,
       data: getUser
     })
+
     Taro.redirectTo({
       url: '/pages/category/index'
     })
+
+    Taro.hideLoading()
   }
 
   render () {

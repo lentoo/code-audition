@@ -1,5 +1,3 @@
-@import '../../../assets/styles/var.scss';
-@import '../../../assets/styles/mixins.scss';
 .title {
     height: 100%;
     padding-bottom: 0;
@@ -43,8 +41,8 @@
       position: absolute;
       right: 30px;
       &-img {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         // @include border-radius;
       }
@@ -72,18 +70,18 @@
         border-radius: 50%;
         width: 22px;
         height: 22px;
+        line-height: 22px;
         padding: 6px;
         background: #f5222d;
         opacity: .9;
-        line-height: 22px;
-        text-align: center;
+        @include center();
         // transform: translateX(-50%);
         at-icon {
           display: inline-block;
         }
         &.follow {
-          animation: follow 1.2s ease;
-          animation-fill-mode: forwards;
+          animation: follow 1s ease;
+          transform-origin: 50%;
         }
         // .at-icon-add {
         //   transition: .3s ease-in-out transform;
@@ -180,21 +178,30 @@
 @keyframes follow {
   0% {
     background: #f5222d;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: scale(1.1);
   }
   50% {
-    transform: rotate(-360deg);
-    background: #fff;
+    transform: rotate(-180deg) scale(1);
   }
-  75% {
-    // transform-origin: 50% 100%;
-    transform: scale(1);
-    background: #fff;
+  80% {
+    transform: rotate(-360deg) scale(1);
   }
-  to {
-    // visibility: hidden;
-    transform: scale(0);
-    background: #fff;
+  100% {
+    // background: #fff;
   }
+  // 75% {
+  //   // transform-origin: 50% 100%;
+  //   transform: scale(1);
+  //   background: #fff;
+  // }
+  // to {
+  //   // visibility: hidden;
+  //   transform: scale(1);
+  //   // background: #fff;
+  // }
 }
 .layout-body {
   padding: 0;

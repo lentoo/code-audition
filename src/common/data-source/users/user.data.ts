@@ -1,13 +1,8 @@
-import Taro from '@tarojs/taro'
 import client from '@/utils/graphql-client'
 import { OPEN_ID } from '@/constants/common'
 import { get as getData } from '@/utils/global-data'
 import User from '../../domain/user-domain/entities/user'
 import { UserInfo } from '@/utils'
-
-export function getUserInfo() {
-  return Taro.getUserInfo()
-}
 
 export function loginUser(u: UserInfo) {
   return client({

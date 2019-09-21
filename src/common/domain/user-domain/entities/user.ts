@@ -1,4 +1,6 @@
-export default class User {
+import BaseModel from '../../BaseModel'
+
+export default class User extends BaseModel {
   /**
    * @description 用户微信openid
    * @type {string}

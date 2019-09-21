@@ -7,6 +7,21 @@ export default class BaseModel {
   updateAtDate?: Date
 }
 
+export interface PaginationProp {
+  /**
+   * @description 页大小
+   * @type {number}
+   * @memberof PaginationModel
+   */
+  limit: number
+  /**
+   * @description 当前页
+   * @type {number}
+   * @memberof PaginationModel
+   */
+  page: number
+}
+
 export interface PaginationModel {
   /**
    * @description 页大小

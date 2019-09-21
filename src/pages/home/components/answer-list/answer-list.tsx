@@ -1,27 +1,25 @@
 import Taro from '@tarojs/taro';
-import PropTypes from 'prop-types'
 import { View, Text, ScrollView, Image } from '@tarojs/components';
 import { AtIcon, AtLoadMore } from 'taro-ui'
 import CdParseWxml from '@/components/cd-parse-wxml'
 import { ICON_PREFIX_CLASS } from '@/constants/common'
 import './answer-list.scss'
+import Idea from '@/common/domain/question-domain/entities/Idea';
+import Question from '@/common/domain/question-domain/entities/Question';
 
-export default class AnswerList extends Taro.Component {
-  static propTypes = {
-    data: PropTypes.array,
-    topic: PropTypes.object
+interface PageProp {
+  data?: Idea[],
+  question?: Question
+  onItemClick: (item: Idea) => void
+}
+
+const Ideas = (params: PageProp) => {
+  const { data, question } = params
+  const handleTapItem = (item: Idea) => {
+    params.onItemClick(item)
   }
-  static defaultProps = {
-    data: [],
-    topic: {}
-  }
-  handleTapItem (item) {
-    this.props.onItemClick(item)
-  }
-  render() {
-    const { data, topic } = this.props
-    return (
-      <View className='answer-wrapper'>
+  return (
+    <View className='answer-wrapper'>
         <ScrollView
           className='answer-list'
           scrollY
@@ -32,20 +30,20 @@ export default class AnswerList extends Taro.Component {
           }
         >
           {
-            data.map(item => {
+            data && data.map(item => {
               return (
                 <View className='answer-item'
-                  key={item.id}
+                  key={item._id}
                 >
-                  <View className='user-box' onClick={this.handleTapItem.bind(this, item)}>
+                  <View className='user-box' onClick={handleTapItem.bind(this, item)}>
                     <View className='user-info'>
                       <View className='user-avatar-box'>
-                        <Image className='user-avatar' src={item.avatarUrl}></Image>
+                        <Image className='user-avatar' src={item.userinfo.avatarUrl!}></Image>
                       </View>
                       <View className='user-name'>
                         <Text className='user-name-text'>
                           {
-                            item.nickName
+                            item.userinfo.nickName
                           }
                         </Text>
                       </View>
@@ -56,14 +54,14 @@ export default class AnswerList extends Taro.Component {
                   </View>
                   <View className='answer-desc'>
                     {
-                      item.targetNickName && (
+                      item.targetUser && item.targetUser.nickName && (
                         <View className='user-mention'>
-                          <Text>@{item.targetNickName}</Text>
+                          <Text>@{item.targetUser.nickName}</Text>
                         </View>
                       )
                     }
                     {
-                      item.commentOfhtml && <CdParseWxml template={item.commentOfhtml}></CdParseWxml>
+                      item.content && <CdParseWxml template={item.content}></CdParseWxml>
                     }
                   </View>
                 </View>
@@ -71,7 +69,7 @@ export default class AnswerList extends Taro.Component {
             })
           }
           {
-            (topic.answerOfhtml) ? (
+            (question && question.answerOfhtml || data && data.length !== 0) ? (
               <AtLoadMore
                 status='noMore'
                 noMoreText='-- No More Data --'
@@ -100,7 +98,7 @@ export default class AnswerList extends Taro.Component {
                   marginTop: '5PX'
                 }}
                 >
-                  <Text>期待你的第一个答案哦~</Text>
+                  <Text>期待你的第一个想法哦~</Text>
                 </View>
               </View>
             )
@@ -108,6 +106,6 @@ export default class AnswerList extends Taro.Component {
         </ScrollView>
 
       </View>
-    );
-  }
+  )
 }
+export default Ideas

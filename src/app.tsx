@@ -1,6 +1,5 @@
 import '@tarojs/async-await'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
 import { Provider } from '@tarojs/redux'
 
 import 'taro-ui/dist/style/index.scss'
@@ -15,8 +14,6 @@ import './assets/fonts/iconfont.css'
 
 import { UpdateManager, Storage } from './utils'
 
-import { set as setGlobalData } from './utils/global-data'
-import { OPEN_ID } from './constants/common'
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -67,9 +64,9 @@ class App extends Component {
 
     window: {
       navigationBarBackgroundColor: '#007fff',
-      navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'white',
       backgroundTextStyle: 'dark',
+      // enablePullDownRefresh: true,
       // navigationStyle: 'custom',
       backgroundColor: '#f5f5f5'
     }

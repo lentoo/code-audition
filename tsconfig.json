@@ -19,14 +19,9 @@
     "jsxFactory": "Taro.createElement",
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
-    ],
+    "typeRoots": ["node_modules/@types", "global.d.ts"],
     "paths": {
       "@/*": ["./src/*"],
-      "@/constants/*": ["./constants/*"],
-      "@/components/*": ["./src/components/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/package": ["./package.json"],
       "@/project": ["./project.config.json"],
@@ -35,6 +30,6 @@
     }
   },
   "include": ["types/**/*", "src/**/*"],
-  "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules", "dist"],  
+  "exclude": ["**/*.spec.ts", "**/*.spec.js", "node_modules", "dist"],
   "compileOnSave": false
 }

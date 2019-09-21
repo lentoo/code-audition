@@ -35,7 +35,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 13,
 			"list": [
 				{
 					"id": 0,
@@ -129,9 +129,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "我的收藏",
-					"pathName": "pages/user/collection/index",
+					"id": 13,
+					"name": "收藏集",
+					"pathName": "sub-pages/user-package/pages/collection/index",
 					"query": "",
 					"scene": null
 				},

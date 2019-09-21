@@ -4,54 +4,7 @@ import { Validate } from '../../utils'
 import { METHODS } from '../../constants/common'
 
 const validate = new Validate()
-/**
- * @description 题目推送
- * @author lentoo
- * @date 2019-05-15
- * @export
- * @returns
- */
-export function getQuestion() {
-  return fetch({
-    url: '/audition/question',
-    method: METHODS.GET
-  })
-}
-/**
- * @description
- * @author lentoo
- * @date 2019-06-03
- * @export
- * @param {*} params
- * @returns
- */
-export function getAnswerList(params) {
-  if (!params.id) {
-    throw new Error('id is required')
-  }
-  return fetch({
-    url: `/audition/question/comment/${params.id}`,
-    payload: params
-  })
-}
-/**
- * @description 添加答案
- * @author lentoo
- * @date 2019-06-03
- * @export
- * @param {*} params
- * @returns
- */
-export function postAnswer(params) {
-  if (!params.commentOfhtml) {
-    throw new Error('commentOfhtml is required')
-  }
-  return fetch({
-    url: `/audition/question/comment/${params.id}`,
-    payload: params,
-    method: METHODS.POST
-  })
-}
+
 /**
  * @description 分类搜索
  * @author lentoo

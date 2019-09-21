@@ -1,6 +1,7 @@
 import { AtIcon } from 'taro-ui'
 import { ICON_PREFIX_CLASS } from '@/constants/common'
 import './index.scss'
+import { View, Text } from '@tarojs/components'
 export default function NoData(props) {
   const tips = props.tips
   const actionTips = props.actionTips
@@ -8,9 +9,9 @@ export default function NoData(props) {
     <View className="no-data-box">
       <AtIcon
         prefixClass={ICON_PREFIX_CLASS}
-        value="zanwuneirong"
-        size="60"
-        color="#999"
+        value="zanwu"
+        size="100"
+        color="#bfbfbf"
       />
       {tips && <Text className="no-data-text">{tips}</Text>}
       {actionTips && (
