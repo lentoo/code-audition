@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro'
 import nanographql from 'nanographql'
-import { Utils, getToken } from '.'
+import { clearToken, getToken } from '.'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
+import { RadioGroup } from '@tarojs/components'
 const graphQLUrl = <string>process.env.GRAPHQL_URL
 
 export interface graphqlRequestOptions {
@@ -24,7 +25,7 @@ async function fetch({
       title: loadingText
     })
   let query = nanographql(qgl)
-  console.log('token', token)
+
   return Taro.request({
     url: graphQLUrl,
     method: 'POST',
@@ -44,6 +45,17 @@ async function fetch({
     }
     const errors = data.errors as Array<Error>
     if (errors && errors.length > 0) {
+      const error = errors[0]
+      // 无权限，回到登陆页
+      if (
+        error.message ===
+        'Access denied! You need to be authorized to perform this action!'
+      ) {
+        clearToken()
+        Taro.redirectTo({
+          url: '/pages/index/index'
+        })
+      }
       showError &&
         Taro.showToast({
           title: errors[0].message,

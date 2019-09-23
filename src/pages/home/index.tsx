@@ -179,14 +179,14 @@ const Home = () => {
     const { items, page } = res
     console.log('items', items)
     const list = reset ? items : [...ideaList, ...items]
-    setIdeaList(list)
-    setPage(page)
     if (topic && topic.answerOfhtml) {
       list.unshift({
         userinfo: topic.userinfo,
         content: topic.answerOfhtml
       })
     }
+    setIdeaList(list)
+    setPage(page)
   }
   useEffect(() => {
     loadData()

@@ -7,9 +7,9 @@ import Tag from '@/components/cd-tag'
 import { Utils } from '@/utils'
 import './choose-category.scss'
 
-import { searchCategory, submitQuestion } from '../../../../../api/question'
 import { uploadFile } from '@/utils/request'
-
+const searchCategory =  () => {} 
+const submitQuestion = () => {}
 @connect(
   state => ({ publish: state.publish }),
   {

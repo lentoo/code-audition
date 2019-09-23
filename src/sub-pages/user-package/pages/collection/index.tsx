@@ -2,10 +2,11 @@ import Taro, {
   useState,
   useEffect,
   usePullDownRefresh,
-  useDidShow
+  useDidShow,
+  useReachBottom
 } from '@tarojs/taro'
 import { View, Text, ScrollView } from '@tarojs/components'
-import { AtTabs, AtTabsPane, AtFab, AtSwipeAction } from 'taro-ui'
+import { AtFab, AtSwipeAction } from 'taro-ui'
 import { CollectionService } from '../services'
 import './index.scss'
 import TaroSkeleton from 'taro-skeleton'
@@ -27,12 +28,12 @@ const Colleciton = () => {
     })
   }
 
-  const onLoadData = async () => {
+  const onLoadData = async (clear: boolean = true) => {
     const { items, page: pagination } = await CollectionService.getCollection(
       page
     )
     setPaginated(pagination)
-    setCollections(items)
+    setCollections(clear ? items : collections.concat(items))
     setSkeletonLoading(false)
   }
 
@@ -44,6 +45,13 @@ const Colleciton = () => {
     Taro.vibrateShort()
     await onLoadData()
     Taro.stopPullDownRefresh()
+  })
+  useReachBottom(() => {
+    console.log('useReachBottom');
+    if (paginated && paginated.hasMore) {
+      page.page++
+      onLoadData(false)
+    }
   })
   const handleSwipeActionClick = (item: Collection) => {
     if (tips) {

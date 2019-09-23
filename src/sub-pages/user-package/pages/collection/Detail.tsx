@@ -3,19 +3,19 @@ import Taro, {
   useRouter,
   useState,
   usePullDownRefresh,
-  usePageScroll
 } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtIcon, AtButton, AtSwipeAction, AtLoadMore } from 'taro-ui'
 import { ICON_PREFIX_CLASS } from '@/constants/common'
 import Tag from '@/components/Tag/Tag'
 import NoData from '@/components/NoData'
-import { CollectionService } from '../services'
-import './detail.scss'
 import TaroSkeleton from 'taro-skeleton'
 import { ArrayLen } from '@/utils'
 import Collection from '@/domain/collection-domain/entities/Collection'
 import Question from '@/common/domain/question-domain/entities/Question'
+import usePageScrollTitle from '@/hooks/usePageScrollTitle'
+import { CollectionService } from '../services'
+import './detail.scss'
 
 const CollectionItemDetail = () => {
   useDidShow(() => {
@@ -35,17 +35,8 @@ const CollectionItemDetail = () => {
     Taro.stopPullDownRefresh()
   })
 
-  usePageScroll(({ scrollTop }) => {
-    if (scrollTop > 50) {
-      Taro.setNavigationBarTitle({
-        title: collection.name
-      })
-    } else {
-      Taro.setNavigationBarTitle({
-        title: ''
-      })
-    }
-  })
+  usePageScrollTitle(collection.name, 50)
+
 
   const onLoadData = async () => {
     setLoading(true)
@@ -95,7 +86,7 @@ const CollectionItemDetail = () => {
               <AtIcon prefixClass={ICON_PREFIX_CLASS} size="16" value="xie" />
             </View>
             <View className="collection-title-info-desc">
-              <Text>数量：{collection.questionNum}</Text>
+              <Text>数量：{collection.questions.length}</Text>
               <AtButton
                 className="collection-title-info-btn"
                 circle

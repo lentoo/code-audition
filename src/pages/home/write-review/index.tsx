@@ -22,7 +22,7 @@ const WriteIdea = () => {
   const onConfirm = async () => {
     const params: any = {
       qid: id,
-      content: value
+      content: `<pre>${value}</pre>`
     }
     if (tid) {
       params.tid = tid

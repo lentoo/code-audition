@@ -1,8 +1,7 @@
-import Taro, { useState, useEffect, useCallback } from '@tarojs/taro'
+import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { AtIcon, AtFloatLayout, AtRadio, AtButton, AtLoadMore } from 'taro-ui'
 import { ICON_PREFIX_CLASS } from '@/constants/common'
-import classnames from 'classnames'
 import CdParseWxml from '../../../components/cd-parse-wxml'
 import { CollectionService } from '../services'
 import Tag from './tag/tag'
@@ -248,14 +247,14 @@ const TopicTitleComponent = ({ question }: PageProp) => {
               className="title-actions-item"
               onClick={handleCollectionClick}
               style={{
-                color: isCollection ? '#007fff' : '#999'
+                color: isCollection ? '#999' : '#999'
               }}>
               <AtIcon
                 className="mr5"
                 prefixClass={ICON_PREFIX_CLASS}
                 value="shoucang"
                 size="14"
-                color={isCollection ? '#007fff' : '#999'}
+                color={isCollection ? '#fcbd1f' : '#999'}
               />
               <Text>{isCollection ? '已收藏' : '收藏'}</Text>
             </View>

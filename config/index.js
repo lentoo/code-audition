@@ -44,6 +44,7 @@ const config = {
   defineConstants: {},
   alias: {
     '@/': path.resolve(__dirname, '../src'),
+    '@/hooks': path.resolve(__dirname, '../src/hooks'),
     '@/components': path.resolve(__dirname, '../src/components'),
     '@/utils': path.resolve(__dirname, '../src/utils'),
     '@/actions': path.resolve(__dirname, '../src/actions'),

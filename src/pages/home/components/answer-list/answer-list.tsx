@@ -61,7 +61,8 @@ const Ideas = (params: PageProp) => {
                       )
                     }
                     {
-                      item.content && <CdParseWxml template={item.content}></CdParseWxml>
+                      item.content && item.content.startsWith('<') ? <CdParseWxml template={item.content} mode='markdown'></CdParseWxml> : <View className='p'>{item.content}</View>
+                      // item.content && <Text>{item.content}</Text>
                     }
                   </View>
                 </View>

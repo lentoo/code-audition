@@ -124,7 +124,7 @@ export const loadOpenId = async () => {
   let openid = Storage.getItemSync(OPEN_ID)
   if (openid) {
     setGlobalData(OPEN_ID, openid)
-    return
+    return openid
   }
   const res = await Taro.cloud.callFunction({
     name: 'GetAppId'
@@ -133,6 +133,11 @@ export const loadOpenId = async () => {
   setGlobalData(OPEN_ID, openid)
   Storage.setItemSync(OPEN_ID, openid)
   return openid
+}
+export const clearToken = () => {
+  setGlobalData('token', undefined)
+  Taro.removeStorageSync('token')
+  return true
 }
 export const getToken = () => {
   let token = getGlobalData('token')

@@ -48,10 +48,6 @@ export const fetchIdeaList = ({ id, page = 1, limit = 20 }) =>
           nickName
           avatarUrl
         }
-        question {
-          title
-          _id
-        }
         content
         targetUser {
           _id

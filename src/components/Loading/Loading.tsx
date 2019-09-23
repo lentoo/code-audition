@@ -6,18 +6,20 @@ export interface LoadingComponentProp {
 }
 export function LoadingComponent({
   finished = false,
-  noMoreText = '没有更多了'
+  noMoreText = '-- No More Data --'
 }: LoadingComponentProp) {
   return (
     <AtLoadMore
-      customStyle={{
-        height: Taro.pxTransform(80)
-      }}
+      // customStyle={{
+      //   height: Taro.pxTransform(80)
+      // }}
       status={finished ? 'noMore' : 'loading'}
-      loadingText='正在加载中'
+      loadingText="正在加载中"
       noMoreText={noMoreText}
       noMoreTextStyle={{
-        padding: '20px 0'
+        padding: '20px 0',
+        color: '#ccc',
+        fontSize: '14px'
       }}
     />
   )

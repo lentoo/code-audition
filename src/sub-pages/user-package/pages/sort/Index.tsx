@@ -139,6 +139,7 @@ export default class SortView extends Taro.Component<{}, PageState> {
       if (sort.select) {
         await sort.onCancelFollow()
       } else {
+        Taro.vibrateShort()
         await sort.onFollow()
       }
       this.setState(
@@ -180,7 +181,7 @@ export default class SortView extends Taro.Component<{}, PageState> {
         </View>
         {this.renderSortList()}
         {this.renderActionSheet()}
-        <LoadingComponent finished={loadingFinished} noMoreText="已全部加载完成！" />
+        <LoadingComponent finished={loadingFinished} />
       </View>
     )
   }

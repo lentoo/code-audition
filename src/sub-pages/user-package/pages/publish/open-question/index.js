@@ -6,7 +6,6 @@ import * as publishActions from '@/actions/publish'
 import { SAFE_AREA_INSET_BOTTOM } from '@/constants/common'
 import QuestionItem from './question-item'
 import { Utils } from '../../../../../utils'
-import { searchTitle } from '../../../../../api/question'
 import './index.scss'
 
 @connect(

@@ -1,6 +1,7 @@
 .collection {
   .fab-btn {
     position: fixed;
+    z-index: 2;
     right: 32px;
     bottom: 200px;
     .at-fab {
