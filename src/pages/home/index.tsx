@@ -1,14 +1,13 @@
 import Taro, {
-  Config,
   useState,
   useDidShow,
   useEffect,
   usePullDownRefresh,
   useShareAppMessage,
   usePageScroll,
-  useReachBottom
+  useReachBottom,
 } from '@tarojs/taro'
-import { View, Text, ScrollView } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import {
   AtIcon,
   AtButton,
@@ -102,13 +101,7 @@ const Home = () => {
     const writeReview = getGlobalData('write-review')
     if (writeReview) {
       pagination.page = 1
-      fetchIdeaList(
-        {
-          id: topic!._id,
-          ...pagination
-        },
-        true
-      )
+      fetchIdeaList(true)
       setGlobalData('write-review', false)
     }
     console.log('componentDidShow')
@@ -118,12 +111,13 @@ const Home = () => {
     console.log('useReachBottom');
     if (page && page.hasMore) {
       pagination.page++
-      fetchIdeaList({
-        id: topic!._id,
-        ...pagination
-      })
+      fetchIdeaList()
     }
   })
+
+  useEffect(() => {
+    topic && fetchIdeaList(true)
+  }, [topic])
 
   /**
    * @description 加载数据
@@ -137,12 +131,6 @@ const Home = () => {
 
       setTopic(questionItem)
 
-      fetchIdeaList(
-        {
-          id: questionItem._id
-        },
-        true
-      )
     } catch (error) {
       console.log('error', error)
 
@@ -171,20 +159,22 @@ const Home = () => {
    * @param {boolean} [reset=false]
    * @memberof Home
    */
-  const fetchIdeaList = async (params, reset = false) => {
+  const fetchIdeaList = async (reset = false) => {
     const res = await QuestionService.fetchIdea({
-      id: params.id,
+      id: topic && topic._id,
       ...pagination
     })
     const { items, page } = res
     console.log('items', items)
     const list = reset ? items : [...ideaList, ...items]
-    if (topic && topic.answerOfhtml) {
+    if (reset && topic && topic.answerOfhtml) {
       list.unshift({
+        _id: topic._id,
         userinfo: topic.userinfo,
         content: topic.answerOfhtml
       })
     }
+    console.log('list', list);
     setIdeaList(list)
     setPage(page)
   }
