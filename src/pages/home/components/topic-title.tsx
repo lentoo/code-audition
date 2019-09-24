@@ -106,9 +106,9 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    * @date 2019-06-03
    * @memberof TopicTitle
    */
-  const handleAvatarClick = (id: string) => {
+  const handleAvatarClick = () => {
     Taro.navigateTo({
-      url: '/pages/other-homepage/index?id='+id
+      url: '/pages/other-homepage/index?id='+question.userinfo._id
     })
   }
   // 跳转到 新建收藏夹页面
@@ -209,7 +209,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
               <View className="title-avatar">
                 <Image
                   className="title-avatar-img"
-                  onClick={handleAvatarClick.bind(this, question.userinfo._id)}
+                  onClick={handleAvatarClick}
                   src={question.userinfo.avatarUrl!}
                 />
                 {/* {renderFollow()} */}
