@@ -31,6 +31,7 @@ import './index.scss'
 import Question from '@/common/domain/question-domain/entities/Question'
 import Idea from '@/common/domain/question-domain/entities/Idea'
 import { PaginationModel } from '@/common/domain/BaseModel'
+import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 
 // interface PageState {
 //   noTopicType: NO_TOPIC_TYPE
@@ -86,17 +87,6 @@ const Home = () => {
     Taro.stopPullDownRefresh()
   })
 
-  usePageScroll(event => {
-    if (event.scrollTop > 100) {
-      Taro.setNavigationBarTitle({
-        title: topic!.title
-      })
-    } else {
-      Taro.setNavigationBarTitle({
-        title: ''
-      })
-    }
-  })
   useDidShow(() => {
     const writeReview = getGlobalData('write-review')
     if (writeReview) {
@@ -106,7 +96,18 @@ const Home = () => {
     }
     console.log('componentDidShow')
   })
-
+  usePageScrollTitle(topic ? topic.title : '加载中...')
+  
+  useEffect(() => {
+    if (topic) {
+      fetchIdeaList(
+        {
+          id: topic._id
+        },
+        true
+      )
+    }
+  }, [topic])
   useReachBottom(() => {
     console.log('useReachBottom');
     if (page && page.hasMore) {
