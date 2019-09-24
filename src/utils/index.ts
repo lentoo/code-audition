@@ -272,7 +272,8 @@ export function delay(time) {
  */
 export function ArrayLen(len = 0) {
   const arr = Array.apply(null, Array(len)).map((item, index) => ({
-    id: index
+    id: index,
+    _id: index
   }))
   return arr
 }

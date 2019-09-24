@@ -52,4 +52,32 @@ export default class User extends BaseModel {
    * @memberof UserInfo
    */
   role?: string
+  /**
+   * @description 关注数
+   * @type {number}
+   * @memberof User
+   */
+  attentionCount: number
+
+  /**
+   * @description 粉丝数
+   * @type {number}
+   * @memberof User
+   */
+  fansCount: number
+  /**
+   * @description 是否已经关注
+   * @type {boolean}
+   * @memberof AttentionUserInfo
+   */
+  isAttention?: boolean
+}
+
+export interface AttentionUserInfo extends User {
+  /**
+   * @description 是否已经关注
+   * @type {boolean}
+   * @memberof AttentionUserInfo
+   */
+  isAttention?: boolean
 }

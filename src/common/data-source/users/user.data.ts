@@ -3,6 +3,7 @@ import { OPEN_ID } from '@/constants/common'
 import { get as getData } from '@/utils/global-data'
 import User from '../../domain/user-domain/entities/user'
 import { UserInfo } from '@/utils'
+import { PaginationProp } from '@/common/domain/BaseModel'
 
 export function loginUser(u: UserInfo) {
   return client({
@@ -60,6 +61,55 @@ export function saveUserInfo(u: User) {
     `,
     variables: {
       user: u
+    }
+  })
+}
+
+export function findUserByNickName(page: PaginationProp, nickName: string) {
+  return client({
+    qgl: `
+    query findUserByNickName ($page: PaginationProp!, $nickName: String!) {
+      findUserByNickName(page: $page, nickName: $nickName) {
+        page {
+          page
+          pages
+          limit
+          hasMore
+        }
+        items {
+          _id
+          nickName
+          gender
+          avatarUrl
+          isAttention
+        }
+      }
+    }
+    `,
+    variables: {
+      page,
+      nickName
+    }
+  })
+}
+
+export function findUserById(id: string) {
+  return client({
+    qgl: `
+    query findUserById ($id: String!) {
+      findUserById(id: $id) {
+        _id
+        nickName
+        gender
+        avatarUrl
+        isAttention
+        fansCount
+        attentionCount
+      }
+    }
+    `,
+    variables: {
+      id
     }
   })
 }

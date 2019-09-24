@@ -1,99 +1,140 @@
-import Taro, { Config } from '@tarojs/taro'
+import Taro, {
+  Config,
+  useState,
+  useReachBottom,
+  useEffect,
+  usePullDownRefresh
+} from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import './index.scss'
 import { LoadingComponent } from '@/components/Loading/Loading'
-import { delay } from '@/utils'
+import { delay, ArrayLen } from '@/utils'
 import TaroSkeleton from 'taro-skeleton'
 import FocusUserItem from './components/FocusUserItem'
-export default class MyFocus extends Taro.Component {
-  config: Config = {
-    navigationBarTitleText: '',
-    enablePullDownRefresh: true,
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTextStyle: 'black'
+import usePageScrollTitle from '@/hooks/usePageScrollTitle'
+import { PaginationProp, PaginationModel } from '@/common/domain/BaseModel'
+import User, { AttentionUserInfo } from '@/common/domain/user-domain/entities/user'
+import { AttentionUserService } from '../services'
+
+const AttentionUserPage = () => {
+  const [list, setList] = useState<AttentionUserInfo[]>(ArrayLen(20))
+
+  const [skeletonLoading, setSkeletonLoading] = useState(true)
+
+  const [loading, setLoading] = useState(true)
+  const [pagination, setPagination] = useState<PaginationModel | null>(null)
+
+  let page: PaginationProp = {
+    page: 1,
+    limit: 20
   }
-  state = {
-    focusList: Array.apply(null, Array(10)).map((item, index) => index),
-    loading: false,
-    skeletonLoading: true
-  }
-  async componentDidShow() {
-    this.setState({
-      loading: true
-    })
-    await delay(2500)
-    this.setState({
-      focusList: Array.apply(null, Array(20)).map((item, index) => index),
-      loading: false,
-      skeletonLoading: false
-    })
-  }
-  onPageScroll(params: any) {
-    const scrollTop = params.scrollTop as number
-    if (scrollTop > 50) {
-      Taro.setNavigationBarTitle({
-        title: '我的关注'
-      })
-    } else {
-      Taro.setNavigationBarTitle({
-        title: ''
-      })
+  usePageScrollTitle('我的关注', 50)
+
+  useReachBottom(() => {
+    if (pagination && pagination.hasMore) {
+      console.log('useReachBottom')
     }
-  }
-  async onReachBottom() {
-    this.setState({
-      loading: true
+  })
+  useEffect(() => {
+    onLoadData(true)
+  }, [])
+  usePullDownRefresh(async () => {
+    Taro.vibrateShort()
+    await onLoadData(true)
+    Taro.stopPullDownRefresh()
+  })
+  async function onLoadData(clear = false) {
+    setLoading(true)
+    const {
+      page: paginated,
+      items
+    } = await AttentionUserService.attentionUserList(page)
+
+    const list: AttentionUserInfo[] = items.map((item) => {
+      return {
+        ...item.attentionUser,
+        isAttention: true
+      }
     })
-    await delay(1500)
-    const newFocusList = [...this.state.focusList, ...new Array(10).fill(2)]
-    this.setState({
-        focusList: newFocusList
+    setPagination(paginated)
+
+    setList(prev => (clear ? list : prev.concat(list)))
+
+    console.log('items', items)
+    setSkeletonLoading(false)
+    setLoading(false)
+  }
+  const onActionClick = async (user: User) => {
+    Taro.vibrateShort()
+    if (user.isAttention) {
+      await AttentionUserService.unsubscribe(user._id!)
+    } else {
+      await AttentionUserService.subscribe(user._id!)
+    }
+    setList(() => {
+      return list.map(u => {
+        if (u._id === user._id) {
+          u.isAttention = !u.isAttention
+        }
+        return u
+      })
     })
   }
-  renderFocusList() {
-    const { focusList, loading, skeletonLoading } = this.state
+  const renderFocusList = () => {
     return (
-      <View className="focus-list">
-        {focusList.map((item, index) => {
-          return (
-            <TaroSkeleton
-              avatar
-              title
-              row={1}
-              key={'key' + (item + index)}
-              rowWidth="50%"
-              action
-              loading={skeletonLoading}>
-              <FocusUserItem />
-            </TaroSkeleton>
-          )
-        })}
-        {loading && !skeletonLoading && <LoadingComponent />}
-      </View>
+      list.length && (
+        <View className="focus-list">
+          {list.map(item => {
+            return (
+              <TaroSkeleton
+                avatar
+                title
+                row={1}
+                key={item._id}
+                rowWidth="50%"
+                action
+                loading={skeletonLoading}>
+                <FocusUserItem onActionClick={onActionClick} user={item} />
+              </TaroSkeleton>
+            )
+          })}
+          {pagination && !skeletonLoading && !pagination.hasMore && (
+            <LoadingComponent finished={!pagination.hasMore} />
+          )}
+
+          {/* { pagination && !pagination.hasMore &&  <LoadingComponent finished={!pagination.hasMore} />} */}
+        </View>
+      )
     )
   }
-  render() {
-    return (
-      <View>
-        <LayoutTitle title="我的关注">
-          <View style={{ textAlign: 'right' }}>
-            <AtButton
-              circle
-              size="small"
-              type="primary"
-              onClick={() => {
-                Taro.navigateTo({
-                  url: './AddFocusUserItem'
-                })
-              }}>
-              添加关注
-            </AtButton>
-          </View>
-        </LayoutTitle>
-        {this.renderFocusList()}
-      </View>
-    )
-  }
+
+  return (
+    <View>
+      <LayoutTitle title="我的关注">
+        <View style={{ textAlign: 'right' }}>
+          <AtButton
+            circle
+            size="small"
+            type="primary"
+            onClick={() => {
+              Taro.navigateTo({
+                url: './AddFocusUserItem'
+              })
+            }}>
+            添加关注
+          </AtButton>
+        </View>
+      </LayoutTitle>
+      {renderFocusList()}
+    </View>
+  )
 }
+AttentionUserPage.config = {
+  navigationBarTitleText: '',
+  enablePullDownRefresh: true,
+  navigationBarBackgroundColor: '#fff',
+  navigationBarTextStyle: 'black'
+}
+export default AttentionUserPage

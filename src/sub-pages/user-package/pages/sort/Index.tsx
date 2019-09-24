@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import Sort from '../../../../common/domain/sort-domain/entities/Sort'
 import './index.scss'
 import { SortService } from '../services'
+import CodeButton from '@/components/Button'
 
 type PageState = {
   sortList: Sort[]
@@ -215,16 +216,11 @@ export default class SortView extends Taro.Component<{}, PageState> {
                         </Text>
                       </View>
                     </View>
+                    
                     <View>
-                      <Text
-                        className={classnames("sort-list-item-right-btn", item.select ? 'is-follow': '')}
-                        
-                        onClick={() => {
-                          this.onBeforeFolow(item, index)
-                        }}>
-                        {item.select ? '已关注' : '+ 关注'}
-                      </Text>
-                      
+                      <CodeButton type={item.select ? 'info' : 'primary'} onClick={() => {
+                        this.onBeforeFolow(item, index)
+                      }}><Text>{item.select ? '已关注' : '+ 关注'}</Text></CodeButton>
                     </View>
                   </View>
                 </View>

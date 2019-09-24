@@ -2,9 +2,15 @@ import User from './entities/user'
 import {
   fetchUserInfo,
   saveUserInfo,
-  loginUser
+  loginUser,
+  findUserByNickName,
+  findUserById
 } from '../../data-source/users/user.data'
-import { ActionResponseModel } from '../BaseModel'
+import {
+  ActionResponseModel,
+  PaginationProp,
+  PaginatedResponseClass
+} from '../BaseModel'
 
 export default class UserService {
   static async fetchUserInfo() {
@@ -23,5 +29,18 @@ export default class UserService {
   }
   static login(u: User): Promise<ActionResponseModel> {
     return loginUser(u).then(({ wxLogin }) => wxLogin)
+  }
+
+  public static async findUserByNickName(
+    page: PaginationProp,
+    nickName: string
+  ): Promise<PaginatedResponseClass<User>> {
+    return findUserByNickName(page, nickName).then(
+      ({ findUserByNickName }) => findUserByNickName
+    )
+  }
+
+  public static async findUserById(id: string): Promise<User> {
+    return findUserById(id).then(({ findUserById }) => findUserById)
   }
 }
