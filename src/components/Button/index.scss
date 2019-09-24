@@ -1,0 +1,29 @@
+.code-btn {
+  &-wrapper {
+    display: inline-block;
+  }
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+  line-height: 1em;
+  border-radius: .5em;
+  font-size: 24px;
+  padding: 14px 20px;
+  transition: all .3s;
+  &:active {
+    opacity: .8;
+    transform: scale(.85);
+  }
+  &-primary {
+    background: rgb(236, 245, 255);
+    color: #409eff;
+  }
+  &-info {
+    background: #f5f5f5;
+    color: #999;
+  }
+  &-danger {
+    background: #f56c6c;
+    color: #fff;
+  }
+}
