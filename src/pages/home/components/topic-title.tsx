@@ -18,14 +18,14 @@ interface CollectionWithSelected extends Collection {
 }
 
 const TopicTitleComponent = ({ question }: PageProp) => {
-  const [showFollow, setShowFollow] = useState(true)
+  // const [showFollow, setShowFollow] = useState(true)
   const [isCollection, setIsCollection] = useState(false)
   const [isOpenFloatLayout, setIsOpenFloatLayout] = useState(false)
   const [collectionLoading, setCollectionLoading] = useState(false)
-  const [addIconStyle, setAddIconStyle] = useState({
-    transition: '.3s ease-in-out transform',
-    transform: 'scale(1)'
-  })
+  // const [addIconStyle, setAddIconStyle] = useState({
+  //   transition: '.3s ease-in-out transform',
+  //   transform: 'scale(1)'
+  // })
   const [collectionNum, setScollectionNum] = useState(0)
   useEffect(() => {
     console.log('useEffect', question)
@@ -81,34 +81,34 @@ const TopicTitleComponent = ({ question }: PageProp) => {
     }
   }
 
-  const [isFollow, setIsFollow] = useState(false)
+  // const [isFollow, setIsFollow] = useState(false)
 
-  const addFollow = async () => {
-    // const { question } = this.props
-    try {
-      // await addAttentionUser({
-      //   userId: question.userinfo._id
-      // })
-      // setAddIconStyle({
-      //   transition: '.3s ease-in-out transform',
-      //   transform: 'scale(0)'
-      // })
-      setTimeout(() => {
-        setIsFollow(true)
-      }, 500)
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
+  // const addFollow = async () => {
+  //   // const { question } = this.props
+  //   try {
+  //     // await addAttentionUser({
+  //     //   userId: question.userinfo._id
+  //     // })
+  //     // setAddIconStyle({
+  //     //   transition: '.3s ease-in-out transform',
+  //     //   transform: 'scale(0)'
+  //     // })
+  //     setTimeout(() => {
+  //       setIsFollow(true)
+  //     }, 500)
+  //   } catch (error) {
+  //     console.log('error', error)
+  //   }
+  // }
   /**
    * @description 点击头像
    * @author lentoo
    * @date 2019-06-03
    * @memberof TopicTitle
    */
-  const handleAvatarClick = () => {
+  const handleAvatarClick = (id: string) => {
     Taro.navigateTo({
-      url: '/pages/other-homepage/index'
+      url: '/pages/other-homepage/index?id='+id
     })
   }
   // 跳转到 新建收藏夹页面
@@ -209,7 +209,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
               <View className="title-avatar">
                 <Image
                   className="title-avatar-img"
-                  onClick={handleAvatarClick}
+                  onClick={handleAvatarClick.bind(this, question.userinfo._id)}
                   src={question.userinfo.avatarUrl!}
                 />
                 {/* {renderFollow()} */}
