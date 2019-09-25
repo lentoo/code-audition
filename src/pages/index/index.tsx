@@ -53,8 +53,11 @@ const IndexPage = () => {
 
     const u = new User()
     const getUser = res.detail.userInfo
+    const openId = getGlobalData(OPEN_ID)
     Object.assign(u, getUser)
+    u.openId = openId
 
+    await UserService.addUserInfo(u)
     await onLogin(u)
 
     setGlobalData(USER_INFO, getUser)

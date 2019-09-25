@@ -35,7 +35,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 11,
 			"list": [
 				{
 					"id": 0,
@@ -115,10 +115,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 11,
 					"name": "他人主页",
 					"pathName": "pages/other-homepage/index",
-					"query": "",
+					"query": "id=5d807c9984a9316fa1ca5226",
 					"scene": null
 				},
 				{

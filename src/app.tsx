@@ -57,7 +57,8 @@ class App extends Component {
           'pages/publish/open-question/submit-success',
           'pages/sort/Index',
           'pages/my-focus/Index',
-          'pages/my-focus/AddFocusUserItem'
+          'pages/my-focus/AddFocusUserItem',
+          'pages/fans/index',
         ]
       }
     ],

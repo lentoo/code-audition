@@ -6,6 +6,7 @@ import { ICON_PREFIX_CLASS } from '@/constants/common'
 import './answer-list.scss'
 import Idea from '@/common/domain/question-domain/entities/Idea';
 import Question from '@/common/domain/question-domain/entities/Question';
+import { Utils } from '@/utils';
 
 interface PageProp {
   data?: Idea[],
@@ -37,15 +38,29 @@ const Ideas = (params: PageProp) => {
                 >
                   <View className='user-box' onClick={handleTapItem.bind(this, item)}>
                     <View className='user-info'>
-                      <View className='user-avatar-box'>
+                      <View className='user-avatar-box' onClick={(e) => {
+                        Taro.navigateTo({
+                          url: `/pages/other-homepage/index?id=${item.userinfo._id}`
+                        })
+                        e.stopPropagation()
+                      }}>
                         <Image className='user-avatar' src={item.userinfo.avatarUrl!}></Image>
                       </View>
                       <View className='user-name'>
-                        <Text className='user-name-text'>
-                          {
-                            item.userinfo.nickName
-                          }
-                        </Text>
+                        <View>
+                          <Text className='user-name-text'>
+                            {
+                              item.userinfo.nickName
+                            }
+                          </Text>
+                        </View>
+                        <View>
+                          <Text className='user-name-date'>
+                            {
+                              Utils.timeView(item.createAtDate)
+                            }
+                          </Text>
+                        </View>
                       </View>
                     </View>
                     <View className='icon-more'>
@@ -61,7 +76,9 @@ const Ideas = (params: PageProp) => {
                       )
                     }
                     {
-                      item.content && item.content.startsWith('<') ? <CdParseWxml template={item.content} mode='markdown'></CdParseWxml> : <View className='p'>{item.content}</View>
+                      item.content && item.content.startsWith('<') ? <CdParseWxml template={item.content} mode='html'></CdParseWxml> : 
+                      // <View className='p'>{item.content}</View>
+                      <CdParseWxml template={item.content} mode='markdown'></CdParseWxml>
                       // item.content && <Text>{item.content}</Text>
                     }
                   </View>
