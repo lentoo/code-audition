@@ -15,6 +15,7 @@ import AttentionUser from '@/common/domain/attention-user-domain/entities/Attent
 import { ArrayLen } from '@/utils'
 import { PaginationProp, PaginationModel } from '@/common/domain/BaseModel'
 import { LoadingComponent } from '@/components/Loading/Loading'
+import { AtIcon } from 'taro-ui'
 
 const FansPage = () => {
   usePageScrollTitle('我的粉丝')
@@ -56,6 +57,7 @@ const FansPage = () => {
     }
   })
   async function onClick(user: AttentionUser) {
+    Taro.vibrateShort()
     if (user.user.isAttention) {
       await AttentionUserService.unsubscribe(user.user._id!)
     } else {
@@ -95,9 +97,12 @@ const FansPage = () => {
                     onClick={() => {
                       onClick(item)
                     }}
-                    type={item.user.isAttention ? 'info' : 'primary'}
+                    type='primary'
                   >
-                    <Text>{item.user.isAttention ? '已关注' : '互相关注'}</Text>
+                    <View>
+                      <AtIcon size={10} value={item.user.isAttention ? 'repeat-play' : 'add'}></AtIcon>
+                      <Text className='ml5'>{item.user.isAttention ? '互相关注' : '关注'}</Text>
+                    </View>
                   </CodeButton>
                 </View>
               </View>

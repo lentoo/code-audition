@@ -11,7 +11,7 @@ import configStore from './store'
 import './app.scss'
 
 import './assets/fonts/iconfont.css'
-
+import './assets/styles/common.scss'
 import { UpdateManager, Storage } from './utils'
 
 // 如果需要在 h5 环境中开启 React Devtools
