@@ -3,16 +3,25 @@
     display: inline-block;
   }
   display: inline-block;
-  width: 80px;
+  // width: 80px;
   text-align: center;
   line-height: 1em;
   border-radius: .5em;
   font-size: 24px;
-  padding: 14px 20px;
   transition: all .3s;
+  &-small {
+    padding: 14px 20px;
+  }
+  &-normal {
+    padding: 20px 30px;
+  }
   &:active {
     opacity: .8;
     transform: scale(.85);
+  }
+  &-main {
+    background: #007fff;
+    color: #fff;
   }
   &-primary {
     background: rgb(236, 245, 255);

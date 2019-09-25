@@ -30,6 +30,34 @@ export function attentionUserList(page: PaginationProp) {
   })
 }
 
+export function getFansList(page: PaginationProp = { page: 1, limit: 20 }) {
+  return client({
+    qgl: `
+        query getFansList ($page: PaginationProp!){
+          attentionSelfUserList (page: $page) {
+            page{
+              page
+              pages
+              hasMore
+              limit
+            }
+            items {
+              user {
+                _id
+                avatarUrl
+                nickName
+                isAttention
+              }
+            }
+          }
+        }
+      `,
+    variables: {
+      page
+    }
+  })
+}
+
 export function subscribe(id: string) {
   return client({
     qgl: `

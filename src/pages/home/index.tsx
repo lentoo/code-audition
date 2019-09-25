@@ -97,17 +97,7 @@ const Home = () => {
     console.log('componentDidShow')
   })
   usePageScrollTitle(topic ? topic.title : '加载中...')
-  
-  useEffect(() => {
-    if (topic) {
-      fetchIdeaList(
-        {
-          id: topic._id
-        },
-        true
-      )
-    }
-  }, [topic])
+
   useReachBottom(() => {
     console.log('useReachBottom');
     if (page && page.hasMore) {
@@ -172,7 +162,9 @@ const Home = () => {
       list.unshift({
         _id: topic._id,
         userinfo: topic.userinfo,
-        content: topic.answerOfhtml
+        content: topic.answerOfhtml,
+        createAtDate: topic.createAtDate,
+        updateAtDate: topic.updateAtDate
       })
     }
     console.log('list', list);

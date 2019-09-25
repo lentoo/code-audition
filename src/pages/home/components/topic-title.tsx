@@ -58,7 +58,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
     try {
       setCollectionLoading(true)
 
-      let { items, page } = await CollectionService.getCollection(
+      let { items } = await CollectionService.getCollection(
         {
           page: 1,
           limit: 10
@@ -222,7 +222,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
             </View>
             <View className="title-desc">
               {question.descriptionOfhtml && (
-                <CdParseWxml template={question.descriptionOfhtml} />
+                <CdParseWxml template={question.descriptionOfmarkdown} mode="markdown" />
               )}
               {/* <Text>{question.descriptionOfhtml}</Text> */}
             </View>

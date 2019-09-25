@@ -8,8 +8,11 @@ export const pushQuestion = () =>
       _id
       title
       descriptionOfhtml
+      descriptionOfmarkdown
       createAtDate
+      updateAtDate
       answerOfhtml
+      answerOfmarkdown
       browse
       isCollection
       sort {
@@ -43,6 +46,8 @@ export const fetchIdeaList = ({ id, page = 1, limit = 20 }) =>
       }
       items {
         _id
+        createAtDate
+        updateAtDate
         userinfo {
           _id
           nickName

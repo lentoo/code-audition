@@ -212,7 +212,7 @@ const OtherHome = () => {
                       {renderGenderIcon()}
                     </View>
                     <View>
-                      <CodeButton onClick={onAttentionBtnClick} type={user.isAttention ? 'info' : 'primary'}><Text>{user.isAttention ? '已关注' :  '+ 关注' }</Text></CodeButton>
+                      <CodeButton size='normal' onClick={onAttentionBtnClick} type={user.isAttention ? 'info' : 'main'}><Text>{user.isAttention ? '已关注' :  '+ 关注' }</Text></CodeButton>
                       {/* <AtButton
                         onClick={onAttentionBtnClick}
                         className={classNames('follow-btn', {

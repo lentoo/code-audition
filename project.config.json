@@ -1,148 +1,148 @@
 {
-	"miniprogramRoot": "dist/",
-	"projectname": "code-audition",
-	"description": "码上面试，主要是解决人们刷面试题的刚需，使所有的人能“随时随地”刷题",
-	"appid": "wx385af28e35b01138",
-	"cloud": true,
-	"cloudfunctionRoot": "cloud/functions/",
-	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"postcss": false,
-		"minified": false,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
-	},
-	"compileType": "miniprogram",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"libVersion": "2.7.0",
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"miniprogram": {
-			"current": 2,
-			"list": [
-				{
-					"id": 0,
-					"name": "user",
-					"pathName": "pages/user/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "扫码登录",
-					"pathName": "pages/scan-code-login/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "反馈中心",
-					"pathName": "sub-pages/user-package/pages/feedback/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "消息",
-					"pathName": "pages/user/message/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "分类页",
-					"pathName": "pages/category/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 5,
-					"name": "投稿",
-					"pathName": "pages/user/publish/open-question/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 7,
-					"name": "投稿选择分类",
-					"pathName": "pages/user/publish/open-question/choose-category",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 8,
-					"name": "投稿提交成功",
-					"pathName": "pages/user/publish/open-question/submit-success",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "首页",
-					"pathName": "pages/home/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "Demo",
-					"pathName": "pages/demo/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "用户",
-					"pathName": "pages/user/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "他人主页",
-					"pathName": "pages/other-homepage/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "离线",
-					"pathName": "pages/offline/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 13,
-					"name": "收藏集",
-					"pathName": "sub-pages/user-package/pages/collection/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 14,
-					"name": "收藏详情",
-					"pathName": "sub-pages/user-package/pages/collection/Detail",
-					"query": "",
-					"scene": null
-				}
-			]
-		}
-	}
+  "miniprogramRoot": "dist/",
+  "projectname": "code-audition",
+  "description": "码上面试，主要是解决人们刷面试题的刚需，使所有的人能“随时随地”刷题",
+  "appid": "wx385af28e35b01138",
+  "cloud": true,
+  "cloudfunctionRoot": "cloud/functions/",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true,
+    "autoAudits": false,
+    "checkInvalidKey": true
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "libVersion": "2.7.0",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "miniprogram": {
+      "current": 11,
+      "list": [
+        {
+          "id": 0,
+          "name": "user",
+          "pathName": "pages/user/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "扫码登录",
+          "pathName": "pages/scan-code-login/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "反馈中心",
+          "pathName": "sub-pages/user-package/pages/feedback/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "消息",
+          "pathName": "pages/user/message/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "分类页",
+          "pathName": "pages/category/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 5,
+          "name": "投稿",
+          "pathName": "pages/user/publish/open-question/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 7,
+          "name": "投稿选择分类",
+          "pathName": "pages/user/publish/open-question/choose-category",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 8,
+          "name": "投稿提交成功",
+          "pathName": "pages/user/publish/open-question/submit-success",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "首页",
+          "pathName": "pages/home/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "Demo",
+          "pathName": "pages/demo/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "用户",
+          "pathName": "pages/user/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 11,
+          "name": "他人主页",
+          "pathName": "pages/other-homepage/index",
+          "query": "id=5d807c9984a9316fa1ca5226",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "离线",
+          "pathName": "pages/offline/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 13,
+          "name": "收藏集",
+          "pathName": "sub-pages/user-package/pages/collection/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 14,
+          "name": "收藏详情",
+          "pathName": "sub-pages/user-package/pages/collection/Detail",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
 }
