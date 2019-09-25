@@ -179,7 +179,14 @@ class UserView extends Taro.Component {
             <Text>关注</Text>
           </View>
         </View>
-        <View className='attention'>
+        <View
+          className='attention'
+          onClick={() => {
+            Taro.navigateTo({
+              url: `${this.userSubPackagePath}/fans/index`
+            })
+          }}
+        >
           <View className='attention-num'>
             <Text>110</Text>
           </View>

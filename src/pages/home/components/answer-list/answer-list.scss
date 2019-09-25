@@ -34,16 +34,22 @@
           margin-bottom: 5PX;
         }
         .user-avatar {
-          width: 24PX;
-          height: 24PX;
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
           vertical-align: middle;
         }
         .user-name {
-          margin-left: 10PX;
-          font-size: 12PX;
-          color: $tip-color;
+          margin-left: 20px;
+          font-size: 24px;
+          color: #333;
           font-weight: 700;
+        }
+        .user-name-date {
+          // margin-left: 20px;
+          font-size: 20px;
+          color: $tip-color;
+          font-weight: normal;
         }
       }
       .answer-desc {

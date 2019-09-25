@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { OPEN_ID } from '@/constants/common'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
+
 export class Storage {
   static setItem(key, val) {
     return Taro.setStorage({
@@ -242,8 +243,20 @@ export class Utils {
       return Math.floor(result / min) + '分钟前'
     } else if (result / hour > 1 && result / hour < 24) {
       return Math.floor(result / hour) + '小时前'
-    } else if (result / day > 1 && result / day < 7) {
+    } else if (result / day > 1 && result / day < 30) {
       return Math.floor(result / day) + '天前'
+    } else {
+      const targetDate = new Date(value)
+      const prevAddZero = num => {
+        return num < 10 ? '0' + num : num
+      }
+      return `${targetDate.getFullYear()}-${prevAddZero(
+        targetDate.getMonth()
+      )}-${prevAddZero(targetDate.getDate())} ${prevAddZero(
+        targetDate.getHours()
+      )}:${prevAddZero(targetDate.getMinutes())}:${prevAddZero(
+        targetDate.getSeconds()
+      )}`
     }
   }
 }
