@@ -9237,15 +9237,6 @@ react-native-known-styling-properties@^1.0.4:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/react-native-known-styling-properties/download/react-native-known-styling-properties-1.0.5.tgz#dd99690d579c5136541e1df836e75088af6e7356"
 
-react@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
-  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/read-pkg-up/download/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
@@ -10846,10 +10837,10 @@ taro-skeleton@^1.0.10:
     nerv-devtools "^1.4.4"
     nervjs "^1.4.4"
 
-taro-ui@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npm.taobao.org/taro-ui/download/taro-ui-2.2.1.tgz#26f74f1f5e278888a87ee921ac71f33dffcb8601"
-  integrity sha1-JvdPH14niIiofukhrHHzPf/LhgE=
+taro-ui@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.2.2.tgz#485847ed2ac2343c394477b25bbea439e0adc03d"
+  integrity sha512-r6UDdmJ24T4pLTjQ7cxkn63uiZ2YXEHKFAdjDL8NvbJc8WreyJUymHs/zHqCE4gWktWYkv6L2O9x8G+s94vyfw==
   dependencies:
     "@types/react" "^16.7.3"
     bind-decorator "^1.0.11"
