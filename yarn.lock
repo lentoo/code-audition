@@ -10842,10 +10842,10 @@ taro-skeleton@^1.0.10:
     nerv-devtools "^1.4.4"
     nervjs "^1.4.4"
 
-taro-ui@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npm.taobao.org/taro-ui/download/taro-ui-2.2.1.tgz#26f74f1f5e278888a87ee921ac71f33dffcb8601"
-  integrity sha1-JvdPH14niIiofukhrHHzPf/LhgE=
+taro-ui@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.2.2.tgz#485847ed2ac2343c394477b25bbea439e0adc03d"
+  integrity sha512-r6UDdmJ24T4pLTjQ7cxkn63uiZ2YXEHKFAdjDL8NvbJc8WreyJUymHs/zHqCE4gWktWYkv6L2O9x8G+s94vyfw==
   dependencies:
     "@types/react" "^16.7.3"
     bind-decorator "^1.0.11"
