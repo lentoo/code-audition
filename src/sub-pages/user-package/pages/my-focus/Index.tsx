@@ -114,17 +114,21 @@ const AttentionUserPage = () => {
     <View>
       <LayoutTitle title="我的关注">
         <View style={{ textAlign: 'right' }}>
-          <AtButton
-            circle
-            size="small"
-            type="primary"
-            onClick={() => {
-              Taro.navigateTo({
-                url: './AddFocusUserItem'
-              })
-            }}>
-            添加关注
-          </AtButton>
+          <View style={{
+            display: 'inline-block'
+          }}>
+            <AtButton
+              circle
+              size='small'
+              type="primary"
+              onClick={() => {
+                Taro.navigateTo({
+                  url: './AddFocusUserItem'
+                })
+              }}>
+              添加关注
+            </AtButton>
+          </View>
         </View>
       </LayoutTitle>
       {renderFocusList()}

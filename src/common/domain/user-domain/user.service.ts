@@ -4,7 +4,8 @@ import {
   saveUserInfo,
   loginUser,
   findUserByNickName,
-  findUserById
+  findUserById,
+  findLoginUserInfo
 } from '../../data-source/users/user.data'
 import {
   ActionResponseModel,
@@ -42,5 +43,11 @@ export default class UserService {
 
   public static async findUserById(id: string): Promise<User> {
     return findUserById(id).then(({ findUserById }) => findUserById)
+  }
+
+  public static async findLoginUserInfo(): Promise<User> {
+    return findLoginUserInfo().then(
+      ({ findLoginUserInfo }) => findLoginUserInfo
+    )
   }
 }

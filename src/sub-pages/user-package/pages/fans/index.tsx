@@ -2,7 +2,7 @@ import Taro, {
   useEffect,
   useState,
   useReachBottom,
-  usePullDownRefresh
+  usePullDownRefresh,
 } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { Text, View, Image } from '@tarojs/components'
@@ -56,6 +56,7 @@ const FansPage = () => {
       })
     }
   })
+
   async function onClick(user: AttentionUser) {
     Taro.vibrateShort()
     if (user.user.isAttention) {
@@ -84,8 +85,7 @@ const FansPage = () => {
             avatar
             row={1}
             rowWidth="40%"
-            action
-          >
+            action>
             {item.user && (
               <View className="fans-item">
                 <Image className="fans-item-img" src={item.user.avatarUrl!} />
@@ -97,11 +97,15 @@ const FansPage = () => {
                     onClick={() => {
                       onClick(item)
                     }}
-                    type='primary'
-                  >
+                    type={item.user.isAttention ? 'info' : 'primary'}>
                     <View>
-                      <AtIcon size={10} value={item.user.isAttention ? 'repeat-play' : 'add'}></AtIcon>
-                      <Text className='ml5'>{item.user.isAttention ? '互相关注' : '关注'}</Text>
+                      <AtIcon
+                        size={10}
+                        value={item.user.isAttention ? 'repeat-play' : 'add'}
+                      />
+                      <Text className="ml5">
+                        {item.user.isAttention ? '互相关注' : '关注'}
+                      </Text>
                     </View>
                   </CodeButton>
                 </View>

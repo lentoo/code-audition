@@ -1,2 +1,3 @@
-import LoginServices from '../../../common/domain/login-domain/login.service'
-export { LoginServices }
+import LoginServices from '@/domain/login-domain/login.service'
+import UserService from '@/domain/user-domain/user.service'
+export { LoginServices, UserService }
