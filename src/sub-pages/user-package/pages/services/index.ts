@@ -3,11 +3,6 @@ import SortService from '@/domain/sort-domain/sort.service'
 import CollectionService from '@/domain/collection-domain/collection.service'
 import AttentionUserService from '@/domain/attention-user-domain/attention.service'
 import FeedbackService from '@/domain/feedback-domain/feedback.service'
-
-<<<<<<< HEAD
-=======
-import AttentionUserService from '@/domain/attention-user-domain/attention.service'
->>>>>>> lentoo/small-bug
 export {
   UserService,
   SortService,

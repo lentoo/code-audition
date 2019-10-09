@@ -113,8 +113,6 @@ export function findUserById(id: string) {
     }
   })
 }
-<<<<<<< HEAD
-=======
 
 export function findLoginUserInfo() {
   return client({
@@ -132,4 +130,3 @@ export function findLoginUserInfo() {
     `
   })
 }
->>>>>>> lentoo/small-bug

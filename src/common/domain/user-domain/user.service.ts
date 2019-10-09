@@ -4,12 +4,8 @@ import {
   saveUserInfo,
   loginUser,
   findUserByNickName,
-<<<<<<< HEAD
-  findUserById
-=======
   findUserById,
   findLoginUserInfo
->>>>>>> lentoo/small-bug
 } from '../../data-source/users/user.data'
 import {
   ActionResponseModel,
@@ -48,13 +44,10 @@ export default class UserService {
   public static async findUserById(id: string): Promise<User> {
     return findUserById(id).then(({ findUserById }) => findUserById)
   }
-<<<<<<< HEAD
-=======
 
   public static async findLoginUserInfo(): Promise<User> {
     return findLoginUserInfo().then(
       ({ findLoginUserInfo }) => findLoginUserInfo
     )
   }
->>>>>>> lentoo/small-bug
 }

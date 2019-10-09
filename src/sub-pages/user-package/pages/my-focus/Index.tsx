@@ -114,19 +114,6 @@ const AttentionUserPage = () => {
     <View>
       <LayoutTitle title="我的关注">
         <View style={{ textAlign: 'right' }}>
-<<<<<<< HEAD
-          <AtButton
-            circle
-            size="small"
-            type="primary"
-            onClick={() => {
-              Taro.navigateTo({
-                url: './AddFocusUserItem'
-              })
-            }}>
-            添加关注
-          </AtButton>
-=======
           <View style={{
             display: 'inline-block'
           }}>
@@ -142,7 +129,6 @@ const AttentionUserPage = () => {
               添加关注
             </AtButton>
           </View>
->>>>>>> lentoo/small-bug
         </View>
       </LayoutTitle>
       {renderFocusList()}
