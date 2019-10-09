@@ -35,7 +35,11 @@
       "list": []
     },
     "miniprogram": {
+<<<<<<< HEAD
       "current": 2,
+=======
+      "current": 11,
+>>>>>>> lentoo/small-bug
       "list": [
         {
           "id": 0,

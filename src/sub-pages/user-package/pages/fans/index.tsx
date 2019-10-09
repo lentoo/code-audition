@@ -2,7 +2,11 @@ import Taro, {
   useEffect,
   useState,
   useReachBottom,
+<<<<<<< HEAD
   usePullDownRefresh
+=======
+  usePullDownRefresh,
+>>>>>>> lentoo/small-bug
 } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { Text, View, Image } from '@tarojs/components'
@@ -56,6 +60,10 @@ const FansPage = () => {
       })
     }
   })
+<<<<<<< HEAD
+=======
+
+>>>>>>> lentoo/small-bug
   async function onClick(user: AttentionUser) {
     Taro.vibrateShort()
     if (user.user.isAttention) {
@@ -84,8 +92,12 @@ const FansPage = () => {
             avatar
             row={1}
             rowWidth="40%"
+<<<<<<< HEAD
             action
           >
+=======
+            action>
+>>>>>>> lentoo/small-bug
             {item.user && (
               <View className="fans-item">
                 <Image className="fans-item-img" src={item.user.avatarUrl!} />
@@ -97,11 +109,23 @@ const FansPage = () => {
                     onClick={() => {
                       onClick(item)
                     }}
+<<<<<<< HEAD
                     type='primary'
                   >
                     <View>
                       <AtIcon size={10} value={item.user.isAttention ? 'repeat-play' : 'add'}></AtIcon>
                       <Text className='ml5'>{item.user.isAttention ? '互相关注' : '关注'}</Text>
+=======
+                    type={item.user.isAttention ? 'info' : 'primary'}>
+                    <View>
+                      <AtIcon
+                        size={10}
+                        value={item.user.isAttention ? 'repeat-play' : 'add'}
+                      />
+                      <Text className="ml5">
+                        {item.user.isAttention ? '互相关注' : '关注'}
+                      </Text>
+>>>>>>> lentoo/small-bug
                     </View>
                   </CodeButton>
                 </View>

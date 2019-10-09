@@ -113,3 +113,23 @@ export function findUserById(id: string) {
     }
   })
 }
+<<<<<<< HEAD
+=======
+
+export function findLoginUserInfo() {
+  return client({
+    qgl: `
+      query findLoginUser {
+        findLoginUserInfo {
+          _id
+          nickName
+          gender
+          avatarUrl
+          attentionCount
+          fansCount
+        }
+      }
+    `
+  })
+}
+>>>>>>> lentoo/small-bug
