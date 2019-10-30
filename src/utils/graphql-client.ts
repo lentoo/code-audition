@@ -52,9 +52,9 @@ async function fetch({
         'Access denied! You need to be authorized to perform this action!'
       ) {
         clearToken()
-        Taro.redirectTo({
-          url: '/pages/index/index'
-        })
+        // Taro.redirectTo({
+        //   url: '/pages/index/index'
+        // })
       }
       showError &&
         Taro.showToast({

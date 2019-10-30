@@ -32,11 +32,11 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index',
+      // 'pages/index/index',
       'pages/home/index',
       'pages/home/write-review/index',
       'pages/demo/index',
-      'pages/category/index',
+      // 'pages/category/index',
       'pages/other-homepage/index',
       'pages/scan-code-login/index',
       'pages/user/index',
