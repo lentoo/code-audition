@@ -118,6 +118,13 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    * @memberof TopicTitle
    */
   const handleAvatarClick = () => {
+    if (!userinfo) {
+      Taro.showToast({
+        title: '登陆后即可操作',
+        icon: 'none'
+      })
+      return
+    }
     Taro.navigateTo({
       url: '/pages/other-homepage/index?id='+question.userinfo._id
     })
