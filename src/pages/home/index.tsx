@@ -4,8 +4,8 @@ import Taro, {
   useEffect,
   usePullDownRefresh,
   useShareAppMessage,
-  usePageScroll,
   useReachBottom,
+  useCallback,
 } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import {
@@ -13,7 +13,8 @@ import {
   AtButton,
   AtActionSheet,
   AtActionSheetItem,
-  AtFab
+  AtFab,
+  AtMessage
 } from 'taro-ui'
 import { get as getGlobalData, set as setGlobalData } from '@/utils/global-data'
 
@@ -32,7 +33,8 @@ import Question from '@/common/domain/question-domain/entities/Question'
 import Idea from '@/common/domain/question-domain/entities/Idea'
 import { PaginationModel } from '@/common/domain/BaseModel'
 import usePageScrollTitle from '@/hooks/usePageScrollTitle'
-
+import LoginModal from '@/components/LoginModal/LoginModal'
+import useUserInfo from '@/hooks/useUserInfo'
 // interface PageState {
 //   noTopicType: NO_TOPIC_TYPE
 //   topic: Question | null
@@ -44,6 +46,8 @@ import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 // }
 
 const Home = () => {
+  const { userinfo } = useUserInfo()
+  const [ showLoginModal, setLoginModal ] = useState(false)
   useShareAppMessage(options => {
     console.log(options)
     let shartObj = {}
@@ -109,6 +113,17 @@ const Home = () => {
   useEffect(() => {
     topic && fetchIdeaList(true)
   }, [topic])
+
+  useEffect(() => {
+    const falg = getGlobalData('_show_follow_sort')
+
+    !falg && Taro.atMessage({
+      message: '你还没有关注分类，快去登陆关注喜欢的分类吧',
+      type: 'error',
+      duration: 5000
+    })
+    setGlobalData('_show_follow_sort', 1)
+  }, [])
 
   /**
    * @description 加载数据
@@ -188,17 +203,24 @@ const Home = () => {
    * @param {*} event
    * @memberof Home
    */
-  const onFabNextClick = (event?) => {
+  const onFabNextClick = useCallback((event?) => {
     console.log('onFabNextClick')
     event.stopPropagation()
     Taro.startPullDownRefresh()
-  }
+  }, [])
   /**
    * @description 点击回复
    *
    * @memberof Home
    */
   const handleReplyClick = () => {
+    if (!userinfo) {
+      Taro.showToast({
+        title: '登陆后即可操作',
+        icon: 'none'
+      })
+      return
+    }
     if (current) {
       Taro.showLoading()
       Taro.navigateTo({
@@ -259,13 +281,18 @@ const Home = () => {
         onClose={() => {
           setShowActionSheet(false)
         }}>
-        <AtActionSheetItem onClick={handleReplyClick.bind(this)}>
+        <AtActionSheetItem onClick={handleReplyClick}>
           回复
         </AtActionSheetItem>
       </AtActionSheet>
 
       {/* <View className='tabbar'> */}
       <CdTabbar title="首页" />
+      <AtMessage></AtMessage>
+      {
+        !userinfo &&  <LoginModal open={showLoginModal} cancelClick={() => setLoginModal(false)} successClick={() => setLoginModal(true)}></LoginModal>
+      }
+      
       {/* </View> */}
     </View>
   )

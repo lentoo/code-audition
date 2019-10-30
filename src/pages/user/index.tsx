@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect } from '@tarojs/taro'
+import Taro, { useState, useEffect, useCallback } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
 import CdTabbar from '@/components/cd-tabbar'
@@ -6,8 +6,10 @@ import CdTabbar from '@/components/cd-tabbar'
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
 import User from '../../common/domain/user-domain/entities/user'
-import { LoginServices, UserService } from './services'
-
+import { LoginServices } from './services'
+import { USER_INFO } from '@/constants/common';
+import LoginModal from '@/components/LoginModal/LoginModal'
+import LoginAvatar from '@/assets/images/login-avatar.png'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -42,13 +44,20 @@ const UserPage = () => {
   // },
   ]
   const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight
+
+  const [openModal, setOpenModal] = useState(false)
   
   const [userinfo, setUserInfo] = useState<User | null>(null)
   useEffect(() => {
-    UserService.findLoginUserInfo().then(user => {
-      setUserInfo(user)
-    })
+    const token = Taro.getStorageSync('token')
+    if (token) {
+      const u = Taro.getStorageSync(USER_INFO)
+      if (u) {
+        setUserInfo(u)
+      }
+    }
   }, [])
+  
   async function scan() {
     Taro.scanCode().then(async result => {
       const codeResult = JSON.parse(result.result)
@@ -73,6 +82,18 @@ const UserPage = () => {
       }
     })
   }
+
+  const showLoginModal = () => {
+    setOpenModal(true)
+  }
+  const cancelLogin = useCallback(() => {
+    setOpenModal(false)
+  }, [])
+  const successClick = useCallback((user: User) => {
+    setUserInfo(user)
+
+    setOpenModal(false)
+  }, [])
   function navigationToScanCodeLogin ({ unicode, token }) {
     Taro.navigateTo({
       url: `/pages/scan-code-login/index?unicode=${unicode}&token=${token}`
@@ -103,6 +124,7 @@ const UserPage = () => {
       </View>
     )
   }
+  
   /**
    * @description 渲染用户信息
    * @author lentoo
@@ -111,13 +133,21 @@ const UserPage = () => {
    * @memberof UserView
    */
   const renderUserInfo = () => {
-    return userinfo && (
+    return (
       <View className="user-info-wrapper">
         <View>
-          <Text className="avatar-name">{userinfo.nickName}</Text>
+          {
+            userinfo ? <Text className="avatar-name">{userinfo.nickName}</Text>
+            :
+            <Text className="avatar-name" onClick={showLoginModal}>点击登陆</Text>
+          }
+          {/* <Text className="avatar-name">{userinfo ? userinfo.nickName : '点击登陆'}</Text> */}
         </View>
         <View className="avatar-img-box">
-          <Image className="avatar" src={userinfo.avatarUrl!} />
+            {
+              userinfo ? <Image  className="avatar" src={userinfo.avatarUrl!} />
+                : <Image onClick={showLoginModal} className="avatar" src={LoginAvatar} />
+            }
         </View>
       </View>
     )
@@ -130,7 +160,7 @@ const UserPage = () => {
    * @memberof UserView
    */
   const renderStatistics = () => {
-    return userinfo && (
+    return (
       <View className="flex-row attention-wrapper">
         <View
           className="attention"
@@ -140,7 +170,7 @@ const UserPage = () => {
             })
           }}>
           <View className="attention-num">
-            <Text>{userinfo.attentionCount}</Text>
+            <Text>{userinfo ? userinfo.attentionCount : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>关注</Text>
@@ -154,7 +184,7 @@ const UserPage = () => {
             })
           }}>
           <View className="attention-num">
-            <Text>{userinfo.fansCount}</Text>
+            <Text>{userinfo ? userinfo.fansCount : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>粉丝</Text>
@@ -192,7 +222,9 @@ const UserPage = () => {
                 <View
                   className="user-actions-item"
                   key={menu.title}
-                  onClick={menuClick.bind(this, menu.url)}>
+                  onClick={() => {
+                    menuClick(menu.url)
+                  }}>
                   <View>
                     <AtIcon
                       prefixClass={ICON_PREFIX_CLASS}
@@ -256,6 +288,10 @@ const UserPage = () => {
       {renderOperationalActions()}
       {renderSlideItem()}
       <CdTabbar title="我" />
+      {
+        userinfo === null ? <LoginModal cancelClick={cancelLogin} successClick={successClick} open={openModal}></LoginModal> : null
+      }
+      
     </View>
   )
 }

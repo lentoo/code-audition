@@ -17,7 +17,7 @@ export default class CdTabbar extends Taro.Component {
       // { title: '投稿', url: '/pages/publish/index', iconPrefixClass: ICON_PREFIX_CLASS, iconType: 'publish-copy' },
       {
         title: '消息',
-        url: '/pages/user/message/index',
+        url: '/sub-pages/user-package/pages/message/index',
         iconPrefixClass: ICON_PREFIX_CLASS,
         iconType: 'xiaoxi3'
       },

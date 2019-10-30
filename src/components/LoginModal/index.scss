@@ -1,0 +1,19 @@
+.modal-content {
+  &-item {
+    text-align: center;
+    padding: 20px;
+  }
+}
+.modal-footer {
+  @include center(row);
+  &-item {
+    flex: 1;
+    text-align: center;
+    &:first-child {
+      margin-right: 30px;
+      color: #999;
+      font-size: 30px;
+    }
+  
+  }
+}

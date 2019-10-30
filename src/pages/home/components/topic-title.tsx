@@ -8,6 +8,7 @@ import Tag from './tag/tag'
 import './topic-title.scss'
 import Question from '@/common/domain/question-domain/entities/Question'
 import Collection from '@/common/domain/collection-domain/entities/Collection'
+import useUserInfo from '@/hooks/useUserInfo'
 type PageProp = {
   question: Question
 }
@@ -22,6 +23,9 @@ const TopicTitleComponent = ({ question }: PageProp) => {
   const [isCollection, setIsCollection] = useState(false)
   const [isOpenFloatLayout, setIsOpenFloatLayout] = useState(false)
   const [collectionLoading, setCollectionLoading] = useState(false)
+  const {
+    userinfo
+  } = useUserInfo()
   // const [addIconStyle, setAddIconStyle] = useState({
   //   transition: '.3s ease-in-out transform',
   //   transform: 'scale(1)'
@@ -47,6 +51,13 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    * @memberof Home
    */
   const toWriteReview = () => {
+    if (!userinfo) {
+      Taro.showToast({
+        title: '登陆后即可操作',
+        icon: 'none'
+      })
+      return
+    }
     Taro.showLoading()
     Taro.navigateTo({
       url: `write-review/index?title=${question.title}&id=${question._id}`
@@ -122,6 +133,13 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    * @author lentoo
    */
   const handleCollectionClick = () => {
+    if (!userinfo) {
+      Taro.showToast({
+        title: '登陆后即可收藏',
+        icon: 'none'
+      })
+      return
+    }
     loadCollections()
     setIsOpenFloatLayout(true)
   }
