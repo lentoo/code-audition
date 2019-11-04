@@ -35,6 +35,7 @@ import { PaginationModel } from '@/common/domain/BaseModel'
 import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 import LoginModal from '@/components/LoginModal/LoginModal'
 import useUserInfo from '@/hooks/useUserInfo'
+import useLoginModal from '@/hooks/useLoginModal'
 // interface PageState {
 //   noTopicType: NO_TOPIC_TYPE
 //   topic: Question | null
@@ -46,8 +47,8 @@ import useUserInfo from '@/hooks/useUserInfo'
 // }
 
 const Home = () => {
-  const { userinfo } = useUserInfo()
-  const [ showLoginModal, setLoginModal ] = useState(false)
+  const [ userinfo ] = useUserInfo()
+  const [ showLoginModal, setLoginModal ] = useLoginModal()
   useShareAppMessage(options => {
     console.log(options)
     let shartObj = {}
@@ -55,13 +56,13 @@ const Home = () => {
       // 通过右上角的按钮分享
       // 点击分享
       shartObj = {
-        path: '/pages/index/index',
+        path: '/pages/home/index',
         title: APP_NAME
       }
     } else {
       // 点击分享
       shartObj = {
-        path: '/pages/index/index',
+        path: '/pages/home/index',
         title: topic!.title
       }
     }
@@ -119,7 +120,7 @@ const Home = () => {
 
     !falg && Taro.atMessage({
       message: '你还没有关注分类，快去登陆关注喜欢的分类吧',
-      type: 'error',
+      type: 'success',
       duration: 5000
     })
     setGlobalData('_show_follow_sort', 1)
@@ -215,10 +216,8 @@ const Home = () => {
    */
   const handleReplyClick = () => {
     if (!userinfo) {
-      Taro.showToast({
-        title: '登陆后即可操作',
-        icon: 'none'
-      })
+      setShowActionSheet(false)
+      setLoginModal(true)
       return
     }
     if (current) {
@@ -290,7 +289,7 @@ const Home = () => {
       <CdTabbar title="首页" />
       <AtMessage></AtMessage>
       {
-        !userinfo &&  <LoginModal open={showLoginModal} cancelClick={() => setLoginModal(false)} successClick={() => setLoginModal(true)}></LoginModal>
+        <LoginModal open={showLoginModal} cancelClick={() => setLoginModal(false)} successClick={() => setLoginModal(true)}></LoginModal>
       }
       
       {/* </View> */}
