@@ -1,6 +1,6 @@
 import { AtModal, AtModalContent, AtButton } from "taro-ui"
 import { View, Text } from "@tarojs/components"
-import Taro, { useCallback } from '@tarojs/taro'
+import Taro, { useCallback, memo } from '@tarojs/taro'
 import User from "@/domain/user-domain/entities/user"
 import UserService from '@/domain/user-domain/user.service'
 import {
@@ -21,7 +21,7 @@ type PageState = {
 
 const LoginModal = (props: PageState) => {
   console.log('render LoginModal');
-  const { setUserinfo } = useUserInfo()
+  const [ , setUserinfo ] = useUserInfo()
   const onGetUserInfo = useCallback(async (res) =>  {
 
     const onLogin = async (u: User) => {

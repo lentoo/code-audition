@@ -10,6 +10,7 @@ import { LoginServices } from './services'
 import { USER_INFO } from '@/constants/common';
 import LoginModal from '@/components/LoginModal/LoginModal'
 import LoginAvatar from '@/assets/images/login-avatar.png'
+import useUserinfo from '@/hooks/useUserInfo'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -47,16 +48,7 @@ const UserPage = () => {
 
   const [openModal, setOpenModal] = useState(false)
   
-  const [userinfo, setUserInfo] = useState<User | null>(null)
-  useEffect(() => {
-    const token = Taro.getStorageSync('token')
-    if (token) {
-      const u = Taro.getStorageSync(USER_INFO)
-      if (u) {
-        setUserInfo(u)
-      }
-    }
-  }, [])
+  const [userinfo, setUserInfo] = useUserinfo()
   
   async function scan() {
     Taro.scanCode().then(async result => {
