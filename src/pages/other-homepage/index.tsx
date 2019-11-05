@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, useRouter } from '@tarojs/taro'
+import Taro, { useState, useEffect, useRouter, useCallback } from '@tarojs/taro'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { AtIcon, AtTabs, AtTabsPane, AtLoadMore } from 'taro-ui'
 import { Utils } from '@/utils'
@@ -37,7 +37,7 @@ const OtherHome = () => {
   const handleClick = value => {
     setTabIndex(value)
   }
-  const onAttentionBtnClick = async () => {
+  const onAttentionBtnClick = useCallback(async () => {
     Taro.vibrateShort()
     if (user) {
       if (user.isAttention) {
@@ -52,6 +52,17 @@ const OtherHome = () => {
         return user
       })
     } 
+  }, [user])
+
+  const navigatorToFollowPage = () => {
+    user && Taro.navigateTo({
+      url: `/sub-pages/user-package/pages/my-focus/Index?uid=${user._id}&nickName=${user.nickName}`
+    })
+  }
+  const navigatorToFansPage = () => {
+    user && Taro.navigateTo({
+      url: `/sub-pages/user-package/pages/fans/index?uid=${user._id}&nickName=${user.nickName}`
+    })
   }
 
   /**
@@ -178,7 +189,7 @@ const OtherHome = () => {
                 <View>
                   <Image className="avatar" src={user.avatarUrl!} />
                   <View className="flex-row attention-wrapper">
-                    <View className="attention">
+                    <View className="attention" onClick={navigatorToFollowPage}>
                       <View className="attention-num">
                         <Text>{user.attentionCount}</Text>
                       </View>
@@ -186,7 +197,7 @@ const OtherHome = () => {
                         <Text>关注</Text>
                       </View>
                     </View>
-                    <View className="attention">
+                    <View className="attention" onClick={navigatorToFansPage}>
                       <View className="attention-num">
                         <Text>{user.fansCount}</Text>
                       </View>

@@ -230,6 +230,10 @@ const Home = () => {
       })
     }
   }
+  const hideLoginModal = useCallback(() => {
+    setLoginModal(false)
+  }, [])
+  
   const renderTopic = () => {
     return showNoTopic ? (
       <View />
@@ -289,7 +293,7 @@ const Home = () => {
       <CdTabbar title="首页" />
       <AtMessage></AtMessage>
       {
-        <LoginModal open={showLoginModal} cancelClick={() => setLoginModal(false)} successClick={() => setLoginModal(true)}></LoginModal>
+        <LoginModal open={showLoginModal} cancelClick={hideLoginModal} successClick={hideLoginModal}></LoginModal>
       }
       
       {/* </View> */}

@@ -10,19 +10,22 @@ import {
   unsubscribe,
   getFansList
 } from '@/data-source/attention-user/index.data'
+import User from '../user-domain/entities/user'
 
 export default class AttentionUserService {
   public static attentionUserList(
-    page: PaginationProp
-  ): Promise<PaginatedResponseClass<AttentionUser>> {
-    return attentionUserList(page).then(
+    page: PaginationProp,
+    uid: string
+  ): Promise<PaginatedResponseClass<User>> {
+    return attentionUserList(page, uid).then(
       ({ attentionUserList }) => attentionUserList
     )
   }
   public static findFansList(
+    uid: string,
     page: PaginationProp = { page: 1, limit: 20 }
   ): Promise<PaginatedResponseClass<AttentionUser>> {
-    return getFansList(page).then(
+    return getFansList(uid, page).then(
       ({ attentionSelfUserList }) => attentionSelfUserList
     )
   }

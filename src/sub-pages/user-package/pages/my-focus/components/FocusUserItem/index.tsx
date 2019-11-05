@@ -1,5 +1,4 @@
 import { View, Image, Text } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
 import './index.scss'
 import { AttentionUserInfo } from '@/common/domain/user-domain/entities/user'
 import CodeButton from '@/components/Button'
@@ -27,7 +26,8 @@ export default function FocusUserItem (props: FocusUserItemOption) {
             <Text>{user.nickName}</Text>
           </View>
           <View className="focus-item-info-desc">
-            发布了0道题，{user.attentionCount}人关注
+            {/* 发布了0道题， */}
+            {user.fansCount}人关注
           </View>
         </View>
         <View>

@@ -3,7 +3,9 @@ import Taro, {
   useState,
   useReachBottom,
   useEffect,
-  usePullDownRefresh
+  usePullDownRefresh,
+  useRouter,
+  useCallback
 } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
@@ -17,6 +19,7 @@ import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 import { PaginationProp, PaginationModel } from '@/common/domain/BaseModel'
 import User, { AttentionUserInfo } from '@/common/domain/user-domain/entities/user'
 import { AttentionUserService } from '../services'
+import useUserInfo from '@/hooks/useUserInfo'
 
 const AttentionUserPage = () => {
   const [list, setList] = useState<AttentionUserInfo[]>(ArrayLen(20))
@@ -24,17 +27,34 @@ const AttentionUserPage = () => {
   const [skeletonLoading, setSkeletonLoading] = useState(true)
 
   const [loading, setLoading] = useState(true)
+  
   const [pagination, setPagination] = useState<PaginationModel | null>(null)
+
+  const [userinfo] = useUserInfo()
+
+  const {
+    params: {
+      uid,
+      nickName
+    }
+  } = useRouter()
 
   let page: PaginationProp = {
     page: 1,
     limit: 20
   }
-  usePageScrollTitle('我的关注', 50)
+  const [title, setTitle] = useState('')
+  useEffect(() => {
+    setTitle(uid ? `${nickName}的关注` : '我的关注')
+  }, [])
+
+  usePageScrollTitle(title, 50)
 
   useReachBottom(() => {
     if (pagination && pagination.hasMore) {
       console.log('useReachBottom')
+      page.page++
+      onLoadData()
     }
   })
   useEffect(() => {
@@ -50,14 +70,15 @@ const AttentionUserPage = () => {
     const {
       page: paginated,
       items
-    } = await AttentionUserService.attentionUserList(page)
+    } = await AttentionUserService.attentionUserList(page, uid || userinfo!._id!)
 
     const list: AttentionUserInfo[] = items.map((item) => {
       return {
-        ...item.attentionUser,
-        isAttention: true
+        ...item,
+        // isAttention: true
       }
     })
+    console.log('paginated', paginated);
     setPagination(paginated)
 
     setList(prev => (clear ? list : prev.concat(list)))
@@ -66,22 +87,22 @@ const AttentionUserPage = () => {
     setSkeletonLoading(false)
     setLoading(false)
   }
-  const onActionClick = async (user: User) => {
+  const onActionClick = useCallback(async (user: User) => {
     Taro.vibrateShort()
     if (user.isAttention) {
       await AttentionUserService.unsubscribe(user._id!)
     } else {
       await AttentionUserService.subscribe(user._id!)
     }
-    setList(() => {
-      return list.map(u => {
+    setList((prevList) => {
+      return prevList.map(u => {
         if (u._id === user._id) {
           u.isAttention = !u.isAttention
         }
         return u
       })
     })
-  }
+  }, [])
   const renderFocusList = () => {
     return (
       list.length && (
@@ -100,11 +121,6 @@ const AttentionUserPage = () => {
               </TaroSkeleton>
             )
           })}
-          {pagination && !skeletonLoading && !pagination.hasMore && (
-            <LoadingComponent finished={!pagination.hasMore} />
-          )}
-
-          {/* { pagination && !pagination.hasMore &&  <LoadingComponent finished={!pagination.hasMore} />} */}
         </View>
       )
     )
@@ -112,26 +128,34 @@ const AttentionUserPage = () => {
 
   return (
     <View>
-      <LayoutTitle title="我的关注">
+      <LayoutTitle title={title}>
         <View style={{ textAlign: 'right' }}>
           <View style={{
             display: 'inline-block'
           }}>
-            <AtButton
-              circle
-              size='small'
-              type="primary"
-              onClick={() => {
-                Taro.navigateTo({
-                  url: './AddFocusUserItem'
-                })
-              }}>
-              添加关注
-            </AtButton>
+            {
+              !uid && <AtButton
+                circle
+                size='small'
+                type="primary"
+                onClick={() => {
+                  Taro.navigateTo({
+                    url: './AddFocusUserItem'
+                  })
+                }}>
+                添加关注
+              </AtButton>
+            }
+            
           </View>
         </View>
       </LayoutTitle>
       {renderFocusList()}
+      {
+        pagination && (
+          <LoadingComponent finished={!pagination.hasMore} />
+        )
+      }
     </View>
   )
 }

@@ -53,16 +53,19 @@ const LoginModal = (props: PageState) => {
     u.openId = openId
 
     await UserService.addUserInfo(u)
-    await onLogin(u)
 
-    setUserinfo(u)
+    await onLogin(u)
+    
+    const loginUser = await UserService.findLoginUserInfo()
+
+    setUserinfo(loginUser)
 
     if (Taro.getStorageSync(USER_INFO)) {
       Taro.hideLoading()
     } else {
       Taro.setStorage({
         key: USER_INFO,
-        data: getUser
+        data: loginUser
       })
       Taro.hideLoading()
     }
