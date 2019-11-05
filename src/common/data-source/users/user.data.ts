@@ -82,6 +82,7 @@ export function findUserByNickName(page: PaginationProp, nickName: string) {
           gender
           avatarUrl
           isAttention
+          attentionCount
         }
       }
     }

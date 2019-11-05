@@ -6,7 +6,7 @@ import CdTabbar from '@/components/cd-tabbar'
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
 import User from '../../common/domain/user-domain/entities/user'
-import { LoginServices } from './services'
+import { LoginServices, UserService } from './services'
 import { USER_INFO } from '@/constants/common';
 import LoginModal from '@/components/LoginModal/LoginModal'
 import LoginAvatar from '@/assets/images/login-avatar.png'
@@ -49,7 +49,26 @@ const UserPage = () => {
   const [openModal, setOpenModal] = useState(false)
   
   const [userinfo, setUserInfo] = useUserinfo()
-  
+
+  // const [userinfo, setUserInfoState ] = useState(user)
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (userinfo) {
+        const user = await UserService.findLoginUserInfo()
+        console.log('user', user);
+        const newUser = {
+          ...user
+        }
+        setUserInfo(newUser)
+        Taro.setStorageSync(USER_INFO, user)
+      }
+    }
+    getUser()
+  }, [])
+  // useEffect(() => {
+  //   setUserInfoState(user)
+  // }, [user])
   async function scan() {
     Taro.scanCode().then(async result => {
       const codeResult = JSON.parse(result.result)
@@ -78,12 +97,7 @@ const UserPage = () => {
   const showLoginModal = () => {
     setOpenModal(true)
   }
-  const cancelLogin = useCallback(() => {
-    setOpenModal(false)
-  }, [])
-  const successClick = useCallback((user: User) => {
-    setUserInfo(user)
-
+  const hideLoginModal = useCallback(() => {
     setOpenModal(false)
   }, [])
   function navigationToScanCodeLogin ({ unicode, token }) {
@@ -152,6 +166,7 @@ const UserPage = () => {
    * @memberof UserView
    */
   const renderStatistics = () => {
+    console.log('render renderStatistics', userinfo);
     return (
       <View className="flex-row attention-wrapper">
         <View
@@ -162,7 +177,7 @@ const UserPage = () => {
             })
           }}>
           <View className="attention-num">
-            <Text>{userinfo ? userinfo.attentionCount : 0}</Text>
+            <Text>{userinfo ? userinfo.attentionCount.toString() : 1}</Text>
           </View>
           <View className="attention-title">
             <Text>关注</Text>
@@ -176,7 +191,7 @@ const UserPage = () => {
             })
           }}>
           <View className="attention-num">
-            <Text>{userinfo ? userinfo.fansCount : 0}</Text>
+            <Text>{userinfo ? userinfo.fansCount.toString() : 10}</Text>
           </View>
           <View className="attention-title">
             <Text>粉丝</Text>
@@ -281,7 +296,7 @@ const UserPage = () => {
       {renderSlideItem()}
       <CdTabbar title="我" />
       {
-        userinfo === null ? <LoginModal cancelClick={cancelLogin} successClick={successClick} open={openModal}></LoginModal> : null
+        userinfo === null ? <LoginModal cancelClick={hideLoginModal} successClick={hideLoginModal} open={openModal}></LoginModal> : null
       }
       
     </View>

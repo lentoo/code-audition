@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { OPEN_ID } from '@/constants/common'
+import { OPEN_ID, USER_INFO } from '@/constants/common'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
 
 export class Storage {
@@ -138,6 +138,7 @@ export const loadOpenId = async () => {
 export const clearToken = () => {
   setGlobalData('token', undefined)
   Taro.removeStorageSync('token')
+  Taro.removeStorageSync(USER_INFO)
   return true
 }
 export const getToken = () => {
