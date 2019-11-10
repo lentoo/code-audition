@@ -1,4 +1,4 @@
-import Taro, { Config, useState, useEffect, useReachBottom } from '@tarojs/taro'
+import Taro, { useState, useEffect, useReachBottom, useCallback } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { View } from '@tarojs/components'
 import { AtSearchBar } from 'taro-ui'
@@ -7,7 +7,7 @@ import FocusUserItem from './components/FocusUserItem'
 import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 import { UserService, AttentionUserService } from '../services'
 import { PaginationProp, PaginationModel } from '@/common/domain/BaseModel'
-import User, {
+import {
   AttentionUserInfo
 } from '@/common/domain/user-domain/entities/user'
 import Skeleton from 'taro-skeleton'
@@ -38,12 +38,11 @@ const AddFocusUserItemProp = () => {
     }
   })
 
-  const onActionClick = async () => {
+  const onActionClick = useCallback(async () => {
     setSkeletonLoading(true)
     await onLoadData(true)
-    setSkeletonLoading(false)
-    
-  }
+    setSkeletonLoading(false)    
+  }, [])
   const onLoadData = async (reset: boolean = false) => {
     const { items, page: pagination } = await UserService.findUserByNickName(
       page,
@@ -52,21 +51,28 @@ const AddFocusUserItemProp = () => {
     setList(prev => reset ? items : prev.concat(items))
     setPaginated(pagination)
   }
-  const onUserItemActionClick = async (user: AttentionUserInfo) => {
+  const onUserItemActionClick = useCallback(async (user: AttentionUserInfo) => {
     if (user.isAttention) {
       await AttentionUserService.unsubscribe(user._id!)
+      user.fansCount-=1
+      user.isAttention = false
     } else {
       await AttentionUserService.subscribe(user._id!)
+      user.fansCount+=1
+      user.isAttention = true
     }
     setList(list => {
-      return list.map(item => {
+      const newList = list.map(item => {
         if (item._id === user._id) {
-          item.isAttention = !item.isAttention
+          return {
+            ...user
+          }
         }
         return item
       })
+      return newList
     })
-  }
+  }, [])
   return (
     <View className="add-focus">
       <LayoutTitle title="添加关注">
@@ -74,6 +80,7 @@ const AddFocusUserItemProp = () => {
           value={value}
           onChange={onSearchBarValueChange}
           onActionClick={onActionClick}
+          onClear={onActionClick}
         />
       </LayoutTitle>
       <View>
@@ -96,18 +103,6 @@ const AddFocusUserItemProp = () => {
         {
           paginated && <LoadingComponent finished={!paginated.hasMore}></LoadingComponent>
         }
-        {/* <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem />
-        <FocusUserItem /> */}
       </View>
     </View>
   )

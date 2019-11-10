@@ -2,7 +2,8 @@ import Taro from '@tarojs/taro'
 import nanographql from 'nanographql'
 import { clearToken, getToken } from '.'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
-import { RadioGroup } from '@tarojs/components'
+import useLoginModal from '@/hooks/useLoginModal'
+
 const graphQLUrl = <string>process.env.GRAPHQL_URL
 
 export interface graphqlRequestOptions {
@@ -52,6 +53,9 @@ async function fetch({
         'Access denied! You need to be authorized to perform this action!'
       ) {
         clearToken()
+        const [_, setLoginModal] = useLoginModal()
+
+        setLoginModal(true)
         // Taro.redirectTo({
         //   url: '/pages/index/index'
         // })

@@ -12,9 +12,10 @@ import './app.scss'
 
 import './assets/fonts/iconfont.css'
 import './assets/styles/common.scss'
-import { UpdateManager, Storage } from './utils'
+import { UpdateManager, Storage, loadAppId } from './utils'
 import { USER_INFO } from './constants/common'
 import { set } from './utils/global-data'
+import useUserInfo from './hooks/useUserInfo'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -77,16 +78,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const user = Taro.getStorageSync(USER_INFO)
-    user && set(USER_INFO, user)
 
-    
     if (Taro.getEnv() === Taro.ENV_TYPE.WEAPP) {
       UpdateManager.CheckAppUpdate()
       Taro.cloud.init({
         env: 'code-interview-13481f',
         traceUser: true
       })
+      loadAppId()
     }
   }
 

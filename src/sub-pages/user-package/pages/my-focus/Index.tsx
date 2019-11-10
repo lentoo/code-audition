@@ -5,7 +5,8 @@ import Taro, {
   useEffect,
   usePullDownRefresh,
   useRouter,
-  useCallback
+  useCallback,
+  useDidShow
 } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
@@ -57,9 +58,11 @@ const AttentionUserPage = () => {
       onLoadData()
     }
   })
-  useEffect(() => {
+  
+  useDidShow(() => {
     onLoadData(true)
-  }, [])
+  })
+
   usePullDownRefresh(async () => {
     Taro.vibrateShort()
     await onLoadData(true)
@@ -87,17 +90,24 @@ const AttentionUserPage = () => {
     setSkeletonLoading(false)
     setLoading(false)
   }
+
   const onActionClick = useCallback(async (user: User) => {
     Taro.vibrateShort()
     if (user.isAttention) {
       await AttentionUserService.unsubscribe(user._id!)
+      user.fansCount-=1
+      user.isAttention = false
     } else {
       await AttentionUserService.subscribe(user._id!)
+      user.fansCount+=1
+      user.isAttention = true
     }
     setList((prevList) => {
       return prevList.map(u => {
         if (u._id === user._id) {
-          u.isAttention = !u.isAttention
+          return {
+            ...user
+          }
         }
         return u
       })

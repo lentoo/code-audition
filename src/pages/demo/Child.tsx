@@ -12,7 +12,7 @@ export default function Child () {
       <View>
         <Text>{userinfo && userinfo.nickName}</Text>
       </View>
-      <Button onClick={ () => setLoginModal(prev => !prev)}>set state</Button>
+      <Button onClick={ () => setLoginModal(true)}>set state</Button>
     </View>
   )
 }

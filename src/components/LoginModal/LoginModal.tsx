@@ -7,10 +7,11 @@ import {
   set as setGlobalData,
   get as getGlobalData
 } from '@/utils/global-data'
-import { USER_INFO, OPEN_ID } from '@/constants/common';
+import { USER_INFO, OPEN_ID, APP_ID } from '@/constants/common';
 
 import './index.scss'
 import useUserInfo from "@/hooks/useUserInfo"
+import { AppId } from "@/types"
 type PageState = {
   open: boolean
   cancelClick: () => void
@@ -23,10 +24,11 @@ const LoginModal = (props: PageState) => {
   console.log('render LoginModal');
   const [ , setUserinfo ] = useUserInfo()
   const onGetUserInfo = useCallback(async (res) =>  {
+  const appid = getGlobalData(APP_ID) as AppId
 
     const onLogin = async (u: User) => {
       try {
-        u.openId = getGlobalData(OPEN_ID)
+        u.openId = appid.openid
         const response = await UserService.login(u)
   
         Taro.setStorage({
@@ -48,9 +50,9 @@ const LoginModal = (props: PageState) => {
 
     const u = new User()
     const getUser = res.detail.userInfo
-    const openId = getGlobalData(OPEN_ID)
+    
     Object.assign(u, getUser)
-    u.openId = openId
+    u.openId = appid.openid
 
     await UserService.addUserInfo(u)
 

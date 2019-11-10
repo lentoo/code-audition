@@ -29,7 +29,10 @@ export const USER_INFO = 'USER_INFO'
  * OPEN ID
  */
 export const OPEN_ID = 'oid'
-
+/**
+ * APP ID
+ */
+export const APP_ID = 'APP_ID'
 export const FIRST = 'FIRST'
 /**
  * 分类页

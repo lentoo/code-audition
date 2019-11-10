@@ -11,6 +11,9 @@ import { USER_INFO } from '@/constants/common';
 import LoginModal from '@/components/LoginModal/LoginModal'
 import LoginAvatar from '@/assets/images/login-avatar.png'
 import useUserinfo from '@/hooks/useUserInfo'
+import { useSelector, useDispatch } from '@tarojs/redux'
+import { SET_USERINFO } from '@/actions/userinfo'
+import { SET_USER } from '@/constants/userinfo'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -50,25 +53,22 @@ const UserPage = () => {
   
   const [userinfo, setUserInfo] = useUserinfo()
 
-  // const [userinfo, setUserInfoState ] = useState(user)
-
   useEffect(() => {
     const getUser = async () => {
       if (userinfo) {
-        const user = await UserService.findLoginUserInfo()
-        console.log('user', user);
-        const newUser = {
-          ...user
+        try {
+          const user = await UserService.findLoginUserInfo()
+          console.log('user', user);
+          setUserInfo(user)
+          Taro.setStorageSync(USER_INFO, user)
+        } catch (error) {
+          console.log('error', error);
         }
-        setUserInfo(newUser)
-        Taro.setStorageSync(USER_INFO, user)
       }
     }
     getUser()
   }, [])
-  // useEffect(() => {
-  //   setUserInfoState(user)
-  // }, [user])
+
   async function scan() {
     Taro.scanCode().then(async result => {
       const codeResult = JSON.parse(result.result)
@@ -100,11 +100,33 @@ const UserPage = () => {
   const hideLoginModal = useCallback(() => {
     setOpenModal(false)
   }, [])
-  function navigationToScanCodeLogin ({ unicode, token }) {
+  const navigationToScanCodeLogin =  useCallback(({ unicode, token }) => {
+    
     Taro.navigateTo({
       url: `/pages/scan-code-login/index?unicode=${unicode}&token=${token}`
     })
-  }
+  }, [])
+
+  const navigationToPage = useCallback((type: 'fans' | 'focus') => {
+    if (!userinfo) {
+      showLoginModal()
+      return
+    }
+    switch (type) {
+      case 'fans': 
+        Taro.navigateTo({
+          url: `${userSubPackagePath}/fans/index`
+        })
+        break;
+      case 'focus':
+        Taro.navigateTo({
+          url: `${userSubPackagePath}/my-focus/Index`
+        })
+        break;
+    }
+  }, [showLoginModal])
+
+
   /**
    * @description 渲染头部图标
    * @author lentoo
@@ -172,12 +194,10 @@ const UserPage = () => {
         <View
           className="attention"
           onClick={() => {
-            Taro.navigateTo({
-              url: `${userSubPackagePath}/my-focus/Index`
-            })
+            navigationToPage('focus')
           }}>
           <View className="attention-num">
-            <Text>{userinfo ? userinfo.attentionCount.toString() : 1}</Text>
+            <Text>{userinfo ? userinfo.attentionCount.toString() : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>关注</Text>
@@ -186,12 +206,10 @@ const UserPage = () => {
         <View
           className="attention"
           onClick={() => {
-            Taro.navigateTo({
-              url: `${userSubPackagePath}/fans/index`
-            })
+            navigationToPage('fans')
           }}>
           <View className="attention-num">
-            <Text>{userinfo ? userinfo.fansCount.toString() : 10}</Text>
+            <Text>{userinfo ? userinfo.fansCount.toString() : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>粉丝</Text>
@@ -209,9 +227,13 @@ const UserPage = () => {
     )
   }
   const menuClick = (url: string) => {
-    Taro.navigateTo({
-      url
-    })
+    if (userinfo) {
+      Taro.navigateTo({
+        url
+      })
+    } else {
+      showLoginModal()
+    }
   }
   /**
    * @description 渲染可操作的行为
@@ -308,3 +330,5 @@ UserPage.config = {
 }
 
 export default UserPage
+
+

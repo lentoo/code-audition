@@ -54,7 +54,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    */
   const toWriteReview = () => {
     if (!userinfo) {
-      setLoginModal(prev => !prev)
+      setLoginModal(true)
       return
     }
     Taro.showLoading()

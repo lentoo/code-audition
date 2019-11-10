@@ -7,6 +7,8 @@ export default class User extends BaseModel {
    * @memberof UserInfo
    */
   openId?: string
+  appid?: string
+  unionid?: string
   /**
    * @description 用户昵称
    * @type {string}
