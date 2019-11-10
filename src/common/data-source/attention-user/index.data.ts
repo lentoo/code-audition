@@ -19,6 +19,7 @@ export function attentionUserList(page: PaginationProp, uid: string) {
           fansCount
           attentionCount
           isAttention
+          avatarUrl
         }
       }
     }

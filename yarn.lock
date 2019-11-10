@@ -231,10 +231,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tarojs/async-await@1.3.17":
-  version "1.3.17"
-  resolved "https://registry.yarnpkg.com/@tarojs/async-await/-/async-await-1.3.17.tgz#61dd914af0b4fa71595ec1b03e9b8cf565fbfa87"
-  integrity sha512-Tjf5dNo09fsnbDzu5UTALFESFYyhte35H8r2vsU6ZPpYwAmzC5UzhZFBGqUMSjd1CHTti4qFpAXoTolqa3K9Jg==
+"@tarojs/async-await@^1.3.22":
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/@tarojs/async-await/-/async-await-1.3.22.tgz#536f43aff67340c390613f38970ecc7ec90f6e5e"
+  integrity sha512-zSO/Qqwa1P9ukoxVkxFHxNikE/iBoFQEgEGRNsmirfp18XgJMZYgXSZ/ON0cd0l9EwIYbUjcVE10NWIGBDToSw==
   dependencies:
     promise-polyfill "^7.1.2"
     regenerator-runtime "^0.11.1"
@@ -347,10 +347,10 @@
     swiper "^4.4.2"
     weui "^1.1.2"
 
-"@tarojs/plugin-babel@1.3.17":
-  version "1.3.17"
-  resolved "https://registry.yarnpkg.com/@tarojs/plugin-babel/-/plugin-babel-1.3.17.tgz#d20b95850204558ca5dbb3518e1bd9a9a4e3d5f4"
-  integrity sha512-oB3W8hRU8UGl4iyJyT8rSVxm2zyi9qv1YV1FGCNaftjkUM8fS8ful+AwCtnFFFPGXzF8ed7iVvnAeBNo53Kgrg==
+"@tarojs/plugin-babel@^1.3.22":
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/@tarojs/plugin-babel/-/plugin-babel-1.3.22.tgz#0c2358379baef445a5ee70dc2fc06de64eeac32f"
+  integrity sha512-m6s3xn3ppoFHs/cWk+iNQZzsaLUm4LAwt00pjFFe7Sne72T2w1rIeL5lFTsyj5/BGwlpz8txmGvs1gikZVhH9w==
   dependencies:
     babel-core "^6.26.0"
 
@@ -369,10 +369,10 @@
     node-sass "^4.12.0"
     scss-bundle "^2.5.1"
 
-"@tarojs/plugin-uglifyjs@1.3.17":
-  version "1.3.17"
-  resolved "https://registry.yarnpkg.com/@tarojs/plugin-uglifyjs/-/plugin-uglifyjs-1.3.17.tgz#9e4e6d922462ac9c7b1e83ba7a1d68fbbf380625"
-  integrity sha512-DOt+xTzBqz/5ZK6VVvHqvd1pKT+EJ7kUp4NEZHHNELH79zc13mdpgXfe8c276rTNqiPU+jjIF3aUKmR+iRfyDg==
+"@tarojs/plugin-uglifyjs@^1.3.22":
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/@tarojs/plugin-uglifyjs/-/plugin-uglifyjs-1.3.22.tgz#e1744ad45096a368dfe6674375918cd11a664be7"
+  integrity sha512-umdEmWMIWTdk+G9IMmlpgIVNSvj8uqLsNBFOuMPPJmVSbFIT5AaqVl2Y/M0El6IutXhP04HB6zd/wpNRN4ah6g==
   dependencies:
     uglify-js "^3.3.24"
 
@@ -741,6 +741,13 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/redux@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
+  integrity sha1-8evh5UEVGAcuT9/KXHbhbnTBOZo=
+  dependencies:
+    redux "*"
 
 "@types/request@^2.48.1":
   version "2.48.1"
@@ -9363,9 +9370,10 @@ redux-thunk@^2.3.0:
   version "2.3.0"
   resolved "http://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
 
-redux@^4.0.0:
-  version "4.0.1"
-  resolved "http://registry.npm.taobao.org/redux/download/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
+redux@*, redux@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
+  integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"

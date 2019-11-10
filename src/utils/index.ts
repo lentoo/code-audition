@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { OPEN_ID, USER_INFO } from '@/constants/common'
+import { OPEN_ID, USER_INFO, APP_ID } from '@/constants/common'
 import { get as getGlobalData, set as setGlobalData } from './global-data'
 
 export class Storage {
@@ -121,19 +121,25 @@ export class UserInfo {
     return Taro.getUserInfo()
   }
 }
-export const loadOpenId = async () => {
-  let openid = Storage.getItemSync(OPEN_ID)
-  if (openid) {
-    setGlobalData(OPEN_ID, openid)
-    return openid
+export const loadAppId = async () => {
+  let appId = Storage.getItemSync(APP_ID)
+  if (appId) {
+    setGlobalData(APP_ID, appId)
+    return appId
+  } else {
+    appId = {}
   }
   const res = await Taro.cloud.callFunction({
     name: 'GetAppId'
   })
-  openid = res.result.openid
-  setGlobalData(OPEN_ID, openid)
-  Storage.setItemSync(OPEN_ID, openid)
-  return openid
+  appId.openid = res.result.openid
+  appId.appid = res.result.appid
+  // appId.unionid = res.result.unionid
+
+  console.log('AppId', appId)
+  setGlobalData(APP_ID, appId)
+  Storage.setItemSync(APP_ID, appId)
+  return appId
 }
 export const clearToken = () => {
   setGlobalData('token', undefined)

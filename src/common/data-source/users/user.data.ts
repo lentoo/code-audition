@@ -83,6 +83,7 @@ export function findUserByNickName(page: PaginationProp, nickName: string) {
           avatarUrl
           isAttention
           attentionCount
+          fansCount
         }
       }
     }

@@ -3,7 +3,8 @@ import Taro, {
   useState,
   useReachBottom,
   usePullDownRefresh,
-  useRouter
+  useRouter,
+  useCallback
 } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { Text, View, Image } from '@tarojs/components'
@@ -92,7 +93,11 @@ const FansPage = () => {
       })
     })
   }
-
+  const onAvatarClick = useCallback((id: string) => {
+    Taro.navigateTo({
+      url: `/pages/other-homepage/index?id=${id}`
+    })
+  }, [])
   return (
     <View className="fans">
       <LayoutTitle title={title} />
@@ -107,7 +112,9 @@ const FansPage = () => {
             action>
             {item.user && (
               <View className="fans-item">
-                <Image className="fans-item-img" src={item.user.avatarUrl!} />
+                <Image onClick={() => {
+                  onAvatarClick(item.user._id!)
+                }} className="fans-item-img" src={item.user.avatarUrl!} />
                 <View className="fans-item-name">
                   <Text>{item.user.nickName}</Text>
                 </View>
