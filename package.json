@@ -1,6 +1,6 @@
 {
 	"name": "code-audition",
-	"version": "0.1.7",
+	"version": "1.0.2",
 	"private": true,
 	"description": "码上面试，主要是解决人们刷面试题的刚需，使所有的人能“随时随地”刷题",
 	"scripts": {
