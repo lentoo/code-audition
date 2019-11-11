@@ -78,9 +78,12 @@ const Ideas = (params: PageProp) => {
                         </View>
                       </View>
                     </View>
-                    <View className='icon-more'>
+                    {
+                      item._id !== '0' && (<View className='icon-more'>
                       <AtIcon prefixClass={ICON_PREFIX_CLASS} value='more-fill' size={16} color='#999'></AtIcon>
-                    </View>
+                    </View>)
+                    }
+                    
                   </View>
                   <View className='answer-desc'>
                     {
