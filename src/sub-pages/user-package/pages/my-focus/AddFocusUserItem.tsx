@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, useReachBottom, useCallback } from '@tarojs/taro'
+import Taro, { useState, useEffect, useReachBottom, useCallback, useRef } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { View } from '@tarojs/components'
 import { AtSearchBar } from 'taro-ui'
@@ -20,37 +20,43 @@ const AddFocusUserItemProp = () => {
   const [paginated, setPaginated] = useState<PaginationModel | null>(null)
   const [skeletonLoading, setSkeletonLoading] = useState(true)
   usePageScrollTitle('添加关注', 50)
-  let page: PaginationProp = {
+
+  let pageRef = useRef<PaginationProp>({
     page: 1,
     limit: 20
-  }
-  const onSearchBarValueChange = (value: string) => {
+  })
+  const onSearchBarValueChange = useCallback((value: string) => {
     setValue(value)
-  }
-  useEffect(() => {
-    onActionClick()
   }, [])
 
   useReachBottom(async () => {
     if (paginated && paginated.hasMore) {
-      page.page++
+      pageRef.current.page++
       await onLoadData()
     }
   })
-
-  const onActionClick = useCallback(async () => {
-    setSkeletonLoading(true)
-    await onLoadData(true)
-    setSkeletonLoading(false)    
-  }, [])
-  const onLoadData = async (reset: boolean = false) => {
+  
+  const onLoadData =  useCallback(async (reset: boolean = false) => {
     const { items, page: pagination } = await UserService.findUserByNickName(
-      page,
+      pageRef.current,
       value
     )
     setList(prev => reset ? items : prev.concat(items))
     setPaginated(pagination)
-  }
+  }, [value])
+
+  const onActionClick = useCallback(async () => {
+    setSkeletonLoading(true)
+    await onLoadData(true)
+    setSkeletonLoading(false)
+  }, [onLoadData])
+
+  useEffect(() => {
+    if (value === '') {
+      onActionClick()
+    }
+  }, [value, onActionClick])
+
   const onUserItemActionClick = useCallback(async (user: AttentionUserInfo) => {
     if (user.isAttention) {
       await AttentionUserService.unsubscribe(user._id!)
@@ -62,7 +68,7 @@ const AddFocusUserItemProp = () => {
       user.isAttention = true
     }
     setList(list => {
-      const newList = list.map(item => {
+      return list.map(item => {
         if (item._id === user._id) {
           return {
             ...user
@@ -70,7 +76,6 @@ const AddFocusUserItemProp = () => {
         }
         return item
       })
-      return newList
     })
   }, [])
   return (
@@ -80,7 +85,6 @@ const AddFocusUserItemProp = () => {
           value={value}
           onChange={onSearchBarValueChange}
           onActionClick={onActionClick}
-          onClear={onActionClick}
         />
       </LayoutTitle>
       <View>
@@ -113,58 +117,3 @@ AddFocusUserItemProp.config = {
   navigationBarTextStyle: 'black'
 }
 export default AddFocusUserItemProp
-
-// class AddFocusUserItem extends Taro.Component {
-//   config: Config = {
-//     navigationBarTitleText: '',
-//     enablePullDownRefresh: true,
-//     navigationBarBackgroundColor: '#fff',
-//     navigationBarTextStyle: 'black'
-//   }
-//   state = {
-//     value: ''
-//   }
-//   onPageScroll(params: any) {
-//     const scrollTop = params.scrollTop as number
-//     if (scrollTop > 50) {
-//       Taro.setNavigationBarTitle({
-//         title: '添加关注'
-//       })
-//     } else {
-//       Taro.setNavigationBarTitle({
-//         title: ''
-//       })
-//     }
-//   }
-
-//   onSearchBarValueChange = (value: string) => {
-//     this.setState({
-//       value
-//     })
-//   }
-
-//   render() {
-//     const { value } = this.state
-//     return (
-//       <View className="add-focus">
-//         <LayoutTitle title="添加关注">
-//           <AtSearchBar value={value} onChange={this.onSearchBarValueChange} />
-//         </LayoutTitle>
-//         <View>
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//           <FocusUserItem />
-//         </View>
-//       </View>
-//     )
-//   }
-// }

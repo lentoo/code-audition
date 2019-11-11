@@ -176,7 +176,7 @@ const Home = () => {
     const list = reset ? items : [...ideaList, ...items]
     if (reset && topic && topic.answerOfhtml) {
       list.unshift({
-        _id: topic._id,
+        _id: '0',
         userinfo: topic.userinfo,
         content: topic.answerOfhtml,
         createAtDate: topic.createAtDate,
