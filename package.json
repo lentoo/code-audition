@@ -31,7 +31,7 @@
 		}
 	},
 	"dependencies": {
-		"@tarojs/async-await": "1.3.17",
+		"@tarojs/async-await": "^1.3.22",
 		"@tarojs/cli": "1.3.17",
 		"@tarojs/components": "1.3.17",
 		"@tarojs/redux": "1.3.17",
@@ -43,13 +43,14 @@
 		"@tarojs/taro-swan": "1.3.17",
 		"@tarojs/taro-tt": "1.3.17",
 		"@tarojs/taro-weapp": "1.3.17",
+		"@types/redux": "^3.6.0",
 		"classnames": "^2.2.6",
 		"global": "^4.3.2",
 		"nanographql": "^2.0.0",
 		"nerv-devtools": "^1.4.4",
 		"nervjs": "^1.4.4",
 		"promise-polyfill": "^8.1.3",
-		"redux": "^4.0.0",
+		"redux": "^4.0.4",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
 		"taro-skeleton": "^1.0.10",
@@ -57,10 +58,10 @@
 		"weapp.socket.io": "^2.0.1"
 	},
 	"devDependencies": {
-		"@tarojs/plugin-babel": "1.3.17",
+		"@tarojs/plugin-babel": "^1.3.22",
 		"@tarojs/plugin-csso": "1.3.17",
 		"@tarojs/plugin-sass": "1.3.17",
-		"@tarojs/plugin-uglifyjs": "1.3.17",
+		"@tarojs/plugin-uglifyjs": "^1.3.22",
 		"@tarojs/webpack-runner": "1.3.17",
 		"@types/classnames": "^2.2.9",
 		"@types/nanographql": "^2.0.1",

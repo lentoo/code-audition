@@ -31,14 +31,14 @@ export default class Message extends Taro.Component {
     return (
       <View className={styles.message}>
         <View className={styles.badges}>
-          <View className={styles.badge}>
-            {/* 用户消息 */}
+          {/* <View className={styles.badge}>
+            
             <Text>10</Text>
-          </View>
-          <View className={[styles.badge, styles.badgeRight]}>
-            {/* 系统消息 */}
+          </View> */}
+          {/* <View className={[styles.badge, styles.badgeRight]}>
+            
             <Text>99+</Text>
-          </View>
+          </View> */}
         </View>
         <AtTabs
           current={this.state.current}
@@ -46,7 +46,10 @@ export default class Message extends Taro.Component {
           onClick={this.handleClick.bind(this)}>
           <AtTabsPane current={this.state.current} index={0}>
             <View className={styles.pane}>
-              <ScrollView scrollY className={styles.scrollview}>
+              <View className={styles.not}>
+                <NotMessage />
+              </View>
+              {/* <ScrollView scrollY className={styles.scrollview}>
                 <MessageItem />
                 <MessageItem />
                 <MessageItem />
@@ -57,7 +60,7 @@ export default class Message extends Taro.Component {
                 <MessageItem />
                 <MessageItem />
                 <MessageItem />
-              </ScrollView>
+              </ScrollView> */}
             </View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>

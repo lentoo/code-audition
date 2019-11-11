@@ -6,13 +6,10 @@ import {
   set as setGlobalData,
   get as getGlobalData
 } from '../../utils/global-data'
-import { loadOpenId, getToken } from '../../utils';
+import { loadAppId, getToken } from '../../utils';
 import { UserService } from './services'
 import { AtModal, AtModalContent, AtButton } from 'taro-ui';
 import User from '../../common/domain/user-domain/entities/user';
-type PageState = {
-  isLoading: boolean
-}
 const IndexPage = () => {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -78,7 +75,7 @@ const IndexPage = () => {
 
   }
   useDidShow(async () => {
-    await loadOpenId()
+    await loadAppId()
     if (!initTokenData()) {
       setIsLoading(true)
     } else {

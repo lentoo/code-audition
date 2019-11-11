@@ -1,40 +1,44 @@
 import client from '@/utils/graphql-client'
 import { PaginationProp } from '@/common/domain/BaseModel'
 
-export function attentionUserList(page: PaginationProp) {
+export function attentionUserList(page: PaginationProp, uid: string) {
   return client({
     qgl: `
-    query attentionUserList ($page: PaginationProp!)  {
-      attentionUserList (page: $page) {
-        page{
+    query attentionUserList ($uid: String!, $page: PaginationProp!)  {
+      attentionUserList (uid: $uid, page: $page) {
+        page {
           page
           pages
           hasMore
+          total
           limit
         }
         items {
           _id
-          attentionUser {
-            avatarUrl
-            nickName
-            _id
-            attentionCount
-          }
+          nickName
+          fansCount
+          attentionCount
+          isAttention
+          avatarUrl
         }
       }
     }
     `,
     variables: {
-      page
+      page,
+      uid
     }
   })
 }
 
-export function getFansList(page: PaginationProp = { page: 1, limit: 20 }) {
+export function getFansList(
+  uid: string,
+  page: PaginationProp = { page: 1, limit: 20 }
+) {
   return client({
     qgl: `
-        query getFansList ($page: PaginationProp!){
-          attentionSelfUserList (page: $page) {
+        query getFansList ($uid: String!, $page: PaginationProp!){
+          attentionSelfUserList (uid: $uid, page: $page) {
             page{
               page
               pages
@@ -53,7 +57,8 @@ export function getFansList(page: PaginationProp = { page: 1, limit: 20 }) {
         }
       `,
     variables: {
-      page
+      page,
+      uid
     }
   })
 }

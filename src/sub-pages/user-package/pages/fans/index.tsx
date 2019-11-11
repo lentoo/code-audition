@@ -3,6 +3,8 @@ import Taro, {
   useState,
   useReachBottom,
   usePullDownRefresh,
+  useRouter,
+  useCallback
 } from '@tarojs/taro'
 import LayoutTitle from '@/components/Layout/LayoutTitle'
 import { Text, View, Image } from '@tarojs/components'
@@ -16,16 +18,34 @@ import { ArrayLen } from '@/utils'
 import { PaginationProp, PaginationModel } from '@/common/domain/BaseModel'
 import { LoadingComponent } from '@/components/Loading/Loading'
 import { AtIcon } from 'taro-ui'
+import useUserInfo from '@/hooks/useUserInfo'
 
 const FansPage = () => {
-  usePageScrollTitle('我的粉丝')
+  const [title, setTitle] = useState('')
+  const {
+    params: {
+      uid,
+      nickName
+    }
+  } = useRouter()
+
+  const [userinfo] = useUserInfo()
+
+  useEffect(() => {
+    setTitle(uid ? `${nickName}的粉丝` : '我的粉丝')
+  }, [])
+
+  usePageScrollTitle(title)
+
   const [skeletonLoading, setSkeletonLoading] = useState(true)
   const [fans, setFans] = useState<AttentionUser[]>(ArrayLen(10))
   const [page, setPage] = useState<PaginationProp>({ page: 1, limit: 20 })
   const [pagination, setPagination] = useState<PaginationModel | null>(null)
 
   async function loadData(refresh = true) {
+    
     const { items, page: paginated } = await AttentionUserService.findFansList(
+      uid ? uid : userinfo!._id!,
       page
     )
     console.log('items', items)
@@ -36,7 +56,7 @@ const FansPage = () => {
   }
 
   useEffect(() => {
-    loadData(skeletonLoading)
+    loadData(true)
   }, [page])
 
   usePullDownRefresh(async () => {
@@ -73,10 +93,14 @@ const FansPage = () => {
       })
     })
   }
-
+  const onAvatarClick = useCallback((id: string) => {
+    Taro.navigateTo({
+      url: `/pages/other-homepage/index?id=${id}`
+    })
+  }, [])
   return (
     <View className="fans">
-      <LayoutTitle title="我的粉丝" />
+      <LayoutTitle title={title} />
       <View className="fans-list">
         {fans.map(item => (
           <Skeleton
@@ -88,7 +112,9 @@ const FansPage = () => {
             action>
             {item.user && (
               <View className="fans-item">
-                <Image className="fans-item-img" src={item.user.avatarUrl!} />
+                <Image onClick={() => {
+                  onAvatarClick(item.user._id!)
+                }} className="fans-item-img" src={item.user.avatarUrl!} />
                 <View className="fans-item-name">
                   <Text>{item.user.nickName}</Text>
                 </View>

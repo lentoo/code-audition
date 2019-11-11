@@ -4,8 +4,8 @@ import Taro, {
   useEffect,
   usePullDownRefresh,
   useShareAppMessage,
-  usePageScroll,
   useReachBottom,
+  useCallback,
 } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import {
@@ -13,7 +13,8 @@ import {
   AtButton,
   AtActionSheet,
   AtActionSheetItem,
-  AtFab
+  AtFab,
+  AtMessage
 } from 'taro-ui'
 import { get as getGlobalData, set as setGlobalData } from '@/utils/global-data'
 
@@ -32,7 +33,9 @@ import Question from '@/common/domain/question-domain/entities/Question'
 import Idea from '@/common/domain/question-domain/entities/Idea'
 import { PaginationModel } from '@/common/domain/BaseModel'
 import usePageScrollTitle from '@/hooks/usePageScrollTitle'
-
+import LoginModal from '@/components/LoginModal/LoginModal'
+import useUserInfo from '@/hooks/useUserInfo'
+import useLoginModal from '@/hooks/useLoginModal'
 // interface PageState {
 //   noTopicType: NO_TOPIC_TYPE
 //   topic: Question | null
@@ -44,6 +47,8 @@ import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 // }
 
 const Home = () => {
+  const [ userinfo ] = useUserInfo()
+  const [ showLoginModal, setLoginModal ] = useLoginModal()
   useShareAppMessage(options => {
     console.log(options)
     let shartObj = {}
@@ -51,13 +56,13 @@ const Home = () => {
       // 通过右上角的按钮分享
       // 点击分享
       shartObj = {
-        path: '/pages/index/index',
+        path: '/pages/home/index',
         title: APP_NAME
       }
     } else {
       // 点击分享
       shartObj = {
-        path: '/pages/index/index',
+        path: '/pages/home/index',
         title: topic!.title
       }
     }
@@ -110,6 +115,17 @@ const Home = () => {
     topic && fetchIdeaList(true)
   }, [topic])
 
+  useEffect(() => {
+    const falg = getGlobalData('_show_follow_sort')
+
+    !falg && Taro.atMessage({
+      message: '你还没有关注分类，快去登陆关注喜欢的分类吧',
+      type: 'success',
+      duration: 5000
+    })
+    setGlobalData('_show_follow_sort', 1)
+  }, [])
+
   /**
    * @description 加载数据
    * @memberof Home
@@ -160,7 +176,7 @@ const Home = () => {
     const list = reset ? items : [...ideaList, ...items]
     if (reset && topic && topic.answerOfhtml) {
       list.unshift({
-        _id: topic._id,
+        _id: '0',
         userinfo: topic.userinfo,
         content: topic.answerOfhtml,
         createAtDate: topic.createAtDate,
@@ -188,17 +204,22 @@ const Home = () => {
    * @param {*} event
    * @memberof Home
    */
-  const onFabNextClick = (event?) => {
+  const onFabNextClick = useCallback((event?) => {
     console.log('onFabNextClick')
     event.stopPropagation()
     Taro.startPullDownRefresh()
-  }
+  }, [])
   /**
    * @description 点击回复
    *
    * @memberof Home
    */
   const handleReplyClick = () => {
+    if (!userinfo) {
+      setShowActionSheet(false)
+      setLoginModal(true)
+      return
+    }
     if (current) {
       Taro.showLoading()
       Taro.navigateTo({
@@ -209,6 +230,10 @@ const Home = () => {
       })
     }
   }
+  const hideLoginModal = useCallback(() => {
+    setLoginModal(false)
+  }, [])
+  
   const renderTopic = () => {
     return showNoTopic ? (
       <View />
@@ -259,13 +284,18 @@ const Home = () => {
         onClose={() => {
           setShowActionSheet(false)
         }}>
-        <AtActionSheetItem onClick={handleReplyClick.bind(this)}>
+        <AtActionSheetItem onClick={handleReplyClick}>
           回复
         </AtActionSheetItem>
       </AtActionSheet>
 
       {/* <View className='tabbar'> */}
       <CdTabbar title="首页" />
+      <AtMessage></AtMessage>
+      {
+        <LoginModal open={showLoginModal} cancelClick={hideLoginModal} successClick={hideLoginModal}></LoginModal>
+      }
+      
       {/* </View> */}
     </View>
   )

@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect } from '@tarojs/taro'
+import Taro, { useState, useEffect, useCallback } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
 import CdTabbar from '@/components/cd-tabbar'
@@ -7,7 +7,13 @@ import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
 import User from '../../common/domain/user-domain/entities/user'
 import { LoginServices, UserService } from './services'
-
+import { USER_INFO } from '@/constants/common';
+import LoginModal from '@/components/LoginModal/LoginModal'
+import LoginAvatar from '@/assets/images/login-avatar.png'
+import useUserinfo from '@/hooks/useUserInfo'
+import { useSelector, useDispatch } from '@tarojs/redux'
+import { SET_USERINFO } from '@/actions/userinfo'
+import { SET_USER } from '@/constants/userinfo'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -42,13 +48,27 @@ const UserPage = () => {
   // },
   ]
   const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight
+
+  const [openModal, setOpenModal] = useState(false)
   
-  const [userinfo, setUserInfo] = useState<User | null>(null)
+  const [userinfo, setUserInfo] = useUserinfo()
+
   useEffect(() => {
-    UserService.findLoginUserInfo().then(user => {
-      setUserInfo(user)
-    })
+    const getUser = async () => {
+      if (userinfo) {
+        try {
+          const user = await UserService.findLoginUserInfo()
+          console.log('user', user);
+          setUserInfo(user)
+          Taro.setStorageSync(USER_INFO, user)
+        } catch (error) {
+          console.log('error', error);
+        }
+      }
+    }
+    getUser()
   }, [])
+
   async function scan() {
     Taro.scanCode().then(async result => {
       const codeResult = JSON.parse(result.result)
@@ -73,11 +93,40 @@ const UserPage = () => {
       }
     })
   }
-  function navigationToScanCodeLogin ({ unicode, token }) {
+
+  const showLoginModal = () => {
+    setOpenModal(true)
+  }
+  const hideLoginModal = useCallback(() => {
+    setOpenModal(false)
+  }, [])
+  const navigationToScanCodeLogin =  useCallback(({ unicode, token }) => {
+    
     Taro.navigateTo({
       url: `/pages/scan-code-login/index?unicode=${unicode}&token=${token}`
     })
-  }
+  }, [])
+
+  const navigationToPage = useCallback((type: 'fans' | 'focus') => {
+    if (!userinfo) {
+      showLoginModal()
+      return
+    }
+    switch (type) {
+      case 'fans': 
+        Taro.navigateTo({
+          url: `${userSubPackagePath}/fans/index`
+        })
+        break;
+      case 'focus':
+        Taro.navigateTo({
+          url: `${userSubPackagePath}/my-focus/Index`
+        })
+        break;
+    }
+  }, [showLoginModal])
+
+
   /**
    * @description 渲染头部图标
    * @author lentoo
@@ -103,6 +152,7 @@ const UserPage = () => {
       </View>
     )
   }
+  
   /**
    * @description 渲染用户信息
    * @author lentoo
@@ -111,13 +161,21 @@ const UserPage = () => {
    * @memberof UserView
    */
   const renderUserInfo = () => {
-    return userinfo && (
+    return (
       <View className="user-info-wrapper">
         <View>
-          <Text className="avatar-name">{userinfo.nickName}</Text>
+          {
+            userinfo ? <Text className="avatar-name">{userinfo.nickName}</Text>
+            :
+            <Text className="avatar-name" onClick={showLoginModal}>点击登陆</Text>
+          }
+          {/* <Text className="avatar-name">{userinfo ? userinfo.nickName : '点击登陆'}</Text> */}
         </View>
         <View className="avatar-img-box">
-          <Image className="avatar" src={userinfo.avatarUrl!} />
+            {
+              userinfo ? <Image  className="avatar" src={userinfo.avatarUrl!} />
+                : <Image onClick={showLoginModal} className="avatar" src={LoginAvatar} />
+            }
         </View>
       </View>
     )
@@ -130,17 +188,16 @@ const UserPage = () => {
    * @memberof UserView
    */
   const renderStatistics = () => {
-    return userinfo && (
+    console.log('render renderStatistics', userinfo);
+    return (
       <View className="flex-row attention-wrapper">
         <View
           className="attention"
           onClick={() => {
-            Taro.navigateTo({
-              url: `${userSubPackagePath}/my-focus/Index`
-            })
+            navigationToPage('focus')
           }}>
           <View className="attention-num">
-            <Text>{userinfo.attentionCount}</Text>
+            <Text>{userinfo ? userinfo.attentionCount.toString() : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>关注</Text>
@@ -149,12 +206,10 @@ const UserPage = () => {
         <View
           className="attention"
           onClick={() => {
-            Taro.navigateTo({
-              url: `${userSubPackagePath}/fans/index`
-            })
+            navigationToPage('fans')
           }}>
           <View className="attention-num">
-            <Text>{userinfo.fansCount}</Text>
+            <Text>{userinfo ? userinfo.fansCount.toString() : 0}</Text>
           </View>
           <View className="attention-title">
             <Text>粉丝</Text>
@@ -172,9 +227,13 @@ const UserPage = () => {
     )
   }
   const menuClick = (url: string) => {
-    Taro.navigateTo({
-      url
-    })
+    if (userinfo) {
+      Taro.navigateTo({
+        url
+      })
+    } else {
+      showLoginModal()
+    }
   }
   /**
    * @description 渲染可操作的行为
@@ -192,7 +251,9 @@ const UserPage = () => {
                 <View
                   className="user-actions-item"
                   key={menu.title}
-                  onClick={menuClick.bind(this, menu.url)}>
+                  onClick={() => {
+                    menuClick(menu.url)
+                  }}>
                   <View>
                     <AtIcon
                       prefixClass={ICON_PREFIX_CLASS}
@@ -256,6 +317,10 @@ const UserPage = () => {
       {renderOperationalActions()}
       {renderSlideItem()}
       <CdTabbar title="我" />
+      {
+        userinfo === null ? <LoginModal cancelClick={hideLoginModal} successClick={hideLoginModal} open={openModal}></LoginModal> : null
+      }
+      
     </View>
   )
 }
@@ -265,3 +330,5 @@ UserPage.config = {
 }
 
 export default UserPage
+
+

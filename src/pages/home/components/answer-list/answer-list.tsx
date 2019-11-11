@@ -7,6 +7,9 @@ import './answer-list.scss'
 import Idea from '@/common/domain/question-domain/entities/Idea';
 import Question from '@/common/domain/question-domain/entities/Question';
 import { Utils } from '@/utils';
+import useUserInfo from '@/hooks/useUserInfo';
+import useLoginModal from '@/hooks/useLoginModal';
+
 
 interface PageProp {
   data?: Idea[],
@@ -19,6 +22,20 @@ const Ideas = (params: PageProp) => {
   const handleTapItem = (item: Idea) => {
     params.onItemClick(item)
   }
+  const [userinfo] = useUserInfo()
+  const [, setShowLoginModal] = useLoginModal()
+
+  const handleAvatarClick = (item) => {
+    if (userinfo) {
+      Taro.navigateTo({
+        url: `/pages/other-homepage/index?id=${item.userinfo._id}`
+      })
+    } else {
+      setShowLoginModal(true)
+    }
+    // e.stopPropagation()
+  }
+
   return (
     <View className='answer-wrapper'>
         <ScrollView
@@ -39,9 +56,7 @@ const Ideas = (params: PageProp) => {
                   <View className='user-box' onClick={handleTapItem.bind(this, item)}>
                     <View className='user-info'>
                       <View className='user-avatar-box' onClick={(e) => {
-                        Taro.navigateTo({
-                          url: `/pages/other-homepage/index?id=${item.userinfo._id}`
-                        })
+                        handleAvatarClick(item)
                         e.stopPropagation()
                       }}>
                         <Image className='user-avatar' src={item.userinfo.avatarUrl!}></Image>
@@ -63,9 +78,12 @@ const Ideas = (params: PageProp) => {
                         </View>
                       </View>
                     </View>
-                    <View className='icon-more'>
+                    {
+                      item._id !== '0' && (<View className='icon-more'>
                       <AtIcon prefixClass={ICON_PREFIX_CLASS} value='more-fill' size={16} color='#999'></AtIcon>
-                    </View>
+                    </View>)
+                    }
+                    
                   </View>
                   <View className='answer-desc'>
                     {

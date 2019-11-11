@@ -8,5 +8,5 @@ export default class AttentionUser extends BaseModel {
    * @memberof AttentionUser
    */
 
-  attentionUser: User
+  attentionUserList: User[]
 }

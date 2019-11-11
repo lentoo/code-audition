@@ -1,15 +1,23 @@
 import { View, Image, Text } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
 import './index.scss'
 import { AttentionUserInfo } from '@/common/domain/user-domain/entities/user'
 import CodeButton from '@/components/Button'
+import Taro, { useCallback } from '@tarojs/taro'
 export type FocusUserItemOption = {
   user: AttentionUserInfo
   onActionClick?: (item: AttentionUserInfo) => void
 }
 export default function FocusUserItem (props: FocusUserItemOption) {
   const { user, onActionClick } = props
-  
+
+  const onAvatarClick = useCallback(() => {
+    if (user) {
+      Taro.navigateTo({
+        url: `/pages/other-homepage/index?id=${user._id}`
+      })
+    }
+  }, [user])
+
   if (!user) {
     return null
   }
@@ -19,6 +27,7 @@ export default function FocusUserItem (props: FocusUserItemOption) {
         <Image
           className="avatar circle"
           src={user.avatarUrl!}
+          onClick={onAvatarClick}
         />
       </View>
       <View className="focus-item-info">
@@ -27,7 +36,8 @@ export default function FocusUserItem (props: FocusUserItemOption) {
             <Text>{user.nickName}</Text>
           </View>
           <View className="focus-item-info-desc">
-            发布了0道题，{user.attentionCount}人关注
+            {/* 发布了0道题， */}
+            {user && user.fansCount && user.fansCount.toString()}人关注
           </View>
         </View>
         <View>
