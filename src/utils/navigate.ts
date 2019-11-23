@@ -1,15 +1,15 @@
-import Taro from '@tarojs/taro'
-const userSubPackagePath = '/sub-pages/user-package/pages'
+import Taro from "@tarojs/taro";
+const userSubPackagePath = "/sub-pages/user-package/pages";
 export function navigateToFeedback() {
   Taro.navigateTo({
     url: `${userSubPackagePath}/feedback/index`
-  })
+  });
 }
 
 export function natigateToHome() {
   Taro.redirectTo({
-    url: '/pages/home/index'
-  })
+    url: "/pages/home/index"
+  });
 }
 /**
  * @description 导航到分类选择页面
@@ -20,5 +20,11 @@ export function natigateToHome() {
 export function navigateToSelectSort() {
   Taro.navigateTo({
     url: `${userSubPackagePath}/sort/Index`
-  })
+  });
+}
+
+export function navigateToOtherHone(_id: string) {
+  Taro.navigateTo({
+    url: "/pages/other-homepage/index?id=" + _id
+  });
 }
