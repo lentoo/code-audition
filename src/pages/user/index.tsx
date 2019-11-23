@@ -5,15 +5,11 @@ import CdTabbar from '@/components/cd-tabbar'
 
 import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
-import User from '../../common/domain/user-domain/entities/user'
 import { LoginServices, UserService } from './services'
 import { USER_INFO } from '@/constants/common';
 import LoginModal from '@/components/LoginModal/LoginModal'
 import LoginAvatar from '@/assets/images/login-avatar.png'
 import useUserinfo from '@/hooks/useUserInfo'
-import { useSelector, useDispatch } from '@tarojs/redux'
-import { SET_USERINFO } from '@/actions/userinfo'
-import { SET_USER } from '@/constants/userinfo'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{

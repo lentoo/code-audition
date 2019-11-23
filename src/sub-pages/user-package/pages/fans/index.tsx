@@ -76,6 +76,7 @@ const FansPage = () => {
       })
     }
   })
+
   async function onClick(user: AttentionUser) {
     Taro.vibrateShort()
     if (user.user.isAttention) {

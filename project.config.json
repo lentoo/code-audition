@@ -34,6 +34,10 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 9,
 			"list": [
@@ -59,9 +63,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "消息",
-					"pathName": "pages/user/message/index",
+					"id": 3,
+					"name": "sub-pages/user-package/pages/message/index",
+					"pathName": "sub-pages/user-package/pages/message/index",
 					"query": "",
 					"scene": null
 				},
