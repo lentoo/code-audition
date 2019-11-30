@@ -1,7 +1,8 @@
 .login {
   
   height: 100vh;
-  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  // background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom right, #50a3a2 0%, #007fff 100%);
   position: relative;
   
   .icon-wrapper {
@@ -14,7 +15,7 @@
     flex: 1;
   }
   .text-wrapper {
-    flex: 1.5;
+    flex: 1.3;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,11 +29,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    height: 70vh;
+    height: 60vh;
     z-index: 2;
   }
   &-btn {
-    color: #50a5a2;
+    color: $primary-color;
     background: #fff;
     font-size: 32px;
     width: 100%;

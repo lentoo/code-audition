@@ -78,8 +78,8 @@ const LoginPage = () => {
           <View className='text-c cfff f14'>
             <Text>欢迎使用码上面试</Text>
           </View>
-          <View className='text-c cfff f14'>
-            <Text>欢迎使用码上面试小程序</Text>
+          <View className='text-c cfff f14 mt10'>
+            <Text>实用、方便、简洁</Text>
           </View>
         </View>
         <View className='btn-wrapper'>
