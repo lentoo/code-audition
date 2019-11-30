@@ -1,4 +1,4 @@
-@import './assets/styles/var.scss';
+@import './assets/styles/common.scss';
 page {
   font-family: PingFang-SC-Medium, Arial, Helvetica,"Microsoft YaHei", sans-serif;
   background: $bg-color;
@@ -89,4 +89,14 @@ page {
   border: 0;
   background: transparent;
   font-size: 30px;
+}
+
+.bgfff {
+  background: #fff;
+}
+.cfff {
+  color: #fff;
+}
+.f24 {
+  font-size: 24px;
 }

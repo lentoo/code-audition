@@ -7,9 +7,9 @@ import './index.scss'
 import { ICON_PREFIX_CLASS, ICON_PRIMARY_COLOR } from '../../constants/common'
 import { LoginServices, UserService } from './services'
 import { USER_INFO } from '@/constants/common';
-import LoginModal from '@/components/LoginModal/LoginModal'
 import LoginAvatar from '@/assets/images/login-avatar.png'
 import useUserinfo from '@/hooks/useUserInfo'
+import { navigateToLogin } from '@/utils/Navigate'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -45,7 +45,6 @@ const UserPage = () => {
   ]
   const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight
 
-  const [openModal, setOpenModal] = useState(false)
   
   const [userinfo, setUserInfo] = useUserinfo()
 
@@ -90,12 +89,6 @@ const UserPage = () => {
     })
   }
 
-  const showLoginModal = () => {
-    setOpenModal(true)
-  }
-  const hideLoginModal = useCallback(() => {
-    setOpenModal(false)
-  }, [])
   const navigationToScanCodeLogin =  useCallback(({ unicode, token }) => {
     
     Taro.navigateTo({
@@ -105,7 +98,7 @@ const UserPage = () => {
 
   const navigationToPage = useCallback((type: 'fans' | 'focus') => {
     if (!userinfo) {
-      showLoginModal()
+      navigateToLogin()
       return
     }
     switch (type) {
@@ -120,7 +113,7 @@ const UserPage = () => {
         })
         break;
     }
-  }, [showLoginModal])
+  }, [navigateToLogin])
 
 
   /**
@@ -163,14 +156,14 @@ const UserPage = () => {
           {
             userinfo ? <Text className="avatar-name">{userinfo.nickName}</Text>
             :
-            <Text className="avatar-name" onClick={showLoginModal}>点击登陆</Text>
+            <Text className="avatar-name" onClick={navigateToLogin}>点击登陆</Text>
           }
           {/* <Text className="avatar-name">{userinfo ? userinfo.nickName : '点击登陆'}</Text> */}
         </View>
         <View className="avatar-img-box">
             {
               userinfo ? <Image  className="avatar" src={userinfo.avatarUrl!} />
-                : <Image onClick={showLoginModal} className="avatar" src={LoginAvatar} />
+                : <Image onClick={navigateToLogin} className="avatar" src={LoginAvatar} />
             }
         </View>
       </View>
@@ -228,7 +221,7 @@ const UserPage = () => {
         url
       })
     } else {
-      showLoginModal()
+      navigateToLogin()
     }
   }
   /**
@@ -312,11 +305,7 @@ const UserPage = () => {
       </View>
       {renderOperationalActions()}
       {renderSlideItem()}
-      <CdTabbar title="我" />
-      {
-        userinfo === null ? <LoginModal cancelClick={hideLoginModal} successClick={hideLoginModal} open={openModal}></LoginModal> : null
-      }
-      
+      <CdTabbar title="我" />      
     </View>
   )
 }
