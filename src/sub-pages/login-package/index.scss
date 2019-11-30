@@ -1,0 +1,123 @@
+.login {
+  
+  height: 100vh;
+  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  position: relative;
+  
+  .icon-wrapper {
+    text-align: center;
+    flex: 1;
+    // background: rgba($color: #000000, $alpha: .1);
+    // border-radius: 50%;
+  }
+  .btn-wrapper {
+    flex: 1;
+  }
+  .text-wrapper {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+  }
+  .login-wrapper {
+    box-sizing: border-box;
+    padding: 0 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 70vh;
+    z-index: 2;
+  }
+  &-btn {
+    color: #50a5a2;
+    background: #fff;
+    font-size: 32px;
+    width: 100%;
+    
+    border-radius: 8px;
+
+  }
+  
+}
+.bubble {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+
+  .i {
+    position: absolute;
+    left: 5%;
+    bottom: -80px;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    animation: square 20s linear infinite;
+
+    &:nth-child(1) {
+      width: 30px;
+      height: 30px;
+    }
+    &:nth-child(2) {
+      left: 19%;
+      width: 50px;
+      height: 50px;
+      animation-duration: 16s;
+      animation-delay: 1s;
+    }
+    &:nth-child(3) {
+      left: 27%;
+      width: 40px;
+      height: 40px;
+      animation-duration: 18s;
+    }
+    &:nth-child(4) {
+      left: 40%;
+      animation-duration: 15s;
+      animation-delay: 2s;
+    }
+    &:nth-child(5) {
+      left: 52%;
+      width: 60px;
+      height: 60px;
+      animation-duration: 19s;
+      animation-delay: 3s;
+    }
+    &:nth-child(6) {
+      left: 69%;
+      width: 50px;
+      height: 50px;
+      animation-duration: 18s;
+      animation-delay: 5s;
+    }
+    &:nth-child(7) {
+      left: 75%;
+      width: 40px;
+      height: 40px;
+      animation-duration: 15s;
+      animation-delay: 6s;
+    }
+    &:nth-child(8) {
+      left: 87%;
+      width: 30px;
+      height: 30px;
+      animation-duration: 14s;
+      animation-delay: 3.5s;
+    }
+  }
+}
+@keyframes square {
+  0% {
+    transform: translateY(0);
+  }
+  85%,
+  100% {
+    transform: translateY(-100vh) rotate(600deg);
+  }
+}

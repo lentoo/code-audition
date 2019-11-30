@@ -28,3 +28,9 @@ export function navigateToOtherHone(_id: string) {
     url: "/pages/other-homepage/index?id=" + _id
   });
 }
+export function navigateToLogin() {
+  let url = "/sub-pages/login-package/index";
+  Taro.navigateTo({
+    url
+  });
+}

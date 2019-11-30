@@ -1,76 +1,79 @@
-import Taro from '@tarojs/taro'
-import nanographql from 'nanographql'
-import { clearToken, getToken } from '.'
-import { get as getGlobalData, set as setGlobalData } from './global-data'
-import useLoginModal from '@/hooks/useLoginModal'
+import Taro from "@tarojs/taro";
+import nanographql from "nanographql";
+import { clearToken, getToken } from ".";
+import { get as getGlobalData, set as setGlobalData } from "./global-data";
+import useLoginModal from "@/hooks/useLoginModal";
+import { navigateToLogin } from "./Navigate";
 
-const graphQLUrl = <string>process.env.GRAPHQL_URL
+const graphQLUrl = <string>process.env.GRAPHQL_URL;
 
 export interface graphqlRequestOptions {
-  qgl: string
-  variables?: { [key: string]: any }
-  showLoading?: boolean
-  loadingText?: string
-  showError?: boolean
+  qgl: string;
+  variables?: { [key: string]: any };
+  showLoading?: boolean;
+  loadingText?: string;
+  showError?: boolean;
 }
 async function fetch({
   qgl,
   variables,
   showLoading = false,
-  loadingText = '',
+  loadingText = "",
   showError = true
 }: graphqlRequestOptions) {
-  const token = getToken()
+  const token = getToken();
   showLoading &&
     Taro.showLoading({
       title: loadingText
-    })
-  let query = nanographql(qgl)
+    });
+  let query = nanographql(qgl);
 
   return Taro.request({
     url: graphQLUrl,
-    method: 'POST',
+    method: "POST",
     data: query(variables),
-    header: { 'header-key': token }
+    header: { "header-key": token }
   }).then(response => {
-    showLoading && Taro.hideLoading()
-    const { data, header } = response
+    showLoading && Taro.hideLoading();
+    const { data, header } = response;
 
     //  if header has x-refresh-authorization
-    if (header['x-refresh-authorization']) {
+    if (header["x-refresh-authorization"]) {
       Taro.setStorage({
-        key: 'token',
-        data: header['x-refresh-authorization']
-      })
-      setGlobalData('token', header['x-refresh-authorization'])
+        key: "token",
+        data: header["x-refresh-authorization"]
+      });
+      setGlobalData("token", header["x-refresh-authorization"]);
     }
-    const errors = data.errors as Array<Error>
+    const errors = data.errors as Array<Error>;
     if (errors && errors.length > 0) {
-      const error = errors[0]
+      const error = errors[0];
       // 无权限，回到登陆页
       if (
         error.message ===
-        'Access denied! You need to be authorized to perform this action!'
+        "Access denied! You need to be authorized to perform this action!"
       ) {
-        clearToken()
-        const [_, setLoginModal] = useLoginModal()
+        clearToken();
+        const [_, setLoginModal] = useLoginModal();
+        const pages = Taro.getCurrentPages().shift();
 
-        setLoginModal(true)
-        // Taro.redirectTo({
-        //   url: '/pages/index/index'
-        // })
+        navigateToLogin(pages!.route);
+        // setLoginModal(true)
+        // // Taro.redirectTo({
+        // //   url: '/pages/index/index'
+        // // })
       }
       showError &&
         Taro.showToast({
           title: errors[0].message,
-          icon: 'none',
+          icon: "none",
           duration: 5000
-        })
-      return Promise.reject(errors[0])
+        });
+      return Promise.reject(errors[0]);
     } else {
-      return data.data
+      return data.data;
     }
-  })
+  });
 }
 /**
  *
@@ -96,4 +99,4 @@ fetch({
 })
 
 */
-export default fetch
+export default fetch;

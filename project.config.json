@@ -64,8 +64,8 @@
 				},
 				{
 					"id": 3,
-					"name": "sub-pages/user-package/pages/message/index",
-					"pathName": "sub-pages/user-package/pages/message/index",
+					"name": "登陆界面",
+					"pathName": "sub-pages/login-package/index",
 					"query": "",
 					"scene": null
 				},

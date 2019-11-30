@@ -64,6 +64,12 @@ class App extends Component {
           'pages/my-focus/AddFocusUserItem',
           'pages/fans/index',
         ]
+      },
+      {
+        root: 'sub-pages/login-package',
+        pages: [
+          'index'
+        ]
       }
     ],
 
