@@ -35,7 +35,7 @@ import { PaginationModel } from '@/common/domain/BaseModel'
 import usePageScrollTitle from '@/hooks/usePageScrollTitle'
 import LoginModal from '@/components/LoginModal/LoginModal'
 import useUserInfo from '@/hooks/useUserInfo'
-import useLoginModal from '@/hooks/useLoginModal'
+import { navigateToLogin } from '@/utils/Navigate'
 // interface PageState {
 //   noTopicType: NO_TOPIC_TYPE
 //   topic: Question | null
@@ -48,7 +48,7 @@ import useLoginModal from '@/hooks/useLoginModal'
 
 const Home = () => {
   const [ userinfo ] = useUserInfo()
-  const [ showLoginModal, setLoginModal ] = useLoginModal()
+  
   useShareAppMessage(options => {
     console.log(options)
     let shartObj = {}
@@ -116,14 +116,18 @@ const Home = () => {
   }, [topic])
 
   useEffect(() => {
-    const falg = getGlobalData('_show_follow_sort')
-
-    !falg && Taro.atMessage({
-      message: '你还没有关注分类，快去登陆关注喜欢的分类吧',
-      type: 'success',
-      duration: 5000
-    })
-    setGlobalData('_show_follow_sort', 1)
+    const key = '_show_follow_sort'
+    // const falg = getGlobalData('_show_follow_sort')
+    const falg = Taro.getStorageSync(key)
+    if (!falg) {
+      !falg && Taro.atMessage({
+        message: '关注分类后可以更精准的给你推送题目',
+        type: 'success',
+        duration: 5000
+      })
+    }
+    Taro.setStorageSync(key, 1)
+    
   }, [])
 
   /**
@@ -217,7 +221,7 @@ const Home = () => {
   const handleReplyClick = () => {
     if (!userinfo) {
       setShowActionSheet(false)
-      setLoginModal(true)
+      navigateToLogin()
       return
     }
     if (current) {
@@ -230,9 +234,6 @@ const Home = () => {
       })
     }
   }
-  const hideLoginModal = useCallback(() => {
-    setLoginModal(false)
-  }, [])
   
   const renderTopic = () => {
     return showNoTopic ? (
@@ -291,11 +292,7 @@ const Home = () => {
 
       {/* <View className='tabbar'> */}
       <CdTabbar title="首页" />
-      <AtMessage></AtMessage>
-      {
-        <LoginModal open={showLoginModal} cancelClick={hideLoginModal} successClick={hideLoginModal}></LoginModal>
-      }
-      
+      <AtMessage></AtMessage>      
       {/* </View> */}
     </View>
   )

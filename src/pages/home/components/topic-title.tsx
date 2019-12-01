@@ -10,6 +10,7 @@ import Question from '@/common/domain/question-domain/entities/Question'
 import Collection from '@/common/domain/collection-domain/entities/Collection'
 import useUserInfo from '@/hooks/useUserInfo'
 import useLoginModal from '@/hooks/useLoginModal'
+import { navigateToLogin } from '@/utils/Navigate'
 type PageProp = {
   question: Question
 }
@@ -44,7 +45,6 @@ const TopicTitleComponent = ({ question }: PageProp) => {
   const [collectionList, setCollectionList] = useState<
     CollectionWithSelected[]
   >([])
-  const [, setLoginModal] = useLoginModal()
 
   /**
    * @description 跳转写评论页面
@@ -54,7 +54,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    */
   const toWriteReview = () => {
     if (!userinfo) {
-      setLoginModal(true)
+      navigateToLogin()
       return
     }
     Taro.showLoading()
@@ -118,7 +118,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    */
   const handleAvatarClick = () => {
     if (!userinfo) {
-      setLoginModal(prev => !prev)
+      navigateToLogin()
       return
     }
     Taro.navigateTo({
@@ -137,7 +137,7 @@ const TopicTitleComponent = ({ question }: PageProp) => {
    */
   const handleCollectionClick = () => {
     if (!userinfo) {
-      setLoginModal(prev => !prev)
+      navigateToLogin()
       return
     }
     loadCollections()

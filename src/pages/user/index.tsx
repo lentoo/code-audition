@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, useCallback } from '@tarojs/taro'
+import Taro, { useState, useEffect, useCallback, useDidShow } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtIcon } from 'taro-ui'
 import CdTabbar from '@/components/cd-tabbar'
@@ -10,6 +10,7 @@ import { USER_INFO } from '@/constants/common';
 import LoginAvatar from '@/assets/images/login-avatar.png'
 import useUserinfo from '@/hooks/useUserInfo'
 import { navigateToLogin } from '@/utils/Navigate'
+import { clearToken } from '@/utils'
 const UserPage = () => {
   const userSubPackagePath = '/sub-pages/user-package/pages'
   const menus = [{
@@ -48,7 +49,7 @@ const UserPage = () => {
   
   const [userinfo, setUserInfo] = useUserinfo()
 
-  useEffect(() => {
+  useDidShow(() => {
     const getUser = async () => {
       if (userinfo) {
         try {
@@ -62,7 +63,7 @@ const UserPage = () => {
       }
     }
     getUser()
-  }, [])
+  })
 
   async function scan() {
     Taro.scanCode().then(async result => {
@@ -262,7 +263,23 @@ const UserPage = () => {
       </View>
     )
   }
+  const signOut = async () => {
+    if (userinfo) {
+      Taro.showLoading()
+      try {
+        const { code } = await LoginServices.signOut()
+        if (code === 1) {
+          setUserInfo(null)
+          clearToken()
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        Taro.hideLoading()
+      }
 
+    }
+  }
   const renderSlideItem = () => {
     return (
       <View className="user-slides">
@@ -289,6 +306,19 @@ const UserPage = () => {
                 color="#bfbfbf"
               />
               <Text className="user-slides-item-text">设置</Text>
+            </View>
+            <View className="user-slides-item-right" />
+          </View>
+
+          <View className="user-slides-item" onClick={signOut}>
+            <View className="user-slides-item-left">
+              <AtIcon
+                value="signOut"
+                prefixClass={ICON_PREFIX_CLASS}
+                size="16"
+                color="#bfbfbf"
+              />
+              <Text className="user-slides-item-text">退出登录</Text>
             </View>
             <View className="user-slides-item-right" />
           </View>

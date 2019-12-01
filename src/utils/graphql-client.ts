@@ -44,6 +44,7 @@ async function fetch({
         data: header["x-refresh-authorization"]
       });
       setGlobalData("token", header["x-refresh-authorization"]);
+      Taro.setStorageSync("token", header["x-refresh-authorization"]);
     }
     const errors = data.errors as Array<Error>;
     if (errors && errors.length > 0) {
@@ -54,10 +55,8 @@ async function fetch({
         "Access denied! You need to be authorized to perform this action!"
       ) {
         clearToken();
-        const [_, setLoginModal] = useLoginModal();
-        const pages = Taro.getCurrentPages().shift();
 
-        navigateToLogin(pages!.route);
+        navigateToLogin();
         // setLoginModal(true)
         // // Taro.redirectTo({
         // //   url: '/pages/index/index'

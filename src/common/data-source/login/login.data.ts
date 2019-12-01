@@ -1,4 +1,4 @@
-import client from '@/utils/graphql-client'
+import client from "@/utils/graphql-client";
 
 export function scanLogin(unicode: string, loginToken: string) {
   return client({
@@ -18,7 +18,7 @@ export function scanLogin(unicode: string, loginToken: string) {
       unicode,
       loginToken
     }
-  })
+  });
 }
 
 export function confirmLogin(unicode: string, token: string) {
@@ -35,7 +35,7 @@ export function confirmLogin(unicode: string, token: string) {
       unicode,
       token
     }
-  })
+  });
 }
 
 export function cancelLogin(unicode: string) {
@@ -52,5 +52,19 @@ export function cancelLogin(unicode: string) {
     variables: {
       unicode
     }
-  })
+  });
+}
+
+export function loginOut() {
+  return client({
+    qgl: `
+    mutation {
+      loginOut {
+        code
+        msg
+        data
+      }
+    }
+    `
+  });
 }

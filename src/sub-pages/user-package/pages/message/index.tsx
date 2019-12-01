@@ -1,13 +1,11 @@
-import Taro, { useState, useCallback, useEffect } from "@tarojs/taro";
+import Taro, { useState, useEffect } from "@tarojs/taro";
 import { View, Text, ScrollView } from "@tarojs/components";
 import CdTabbar from "@/components/cd-tabbar";
 import classNames from "classnames";
 import styles from "./index.module.scss";
 import MessageItem from "./message-item";
 import NotMessage from "./not-message";
-import LoginModal from "@/components/LoginModal/LoginModal";
 import { NotificationService } from "../services";
-import { useSelector } from "@tarojs/redux";
 import useUserInfo from "@/hooks/useUserInfo";
 import { UserNotify } from "@/common/domain/notification-domain/entities/UserNotify";
 
@@ -16,15 +14,7 @@ const MessagePage = () => {
 
   const [user] = useUserInfo();
 
-  const [openModal, setOpenModal] = useState(() => user === null);
   const [list, setList] = useState<UserNotify[]>([])
-  const showLoginModal = useCallback(() => {
-    console.log("showLoginModal");
-    setOpenModal(true);
-  }, []);
-  const hideLoginModal = useCallback(() => {
-    setOpenModal(false);
-  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -81,15 +71,6 @@ const MessagePage = () => {
           )
         }
       </View>
-
-      {
-        !user && <LoginModal
-          cancelClick={hideLoginModal}
-          successClick={hideLoginModal}
-          open={openModal}
-        ></LoginModal>
-      }
-
       {/* <AtTabs
         current={current}
         tabList={tabList}

@@ -8,7 +8,7 @@ import Idea from '@/common/domain/question-domain/entities/Idea';
 import Question from '@/common/domain/question-domain/entities/Question';
 import { Utils } from '@/utils';
 import useUserInfo from '@/hooks/useUserInfo';
-import useLoginModal from '@/hooks/useLoginModal';
+import { navigateToLogin } from '@/utils/Navigate';
 
 
 interface PageProp {
@@ -23,7 +23,6 @@ const Ideas = (params: PageProp) => {
     params.onItemClick(item)
   }
   const [userinfo] = useUserInfo()
-  const [, setShowLoginModal] = useLoginModal()
 
   const handleAvatarClick = (item) => {
     if (userinfo) {
@@ -31,7 +30,7 @@ const Ideas = (params: PageProp) => {
         url: `/pages/other-homepage/index?id=${item.userinfo._id}`
       })
     } else {
-      setShowLoginModal(true)
+      navigateToLogin()
     }
     // e.stopPropagation()
   }
