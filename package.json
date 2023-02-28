@@ -73,7 +73,7 @@
 		"babel-plugin-transform-jsx-stylesheet": "^0.6.5",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",
 		"babel-preset-env": "^1.6.1",
-		"commitizen": "^4.0.3",
+		"commitizen": "^4.3.0",
 		"conventional-changelog-cli": "^2.0.23",
 		"cz-conventional-changelog": "^3.0.2",
 		"eslint": "^4.19.1",
